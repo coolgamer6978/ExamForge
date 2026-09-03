@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamForge</title>
+<style>
+:root{
+    --bg:#111214;
+    --panel:#191b1f;
+    --panel2:#202329;
+    --border:#34383f;
+    --border-strong:#4a4f57;
+    --text:#f2f2f2;
+    --muted:#a7abb2;
+    --hover:#2a2e34;
+    --hover-border:#777e88;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;width:100%}
+body{
+    min-height:100vh;
+    padding:0 24px 40px;
+    background:linear-gradient(145deg,rgba(255,255,255,.025),transparent 35%),var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+}
+.site{
+    width:min(1100px,100%);
+    min-height:100vh;
+    margin:0 auto;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    padding:0 42px 42px;
+}
+.hero-space{
+    min-height:400px;
+    height:80vh;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:34px;
+}
+/* Matte, restrained logo presentation */
+.brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:40px;
+}
+.examforge-logo{
+    width:400px;
+    height:400px;
+    display:block;
+    transform-origin:center center;
+    animation: examforge-step-rotation 8.5s linear infinite;
+}
+
+@keyframes examforge-step-rotation{
+    0%{
+        transform:rotate(0deg);
+    }
+    17.6470588%{
+        transform:rotate(51.4285714286deg);
+    }
+    100%{
+        transform:rotate(51.4285714286deg);
+    }
+}
+.brand-name{
+    color:#f2f2f2;
+    font-size:60px;
+    font-weight:500;
+    letter-spacing:1.2px;
+    position:relative;
+    padding-bottom:9px;
+}
+.brand-name::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:1px;
+    background:#f2f2f2;
+}
+
+.menu{
+    width:min(760px,100%);
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+}
+.menu-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:92px;
+    padding:22px;
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--panel);
+    color:var(--text);
+    text-decoration:none;
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:.2px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.16);
+    transition:background 120ms ease,border-color 120ms ease,transform 120ms ease,box-shadow 120ms ease;
+}
+.menu-link:hover,.menu-link:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    transform:translateY(-1px);
+    box-shadow:0 10px 24px rgba(0,0,0,.24);
+    outline:none;
+}
+.menu-link:active{transform:translateY(0)}
+.back-screen{
+    display:none;
+    width:min(760px,100%);
+    margin:0 auto;
+    padding:28px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--panel);
+}
+
+/* =========================
+   FINISH PAGE 2
+   ========================= */
+
+.finish2-screen{
+    display:none;
+    width:100%;
+    margin:0 auto;
+}
+
+.finish2-screen.active{
+    display:block;
+}
+
+.finish2-brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin:0 auto 34px;
+}
+
+.finish2-logo{
+    width:150px;
+    height:150px;
+    display:block;
+}
+
+.finish2-title{
+    color:#f2f2f2;
+    font-size:42px;
+    font-weight:500;
+    letter-spacing:1px;
+    text-align:center;
+}
+
+.finish2-intro{
+    max-width:1050px;
+    margin:0 auto 30px;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.65;
+    text-align:center;
+}
+
+.finish2-section{
+    width:100%;
+    margin:0 auto 28px;
+    border:1px solid var(--border-strong);
+    background:var(--panel);
+}
+
+.finish2-section-title{
+    padding:13px 16px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    font-size:18px;
+    font-weight:600;
+}
+
+.finish2-subsection{
+    border-top:1px solid var(--border);
+}
+
+.finish2-subsection:first-child{
+    border-top:0;
+}
+
+.finish2-subtitle{
+    padding:11px 14px;
+    border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,.018);
+    color:var(--text);
+    font-size:15px;
+    font-weight:600;
+}
+
+.finish2-file{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    min-height:62px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+}
+
+.finish2-file:last-child{
+    border-bottom:0;
+}
+
+.finish2-file-name{
+    min-width:0;
+    color:var(--text);
+    font-size:14px;
+    line-height:1.4;
+    overflow-wrap:anywhere;
+}
+
+.finish2-download{
+    flex:0 0 auto;
+    min-width:105px;
+    min-height:40px;
+    padding:9px 14px;
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+    background:var(--panel2);
+    color:var(--text);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.finish2-download:hover,
+.finish2-download:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+
+.finish2-scroll{
+    max-height:530px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+}
+
+.finish2-bottom{
+    display:flex;
+    justify-content:center;
+    margin:42px auto 10px;
+}
+
+.finish2-back{
+    min-width:120px;
+    min-height:44px;
+    padding:10px 18px;
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+    background:var(--panel2);
+    color:var(--text);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.finish2-back:hover,
+.finish2-back:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+
+/* =========================
+   FINISH PAGE 1
+   ========================= */
+
+.finish-screen{
+    display:none;
+    width:100%;
+    margin:0 auto;
+}
+
+.finish-screen.active{
+    display:block;
+}
+
+/* Same visual header structure as Generator */
+.finish-brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin:0 auto 34px;
+}
+
+.finish-logo{
+    width:150px;
+    height:150px;
+    display:block;
+}
+
+.finish-title{
+    color:#f2f2f2;
+    font-size:42px;
+    font-weight:500;
+    letter-spacing:1px;
+    text-align:center;
+}
+
+/* Instruction */
+.finish-guide{
+    max-width:1050px;
+    margin:0 auto 34px;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.65;
+    text-align:left;
+}
+
+/* Information table */
+.finish-table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+.finish-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    background:var(--panel);
+    border:1px solid var(--border-strong);
+}
+
+.finish-table th,
+.finish-table td{
+    border:1px solid var(--border);
+    padding:12px 14px;
+    vertical-align:middle;
+}
+
+.finish-table th{
+    width:42%;
+    background:var(--panel2);
+    color:var(--text);
+    text-align:left;
+    font-size:15px;
+    font-weight:600;
+}
+
+.finish-table td{
+    width:58%;
+    background:var(--panel);
+}
+
+/* Input boxes */
+.finish-input{
+    width:100%;
+    min-height:42px;
+    padding:8px 10px;
+
+    border:1px solid var(--border);
+    border-radius:6px;
+
+    background:var(--panel2);
+    color:var(--text);
+
+    outline:none;
+
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:15px;
+    line-height:1.4;
+}
+
+.finish-input:focus{
+    background:var(--hover);
+    border-color:var(--hover-border);
+}
+
+.finish-input.invalid{
+    background:rgba(255,60,60,.08);
+    border-color:#c94b4b;
+    box-shadow:inset 0 0 0 1px #c94b4b;
+}
+
+/* Error message */
+.finish-error{
+    display:none;
+    margin:16px auto 0;
+
+    color:#e36a6a;
+
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+}
+
+.finish-error.active{
+    display:block;
+}
+
+/* Next button */
+.finish-controls{
+    display:flex;
+    justify-content:center;
+    margin:36px auto 0;
+}
+
+.finish-button{
+    min-width:115px;
+    min-height:44px;
+
+    padding:10px 18px;
+
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+
+    background:var(--panel2);
+    color:var(--text);
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.finish-button:hover,
+.finish-button:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+
+/* Temporary page after Finish Page 1 */
+.finish-next-screen{
+    display:none;
+    width:100%;
+    min-height:260px;
+
+    padding:28px;
+
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    background:var(--panel);
+
+    align-items:center;
+    justify-content:center;
+
+    color:var(--muted);
+    text-align:center;
+}
+
+.finish-next-screen.active{
+    display:flex;
+}
+/* =========================
+   QUESTION PAPER GENERATOR
+   ========================= */
+.generator-screen{
+    display:none;
+    width:100%;
+    margin:0 auto;
+}
+
+.generator-screen.active{
+    display:block;
+}
+
+/* Hide the Home header while Generator is open */
+body.generator-mode .hero-space{
+    display:none;
+}
+
+/* Generator-specific logo and heading */
+.generator-brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin:0 auto 34px;
+}
+
+.generator-logo{
+    width:150px;
+    height:150px;
+    display:block;
+}
+
+.generator-title{
+    color:#f2f2f2;
+    font-size:42px;
+    font-weight:500;
+    letter-spacing:1px;
+    text-align:center;
+}
+
+/* Instruction text */
+.generator-guide{
+    max-width:1050px;
+    margin:0 auto 34px;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.65;
+    text-align:left;
+}
+
+/* Table */
+.generator-table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+.generator-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    background:var(--panel);
+    border:1px solid var(--border-strong);
+}
+
+.generator-table th,
+.generator-table td{
+    border:1px solid var(--border);
+    padding:9px;
+    vertical-align:top;
+}
+
+.generator-table th{
+    background:var(--panel2);
+    color:var(--text);
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+}
+
+.generator-table td{
+    height:180px;
+}
+
+.generator-table .serial-cell{
+    width:8%;
+    text-align:center;
+    vertical-align:middle;
+    color:var(--text);
+    font-weight:600;
+}
+
+.generator-table .question-cell{
+    width:24%;
+}
+
+.generator-table .option-cell{
+    width:14%;
+}
+
+.generator-table .answer-cell{
+    width:10%;
+}
+
+/* Question / option input boxes */
+.generator-input{
+    width:100%;
+    height:100%;
+    min-height:155px;
+    resize:none;
+    border:0;
+    outline:none;
+    background:transparent;
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    line-height:1.45;
+
+    /* IMPORTANT:
+       preserves spaces, tabs and new lines */
+    white-space:pre;
+    overflow:auto;
+}
+
+.generator-input:focus{
+    background:rgba(255,255,255,.025);
+}
+
+/* Answer box */
+.generator-input.answer-input{
+    min-height:155px;
+    text-align:center;
+    font-weight:600;
+    white-space:normal;
+}
+
+/* Error highlighting */
+.generator-input.invalid{
+    background:rgba(255,60,60,.08);
+    box-shadow:inset 0 0 0 2px #c94b4b;
+}
+
+.generator-error{
+    display:none;
+    margin:16px auto 0;
+    color:#e36a6a;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+}
+
+.generator-error.active{
+    display:block;
+}
+
+/* Generator buttons */
+.generator-controls{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin:36px auto 0;
+}
+
+.generator-button{
+    min-width:115px;
+    min-height:44px;
+    padding:10px 18px;
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+    background:var(--panel2);
+    color:var(--text);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.generator-button:hover:not(:disabled),
+.generator-button:focus-visible:not(:disabled){
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+
+.generator-button:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+}
+
+/* Generator popups */
+.generator-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:rgba(0,0,0,.68);
+}
+
+.generator-modal.active{
+    display:flex;
+}
+
+.generator-modal-box{
+    width:min(500px,100%);
+    padding:28px;
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    background:var(--panel);
+    box-shadow:0 18px 50px rgba(0,0,0,.45);
+}
+
+.generator-modal-box p{
+    margin:0;
+    color:var(--text);
+    line-height:1.55;
+}
+
+.generator-modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:24px;
+}
+
+.generator-modal-button{
+    min-width:80px;
+    padding:10px 16px;
+    border:1px solid var(--border-strong);
+    border-radius:7px;
+    background:var(--panel2);
+    color:var(--text);
+    cursor:pointer;
+}
+
+.generator-modal-button:hover,
+.generator-modal-button:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+.back-screen.active{display:block}
+.back-screen h2{margin:0 0 10px;font-size:21px;font-weight:600}
+.back-screen p{margin:0;color:var(--muted);line-height:1.55}
+.back-button{
+    margin-top:24px;
+    border:1px solid var(--border-strong);
+    border-radius:8px;
+    background:var(--panel2);
+    color:var(--text);
+    padding:11px 18px;
+    font-size:14px;
+    cursor:pointer;
+}
+.back-button:hover,.back-button:focus-visible{
+    background:var(--hover);
+    border-color:var(--hover-border);
+    outline:none;
+}
+@media(max-width:700px){
+    body{padding:0 12px 24px}
+    .site{padding:0 18px 28px}
+    .menu{grid-template-columns:1fr}
+    .hero-space{height:240px}
+    .examforge-logo{width:155px;height:155px}
+    .brand-name{font-size:21px}
+    .menu-link{min-height:78px;font-size:16px}
+}
+</style>
+</head>
+<body>
+<main class="site">
+    <section class="hero-space" aria-label="ExamForge">
+        <div class="brand">
+            
+<img class="examforge-logo" src="{{ url_for('static', filename='Group 8.svg') }}" alt="ExamForge logo">
+
+            <div class="brand-name">ExamForge</div>
+        </div>
+    </section>
+
+    <nav class="menu" aria-label="Main menu">
+        <a class="menu-link" href="#generator" data-screen="Question Paper Generator">Question Paper Generator</a>
+        <a class="menu-link" href="#answer-key" data-screen="Answer Key Uploader">Answer Key Uploader</a>
+        <a class="menu-link" href="#checker" data-screen="Answer Sheet Checker">Answer Sheet Checker</a>
+        <a class="menu-link" href="#archive" data-screen="Archive">Archive</a>
+    </nav>
+<section class="generator-screen" id="generator-screen" aria-label="Question Paper Generator">
+
+    <div class="generator-brand">
+
+        <img class="generator-logo"
+             src="{{ url_for('static', filename='Group 8.svg') }}"
+             alt="ExamForge logo">
+
+        <div class="generator-title">
+            Question Paper Generator
+        </div>
+
+    </div>
+
+
+    <p class="generator-guide">
+        To add a question to the question paper please write the full question under the question column and write all of its subsequent options in the columns Option 1, 2, 3 and 4 where 1, 2, 3 and 4 represent options A, B, C and D respectively. None of the columns can be empty and the Answer column only accepts 1, 2, 3 and 4 as inputs. To add it click the Next button and to finish the paper click the Finish button.
+    </p>
+
+
+    <div class="generator-table-wrap">
+
+        <table class="generator-table">
+
+            <thead>
+                <tr>
+                    <th class="serial-cell">Serial number</th>
+                    <th class="question-cell">Questions</th>
+                    <th class="option-cell">Option 1</th>
+                    <th class="option-cell">Option 2</th>
+                    <th class="option-cell">Option 3</th>
+                    <th class="option-cell">Option 4</th>
+                    <th class="answer-cell">Answer</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td class="serial-cell" id="generator-serial">
+                        1
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input"
+                            data-field="question"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input"
+                            data-field="option1"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input"
+                            data-field="option2"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input"
+                            data-field="option3"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input"
+                            data-field="option4"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea
+                            class="generator-input answer-input"
+                            data-field="answer"
+                            inputmode="numeric"
+                            spellcheck="false"></textarea>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="generator-error" id="generator-error">
+        None of the Colums can be empty. Answer only accepts calues 1,2,3 and 4
+    </div>
+
+
+    <div class="generator-controls">
+
+        <button
+            class="generator-button"
+            id="generator-back"
+            type="button">
+            Back
+        </button>
+
+        <button
+            class="generator-button"
+            id="generator-previous"
+            type="button"
+            disabled>
+            Previous
+        </button>
+
+        <button
+            class="generator-button"
+            id="generator-next"
+            type="button">
+            Next
+        </button>
+
+        <button
+            class="generator-button"
+            id="generator-finish"
+            type="button">
+            Finish
+        </button>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FINISH PAGE 1
+     ========================= -->
+
+<section
+    class="finish-screen"
+    id="finish-screen"
+    aria-label="Question Paper Details">
+
+    <div class="finish-brand">
+
+        <img
+            class="finish-logo"
+            src="{{ url_for('static', filename='Group 8.svg') }}"
+            alt="ExamForge logo">
+
+        <div class="finish-title">
+            Question Paper Generator
+        </div>
+
+    </div>
+
+
+    <p class="finish-guide">
+        Please fill the following fields for the question paper.
+    </p>
+
+
+    <div class="finish-table-wrap">
+
+        <table class="finish-table">
+
+            <tbody>
+
+                <tr>
+                    <th>Test Series Name</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="testSeriesName"
+                            type="text">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Set Code</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="setCode"
+                            type="text">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Time</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="time"
+                            type="text">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Total marks</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="totalMarks"
+                            type="text">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Name of Institution</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="institution"
+                            type="text">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Number of student that will give this test</th>
+                    <td>
+                        <input
+                            class="finish-input"
+                            data-finish-field="studentCount"
+                            type="text"
+                            inputmode="numeric">
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div
+        class="finish-error"
+        id="finish-error">
+
+        All feilds are mandatory to be filled and Number of students should only be a positive Integer.
+
+    </div>
+
+
+    <div class="finish-controls">
+
+    <button
+        class="finish-button"
+        id="finish-back"
+        type="button">
+
+        Back
+
+    </button>
+
+    <button
+        class="finish-button"
+        id="finish-next"
+        type="button">
+
+        Next-&gt;
+
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FINISH PAGE 2
+     ========================= -->
+
+<section
+    class="finish2-screen"
+    id="finish2-screen"
+    aria-label="Generated Files">
+
+    <div class="finish2-brand">
+
+        <img
+            class="finish2-logo"
+            src="{{ url_for('static', filename='Group 8.svg') }}"
+            alt="ExamForge logo">
+
+        <div class="finish2-title">
+            Question Paper Generator
+        </div>
+
+    </div>
+
+
+    <p class="finish2-intro">
+        Your question paper files have been generated successfully.
+    </p>
+
+
+    <!-- ORIGINAL DATA -->
+
+    <section class="finish2-section">
+
+        <div class="finish2-section-title">
+            Original Data
+        </div>
+
+        <div id="finish2-original-files"></div>
+
+    </section>
+
+
+    <!-- INDIVIDUAL FILES -->
+
+    <section class="finish2-section">
+
+        <div class="finish2-section-title">
+            Individual files
+        </div>
+
+        <div
+            class="finish2-scroll"
+            id="finish2-individual-files">
+        </div>
+
+    </section>
+
+
+    <!-- DUPLEX -->
+
+    <section class="finish2-section">
+
+        <div class="finish2-section-title">
+            Files for Duplex printer
+        </div>
+
+
+        <div class="finish2-subsection">
+
+            <div class="finish2-subtitle">
+                Compiled Questions
+            </div>
+
+            <div id="finish2-duplex-questions"></div>
+
+        </div>
+
+
+        <div class="finish2-subsection">
+
+            <div class="finish2-subtitle">
+                Compiled Questions+OMR
+            </div>
+
+            <div id="finish2-duplex-omr"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SIMPLEX -->
+
+    <section class="finish2-section">
+
+        <div class="finish2-section-title">
+            Files for Simplex Printer
+        </div>
+
+
+        <div class="finish2-subsection">
+
+            <div class="finish2-subtitle">
+                Compiled Questions
+            </div>
+
+            <div id="finish2-simplex-questions"></div>
+
+        </div>
+
+
+        <div class="finish2-subsection">
+
+            <div class="finish2-subtitle">
+                Compiled Questions+OMR
+            </div>
+
+            <div id="finish2-simplex-omr"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BACK -->
+
+    <div class="finish2-bottom">
+
+        <button
+            class="finish2-back"
+            id="finish2-back"
+            type="button">
+
+            Back
+
+        </button>
+
+    </div>
+
+</section>
+<div
+    class="generator-modal"
+    id="generator-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true">
+
+    <div class="generator-modal-box">
+
+        <p id="generator-modal-message"></p>
+
+        <div class="generator-modal-actions">
+
+            <button
+                class="generator-modal-button"
+                id="generator-modal-no"
+                type="button">
+                No
+            </button>
+
+            <button
+                class="generator-modal-button"
+                id="generator-modal-yes"
+                type="button">
+                Yes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    <section class="back-screen" id="back-screen" aria-live="polite">
+        <h2 id="screen-title">Back Screen</h2>
+        <p>This screen is intentionally empty for now. Its functionality will be added later.</p>
+        <button class="back-button" id="back-button" type="button">Back</button>
+    </section>
+</main>
+
+<script>
+const menu = document.querySelector(".menu");
+const heroSpace = document.querySelector(".hero-space");
+
+const backScreen = document.getElementById("back-screen");
+const screenTitle = document.getElementById("screen-title");
+const backButton = document.getElementById("back-button");
+
+const generatorScreen =
+    document.getElementById("generator-screen");
+
+const finishScreen =
+    document.getElementById("finish-screen");
+
+const finishBack =
+    document.getElementById("finish-back");
+
+const finishNext =
+    document.getElementById("finish-next");
+
+const finishError =
+    document.getElementById("finish-error");
+
+const finish2Screen =
+    document.getElementById("finish2-screen");
+
+const finish2Back =
+    document.getElementById("finish2-back");
+
+const finish2OriginalFiles =
+    document.getElementById("finish2-original-files");
+
+const finish2IndividualFiles =
+    document.getElementById("finish2-individual-files");
+
+const finish2DuplexQuestions =
+    document.getElementById("finish2-duplex-questions");
+
+const finish2DuplexOmr =
+    document.getElementById("finish2-duplex-omr");
+
+const finish2SimplexQuestions =
+    document.getElementById("finish2-simplex-questions");
+
+const finish2SimplexOmr =
+    document.getElementById("finish2-simplex-omr");
+
+const generatorSerial =
+    document.getElementById("generator-serial");
+
+const generatorError =
+    document.getElementById("generator-error");
+
+const generatorBack =
+    document.getElementById("generator-back");
+
+const generatorPrevious =
+    document.getElementById("generator-previous");
+
+const generatorNext =
+    document.getElementById("generator-next");
+
+const generatorFinish =
+    document.getElementById("generator-finish");
+
+const generatorModal =
+    document.getElementById("generator-modal");
+
+const generatorModalMessage =
+    document.getElementById("generator-modal-message");
+
+const generatorModalYes =
+    document.getElementById("generator-modal-yes");
+
+const generatorModalNo =
+    document.getElementById("generator-modal-no");
+
+
+const fields = [
+    "question",
+    "option1",
+    "option2",
+    "option3",
+    "option4",
+    "answer"
+];
+
+
+// Stores completed questions.
+const pages = new Map();
+
+const finishData = {
+    testSeriesName: "",
+    setCode: "",
+    time: "",
+    totalMarks: "",
+    institution: "",
+    studentCount: ""
+};
+
+let currentQuestion = 1;
+let modalAction = null;
+
+
+// Get all editable boxes.
+function inputs(){
+    return [...document.querySelectorAll(".generator-input")];
+}
+
+
+// Collect current table data.
+function getData(){
+
+    const data = {};
+
+    inputs().forEach(input => {
+        data[input.dataset.field] = input.value;
+    });
+
+    return data;
+}
+
+
+// Put stored data into the table.
+function setData(data){
+
+    inputs().forEach(input => {
+
+        input.value =
+            data[input.dataset.field] || "";
+
+        input.classList.remove("invalid");
+    });
+
+    generatorSerial.textContent =
+        currentQuestion;
+
+    generatorError.classList.remove("active");
+
+    generatorPrevious.disabled =
+        currentQuestion === 1;
+}
+
+
+// Save current question.
+function save(){
+
+    pages.set(
+        currentQuestion,
+        getData()
+    );
+}
+
+
+// Load a question.
+function load(number){
+
+    currentQuestion = number;
+
+    setData(
+        pages.get(number) || {}
+    );
+}
+
+
+// Check whether anything has been typed.
+function hasData(){
+
+    // Check the currently visible question
+    if(
+        Object.values(getData())
+            .some(value => value.length > 0)
+    ){
+        return true;
+    }
+
+    // Check every previously saved question
+    for(const questionData of pages.values()){
+
+        if(
+            Object.values(questionData)
+                .some(value => value.length > 0)
+        ){
+            return true;
+        }
+
+    }
+
+    return false;
+}
+
+// Reset the entire generator.
+function resetGenerator(){
+
+    pages.clear();
+
+    currentQuestion = 1;
+
+    setData({});
+}
+
+
+// Validate the current question.
+function validate(){
+
+    const data = getData();
+
+    let valid = true;
+
+
+    inputs().forEach(input => {
+        input.classList.remove("invalid");
+    });
+
+
+    // Every field must contain something.
+    fields.forEach(field => {
+
+        if(data[field].trim() === ""){
+
+            document
+                .querySelector(
+                    `[data-field="${field}"]`
+                )
+                .classList.add("invalid");
+
+            valid = false;
+        }
+
+    });
+
+
+    // Answer must be exactly 1, 2, 3 or 4.
+    if(!/^[1-4]$/.test(data.answer.trim())){
+
+        document
+            .querySelector(
+                '[data-field="answer"]'
+            )
+            .classList.add("invalid");
+
+        valid = false;
+    }
+
+
+    generatorError.classList.toggle(
+        "active",
+        !valid
+    );
+
+
+    return valid;
+}
+
+// ============================
+// FINISH PAGE 1
+// ============================
+
+function getFinishInputs(){
+
+    return [
+        ...document.querySelectorAll(
+            ".finish-input"
+        )
+    ];
+
+}
+
+
+function validateFinishPage(){
+
+    const inputs = getFinishInputs();
+
+    let valid = true;
+
+
+    // Remove old error highlighting
+    inputs.forEach(input => {
+
+        input.classList.remove("invalid");
+
+    });
+
+
+    // Check every field
+    inputs.forEach(input => {
+
+        if(input.value.trim() === ""){
+
+            input.classList.add("invalid");
+
+            valid = false;
+
+        }
+
+    });
+
+
+    // Check student count
+    const studentInput =
+        document.querySelector(
+            '[data-finish-field="studentCount"]'
+        );
+
+
+    const studentValue =
+        studentInput.value.trim();
+
+
+    if(
+        !/^[1-9]\d*$/.test(studentValue)
+    ){
+
+        studentInput.classList.add("invalid");
+
+        valid = false;
+
+    }
+
+
+    finishError.classList.toggle(
+        "active",
+        !valid
+    );
+
+
+    return valid;
+
+}
+
+function saveFinishData(){
+
+    getFinishInputs().forEach(input => {
+
+        finishData[input.dataset.finishField] =
+            input.value;
+
+    });
+
+}
+
+
+function loadFinishData(){
+
+    getFinishInputs().forEach(input => {
+
+        input.value =
+            finishData[input.dataset.finishField] || "";
+
+        input.classList.remove("invalid");
+
+    });
+
+    finishError.classList.remove("active");
+
+}
+
+// ============================
+// RESET FINISH PAGE DATA
+// ============================
+
+function resetFinishData(){
+
+    Object.keys(finishData).forEach(key => {
+
+        finishData[key] = "";
+
+    });
+
+    getFinishInputs().forEach(input => {
+
+        input.value = "";
+        input.classList.remove("invalid");
+
+    });
+
+    finishError.classList.remove("active");
+
+}
+
+function enterFinishPage(){
+
+    generatorScreen.classList.remove(
+        "active"
+    );
+
+    backScreen.classList.remove(
+        "active"
+    );
+
+    finishScreen.classList.add(
+        "active"
+    );
+
+
+    // Hide Home
+    menu.style.display = "none";
+
+    heroSpace.style.display = "none";
+
+    document.body.classList.remove(
+        "generator-mode"
+    );
+
+    loadFinishData();
+
+}
+
+// Enter Question Paper Generator.
+function enterGenerator(){
+
+    menu.style.display = "none";
+
+    heroSpace.style.display = "none";
+
+    backScreen.classList.remove("active");
+
+    generatorScreen.classList.add("active");
+
+    document.body.classList.add(
+        "generator-mode"
+    );
+
+
+    if(pages.size === 0){
+
+        currentQuestion = 1;
+
+        setData({});
+
+    }
+    else{
+
+        load(1);
+
+    }
+
+}
+
+
+// Return to Home.
+function showHome(){
+
+    resetGenerator();
+
+    generatorScreen.classList.remove(
+        "active"
+    );
+    
+    finishScreen.classList.remove(
+        "active"
+    );
+
+    backScreen.classList.remove(
+        "active"
+    );
+
+    heroSpace.style.display = "";
+
+    menu.style.display = "grid";
+
+    document.body.classList.remove(
+        "generator-mode"
+    );
+
+}
+
+
+// Open popup.
+function openModal(message, action){
+
+    generatorModalMessage.textContent =
+        message;
+
+    modalAction = action;
+
+    generatorModal.classList.add(
+        "active"
+    );
+
+    generatorModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+}
+
+
+// Close popup.
+function closeModal(){
+
+    generatorModal.classList.remove(
+        "active"
+    );
+
+    generatorModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    modalAction = null;
+
+}
+
+// ============================
+// FINISH PAGE 2
+// ============================
+
+// ==================================================
+// OPEN POINT #1
+// PYTHON / FLASK -> FINISH PAGE 2
+// ==================================================
+
+let generatedFiles = null;
+
+function receiveGeneratedFiles(filePackage){
+
+    generatedFiles = filePackage;
+
+    renderGeneratedFiles(filePackage);
+
+}
+
+// ==================================================
+// HTML -> PYTHON
+// QUESTION PAPER GENERATOR DATA
+// ==================================================
+
+async function sendQuestionPaperDataToPython(){
+
+    const generationPackage = {
+
+        Question_paper: [...pages.entries()].map(
+            ([serial, questionData]) => ({
+
+                serial: serial,
+
+                ...questionData
+
+            })
+        ),
+
+        Paper_details: structuredClone(
+            finishData
+        )
+
+    };
+
+
+    const response = await fetch(
+        "/Question-paper-generator-python-data-sending-gateway",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(
+                generationPackage
+            )
+        }
+    );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            `Python gateway returned HTTP ${response.status}`
+        );
+
+    }
+
+
+    return await response.json();
+
+}
+
+// ==================================================
+// OPEN POINT #2
+// FINISH PAGE 2 -> ARCHIVE
+// ==================================================
+
+function sendToArchive(){
+
+    const archivePackage = {
+
+        questionPaper: [...pages.entries()].map(
+            ([serial, questionData]) => ({
+                serial: serial,
+                ...questionData
+            })
+        ),
+
+        finishData: structuredClone(
+            finishData
+        ),
+
+        generatedFiles: generatedFiles
+
+    };
+
+
+    // TEMPORARY.
+    // Later this entire function connects to Archive.
+
+    console.log(
+        "ARCHIVE PACKAGE:",
+        archivePackage
+    );
+
+
+    return archivePackage;
+
+}
+
+
+// ==================================================
+// FILE ROW
+// ==================================================
+
+function createFileRow(file){
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "finish2-file";
+
+
+    const name =
+        document.createElement("div");
+
+    name.className =
+        "finish2-file-name";
+
+    name.textContent =
+        file.name;
+
+
+    const button =
+        document.createElement("button");
+
+    button.type =
+        "button";
+
+    button.className =
+        "finish2-download";
+
+    button.textContent =
+        "Download";
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const link =
+                document.createElement("a");
+
+            link.href =
+                file.url;
+
+            link.download =
+                file.name;
+
+            document.body.appendChild(
+                link
+            );
+
+            link.click();
+
+            link.remove();
+
+        }
+    );
+
+
+    row.appendChild(name);
+
+    row.appendChild(button);
+
+    return row;
+
+}
+
+
+// ==================================================
+// RENDER ONE FILE
+// ==================================================
+
+function renderFile(container,file){
+
+    container.replaceChildren();
+
+    if(file){
+
+        container.appendChild(
+            createFileRow(file)
+        );
+
+    }
+
+}
+
+
+// ==================================================
+// RENDER MULTIPLE FILES
+// ==================================================
+
+function renderFileList(container,files){
+
+    container.replaceChildren();
+
+    files.forEach(file => {
+
+        container.appendChild(
+            createFileRow(file)
+        );
+
+    });
+
+}
+
+
+// ==================================================
+// RENDER PYTHON FILE PACKAGE
+// ==================================================
+
+function renderGeneratedFiles(filePackage){
+
+    renderFileList(
+        finish2OriginalFiles,
+        filePackage.original || []
+    );
+
+
+    renderFileList(
+        finish2IndividualFiles,
+        filePackage.individual || []
+    );
+
+
+    renderFile(
+        finish2DuplexQuestions,
+        filePackage.duplex?.questions
+    );
+
+
+    renderFile(
+        finish2DuplexOmr,
+        filePackage.duplex?.questionsOMR
+    );
+
+
+    renderFileList(
+        finish2SimplexQuestions,
+        [
+            filePackage.simplex?.questionsFront,
+            filePackage.simplex?.questionsBack
+        ].filter(Boolean)
+    );
+
+
+    renderFileList(
+        finish2SimplexOmr,
+        [
+            filePackage.simplex?.omrFront,
+            filePackage.simplex?.omrBack
+        ].filter(Boolean)
+    );
+
+}
+
+
+// ==================================================
+// TEMPORARY MOCK PDF
+// ==================================================
+// This exists ONLY so you can test Finish Page 2
+// before Python is connected.
+
+function makeMockPdf(name){
+
+    const body =
+        `ExamForge - ${name}`;
+
+
+    const stream =
+        `BT /F1 12 Tf 72 720 Td (${body}) Tj ET`;
+
+
+    const objects = [
+
+        "<< /Type /Catalog /Pages 2 0 R >>",
+
+        "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+
+        "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
+
+        "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+
+        `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`
+
+    ];
+
+
+    let pdf =
+        "%PDF-1.4\n";
+
+
+    const offsets = [0];
+
+
+    objects.forEach(
+        (object,index) => {
+
+            offsets[index + 1] =
+                pdf.length;
+
+            pdf +=
+                `${index + 1} 0 obj\n${object}\nendobj\n`;
+
+        }
+    );
+
+
+    const xref =
+        pdf.length;
+
+
+    pdf +=
+        `xref\n0 ${objects.length + 1}\n`;
+
+    pdf +=
+        "0000000000 65535 f \n";
+
+
+    for(
+        let i = 1;
+        i <= objects.length;
+        i++
+    ){
+
+        pdf +=
+            `${String(offsets[i]).padStart(10,"0")} 00000 n \n`;
+
+    }
+
+
+    pdf +=
+        `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\n`;
+
+    pdf +=
+        `startxref\n${xref}\n%%EOF`;
+
+
+    return URL.createObjectURL(
+        new Blob(
+            [pdf],
+            {type:"application/pdf"}
+        )
+    );
+
+}
+
+
+// ==================================================
+// TEMPORARY MOCK OUTPUT
+// ==================================================
+
+function createMockGeneratedFiles(){
+
+    const prefix =
+        "TestSeries_A";
+
+
+    const make = name => ({
+
+        name: name,
+
+        url: makeMockPdf(name)
+
+    });
+
+
+    return {
+
+        original: [
+
+            make(
+                `${prefix}_Original_Question_Paper.pdf`
+            ),
+
+            make(
+                `${prefix}_OMR.pdf`
+            )
+
+        ],
+
+
+        individual:
+
+            Array.from(
+                {length:15},
+                (_,index) => {
+
+                    const code =
+                        String(
+                            1000 + index
+                        ).padStart(
+                            4,
+                            "0"
+                        );
+
+
+                    return make(
+                        `${prefix}_${code}.pdf`
+                    );
+
+                }
+            ),
+
+
+        duplex: {
+
+            questions:
+                make(
+                    `${prefix}_Duplex_Compiled_Questions.pdf`
+                ),
+
+            questionsOMR:
+                make(
+                    `${prefix}_Duplex_Compiled_Questions_OMR.pdf`
+                )
+
+        },
+
+
+        simplex: {
+
+            questionsFront:
+        make(
+            `${prefix}_Simplex_Questions_Front.pdf`
+        ),
+
+            questionsBack:
+        make(
+            `${prefix}_Simplex_Questions_Back.pdf`
+        ),
+
+            omrFront:
+        make(
+            `${prefix}_Simplex_Questions_OMR_Front.pdf`
+        ),
+
+            omrBack:
+        make(
+            `${prefix}_Simplex_Questions_OMR_Back.pdf`
+                )
+
+        }
+
+    };
+
+}
+
+// ============================
+// MAIN MENU
+// ============================
+
+document
+    .querySelectorAll(".menu-link")
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+
+                if(
+                    link.dataset.screen ===
+                    "Question Paper Generator"
+                ){
+
+                    enterGenerator();
+
+                    return;
+                }
+
+
+                // Other pages for now.
+                heroSpace.style.display =
+                    "none";
+
+                menu.style.display =
+                    "none";
+
+                generatorScreen.classList.remove(
+                    "active"
+                );
+
+                finishScreen.classList.remove(
+                    "active"
+                );
+
+                screenTitle.textContent =
+                    link.dataset.screen;
+
+                backScreen.classList.add(
+                    "active"
+                ); 
+
+            }
+
+        );
+
+    });
+
+
+// ============================
+// INPUT HANDLING
+// ============================
+
+inputs().forEach(input => {
+
+    input.addEventListener(
+        "input",
+        () => {
+
+            input.classList.remove(
+                "invalid"
+            );
+
+            generatorError.classList.remove(
+                "active"
+            );
+
+
+            // Answer accepts ONLY 1-4.
+            if(
+                input.dataset.field ===
+                "answer"
+            ){
+
+                input.value =
+                    input.value.replace(
+                        /[^1-4]/g,
+                        ""
+                    );
+
+            }
+
+        }
+    );
+
+});
+
+
+// ============================
+// BACK
+// ============================
+
+generatorBack.addEventListener(
+    "click",
+    () => {
+
+        if(hasData()){
+
+            openModal(
+                "Are you sure you want to go back? Doing so will lose unsaved data.",
+                "home"
+            );
+
+        }
+        else{
+
+            showHome();
+
+        }
+
+    }
+);
+
+
+// ============================
+// PREVIOUS
+// ============================
+
+generatorPrevious.addEventListener(
+    "click",
+    () => {
+
+        if(currentQuestion > 1){
+
+            save();
+
+            load(
+                currentQuestion - 1
+            );
+
+        }
+
+    }
+);
+
+
+// ============================
+// NEXT
+// ============================
+
+generatorNext.addEventListener(
+    "click",
+    () => {
+
+        if(!validate()){
+
+            return;
+
+        }
+
+
+        save();
+
+        load(
+            currentQuestion + 1
+        );
+
+    }
+);
+
+
+// ============================
+// FINISH
+// ============================
+
+generatorFinish.addEventListener(
+    "click",
+    () => {
+
+        if(!validate()){
+
+            return;
+
+        }
+
+        // Save the current question.
+        save();
+
+        // Go directly to Finish Page 1.
+        enterFinishPage();
+
+    }
+);
+
+// ============================
+// POPUP NO
+// ============================
+
+generatorModalNo.addEventListener(
+    "click",
+    closeModal
+);
+
+
+// ============================
+// POPUP YES
+// ============================
+
+generatorModalYes.addEventListener(
+    "click",
+    () => {
+
+        const action = modalAction;
+
+        closeModal();
+
+
+        if(action === "home"){
+
+            showHome();
+
+            return;
+
+        }
+
+
+        if(action === "finish-page-next"){
+
+            sendQuestionPaperDataToPython()
+                .then(filePackage => {
+
+                    receiveGeneratedFiles(
+                        filePackage
+                    );
+
+
+                    finishScreen.classList.remove(
+                        "active"
+                    );
+
+                    finish2Screen.classList.add(
+                        "active"
+                    );
+
+                })
+                .catch(error => {
+
+                    console.error(
+                        "Failed to send data to Python:",
+                        error
+                    );
+
+                });
+
+        }
+
+    }
+);
+
+// ============================
+// FINISH PAGE 2 BACK
+// ============================
+
+finish2Back.addEventListener(
+    "click",
+    () => {
+
+        // Temporary generated browser files
+        // are destroyed here.
+
+        if(generatedFiles){
+
+            const revokeFile =
+                file => {
+
+                    if(
+                        file &&
+                        file.url
+                    ){
+
+                        URL.revokeObjectURL(
+                            file.url
+                        );
+
+                    }
+
+                };
+
+
+            (
+                generatedFiles.original ||
+                []
+            ).forEach(
+                revokeFile
+            );
+
+
+            (
+                generatedFiles.individual ||
+                []
+            ).forEach(
+                revokeFile
+            );
+
+
+            revokeFile(
+                generatedFiles.duplex?.questions
+            );
+
+            revokeFile(
+                generatedFiles.duplex?.questionsOMR
+            );
+
+            revokeFile(
+                generatedFiles.simplex?.questionsFront
+            );
+
+            revokeFile(
+                generatedFiles.simplex?.questionsBack
+            );
+
+            revokeFile(
+                generatedFiles.simplex?.omrFront
+            );
+
+            revokeFile(
+                generatedFiles.simplex?.omrBack
+            );
+
+        }
+
+
+        generatedFiles = null;
+
+
+        // Final cleanup of temporary paper data.
+
+        resetGenerator();
+
+        resetFinishData();
+
+
+        finish2Screen.classList.remove(
+            "active"
+        );
+
+
+        showHome();
+
+    }
+);
+
+// ============================
+// OTHER PAGE BACK BUTTON
+// ============================
+
+backButton.addEventListener(
+    "click",
+    () => {
+
+        showHome();
+
+    }
+);
+
+// ============================
+// FINISH PAGE 1 BACK
+// ============================
+
+finishBack.addEventListener(
+    "click",
+    () => {
+
+        finishScreen.classList.remove(
+            "active"
+        );
+
+        generatorScreen.classList.add(
+            "active"
+        );
+
+        document.body.classList.add(
+            "generator-mode"
+        );
+
+        load(currentQuestion);
+
+    }
+);
+
+// ============================
+// FINISH PAGE 1 NEXT
+// ============================
+
+finishNext.addEventListener(
+    "click",
+    () => {
+
+        saveFinishData();
+
+        if(!validateFinishPage()){
+
+            return;
+
+        }
+
+
+        openModal(
+            "Are you sure you want to preceed? None of the details after this point can be changed.",
+            "finish-page-next"
+        );
+
+    }
+);
+
+</script>
+</body>
+</html>
