@@ -1,0 +1,163 @@
+<!-- NAME OF FILE IS Home_page.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamForge</title>
+<style>
+    :root{
+    --bg:#111214;
+    --panel:#191b1f;
+    --panel2:#202329;
+    --border:#34383f;
+    --border-strong:#4a4f57;
+    --text:#f2f2f2;
+    --muted:#a7abb2;
+    --hover:#2a2e34;
+    --hover-border:#777e88;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+        margin:0;
+        min-height:100%;
+        width:100%;
+    }
+
+    body{
+        min-height:100vh;
+        padding:0 24px 40px;
+        background:linear-gradient(
+            145deg,
+            rgba(255,255,255,.025),
+            transparent 35%
+        ),var(--bg);
+        color:var(--text);
+        font-family:Arial,Helvetica,sans-serif;
+    }
+
+    .site{
+        width:min(1100px,100%);
+        min-height:100vh;
+        margin:0 auto;
+        border-left:1px solid var(--border);
+        border-right:1px solid var(--border);
+        padding:0 42px 42px;
+    }
+    .hero-space{
+    min-height:400px;
+    height:80vh;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:34px;
+    }
+    .brand{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:40px;
+    }
+    .examforge-logo{
+    width:400px;
+    height:400px;
+    display:block;
+    transform-origin:center center;
+    animation: examforge-step-rotation 8.5s linear infinite;
+    }
+    @keyframes examforge-step-rotation{
+        0%{
+            transform:rotate(0deg);
+        }
+        17.6470588%{
+            transform:rotate(51.4285714286deg);
+        }
+        100%{
+            transform:rotate(51.4285714286deg);
+        }
+    }
+    .brand-name{
+    color:#f2f2f2;
+    font-size:60px;
+    font-weight:500;
+    letter-spacing:1.2px;
+    position:relative;
+    padding-bottom:9px;
+    }
+    .brand-name::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:1px;
+    background:#f2f2f2;
+    }
+    .menu{
+        width:min(760px,100%);
+        margin:60px auto;
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px;
+    }
+    .menu-link{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        min-height:92px;
+        padding:22px;
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+        background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--panel);
+        color:var(--text);
+        text-decoration:none;
+        font-size:17px;
+        font-weight:600;
+        letter-spacing:.2px;
+        text-align:center;
+        box-shadow:0 8px 20px rgba(0,0,0,.16);
+        transition:background 120ms ease,border-color 120ms ease,transform 120ms ease,box-shadow 120ms ease;
+    }
+    .menu-link:hover,.menu-link:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        transform:translateY(-1px);
+        box-shadow:0 10px 24px rgba(0,0,0,.24);
+        outline:none;
+    }
+    .menu-link:active{transform:translateY(0)}
+
+    @media(max-width:700px){
+        body{padding:0 12px 24px}
+        .site{padding:0 18px 28px}
+        .menu{grid-template-columns:1fr}
+        .hero-space{height:240px}
+        .examforge-logo{width:155px;height:155px}
+        .brand-name{font-size:21px}
+        .menu-link{min-height:78px;font-size:16px}
+    }
+</style>
+</head>
+<body>
+    <main class="site">
+        <section class="hero-space" aria-label="ExamForge">
+            <div class="brand">
+
+                <img class="examforge-logo" src="{{ url_for('static', filename='Group 8.svg') }}" alt="ExamForge logo">
+
+                <div class="brand-name">ExamForge</div>
+            </div>
+        </section>
+        <nav class="menu" aria-label="Main menu">
+            <a class="menu-link" href="#generator" data-screen="Question Paper Generator">Question Paper Generator</a>
+            <a class="menu-link" href="#answer-key" data-screen="Answer Key Uploader">Answer Key Uploader</a>
+            <a class="menu-link" href="#checker" data-screen="Answer Sheet Checker">Answer Sheet Checker</a>
+            <a class="menu-link" href="#archive" data-screen="Archive">Archive</a>
+        </nav>
+    </main>
+    <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
+    <script src="{{ url_for('static', filename='Home_page.js') }}"></script>
+</body>
+</html>

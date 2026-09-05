@@ -11,10 +11,15 @@ request = flask.request
 #endregion
 #region Listenter+EXECUTER
 #Loads home page
-@web.route('/')
+@web.route('/',methods=['GET'])
 def home_page():
     print("Server started and home page loaded")
-    return render_template("examforge_frontend.html")
+    return render_template("Home_page.html")
+#Loads QPG page
+@web.route('/QPG',methods=['GET'])
+def QPG_page():
+    print("QPG loaded")
+    return render_template("QPG.html")
 #Receives data from QPG and forwards it to MAIN_CONTROLLER.py
 @web.route('/Question-paper-generator-python-data-sending-gateway',methods=['POST'])
 def Raw_data():

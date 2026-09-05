@@ -1,0 +1,1057 @@
+<!-- NAME OF FILE IS QPG.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamForge</title>
+<style>
+    :root{
+    --bg:#111214;
+    --panel:#191b1f;
+    --panel2:#202329;
+    --border:#34383f;
+    --border-strong:#4a4f57;
+    --text:#f2f2f2;
+    --muted:#a7abb2;
+    --hover:#2a2e34;
+    --hover-border:#777e88;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+        margin:0;
+        min-height:100%;
+        width:100%;
+    }
+
+    body{
+        min-height:100vh;
+        padding:0 24px 40px;
+        background:linear-gradient(
+            145deg,
+            rgba(255,255,255,.025),
+            transparent 35%
+        ),var(--bg);
+        color:var(--text);
+        font-family:Arial,Helvetica,sans-serif;
+    }
+
+    .site{
+        width:min(1100px,100%);
+        min-height:100vh;
+        margin:0 auto;
+        border-left:1px solid var(--border);
+        border-right:1px solid var(--border);
+        padding:0 42px 42px;
+    }
+    /* =========================
+   QUESTION PAPER GENERATOR
+   ========================= */
+    .generator-screen{
+        display:none;
+        width:100%;
+        margin:0 auto;
+    }
+
+    .generator-screen.active{
+        display:block;
+    }
+    /* Generator-specific logo and heading */
+    .generator-brand{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:12px;
+        margin:0 auto 34px;
+    }
+
+    .generator-logo{
+        width:150px;
+        height:150px;
+        display:block;
+    }
+
+    .generator-title{
+        color:#f2f2f2;
+        font-size:42px;
+        font-weight:500;
+        letter-spacing:1px;
+        text-align:center;
+    }
+    /* Instruction text */
+    .generator-guide{
+        max-width:1050px;
+        margin:0 auto 34px;
+        color:var(--muted);
+        font-size:15px;
+        line-height:1.65;
+        text-align:left;
+    }
+    /* Table */
+    .generator-table-wrap{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    .generator-table{
+        width:100%;
+        border-collapse:collapse;
+        table-layout:fixed;
+        background:var(--panel);
+        border:1px solid var(--border-strong);
+    }
+
+    .generator-table th,
+    .generator-table td{
+        border:1px solid var(--border);
+        padding:9px;
+        vertical-align:top;
+    }
+
+    .generator-table th{
+        background:var(--panel2);
+        color:var(--text);
+        font-size:14px;
+        font-weight:600;
+        text-align:center;
+    }
+
+    .generator-table td{
+        height:180px;
+    }
+
+    .generator-table .serial-cell{
+        width:8%;
+        text-align:center;
+        vertical-align:middle;
+        color:var(--text);
+        font-weight:600;
+    }
+
+    .generator-table .question-cell{
+        width:24%;
+    }
+
+    .generator-table .option-cell{
+        width:14%;
+    }
+
+    .generator-table .answer-cell{
+        width:10%;
+    }
+    /* Question / option input boxes */
+    .generator-input{
+        width:100%;
+        height:100%;
+        min-height:155px;
+        resize:none;
+        border:0;
+        outline:none;
+        background:transparent;
+        color:var(--text);
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+        line-height:1.45;
+
+        /* IMPORTANT:
+           preserves spaces, tabs and new lines */
+        white-space:pre;
+        overflow:auto;
+    }
+
+    .generator-input:focus{
+        background:rgba(255,255,255,.025);
+    }
+
+    /* Answer box */
+    .generator-input.answer-input{
+        min-height:155px;
+        text-align:center;
+        font-weight:600;
+        white-space:normal;
+    }
+
+    /* Error highlighting */
+    .generator-input.invalid{
+        background:rgba(255,60,60,.08);
+        box-shadow:inset 0 0 0 2px #c94b4b;
+    }
+
+    .generator-error{
+        display:none;
+        margin:16px auto 0;
+        color:#e36a6a;
+        font-size:14px;
+        font-weight:600;
+        text-align:center;
+    }
+
+    .generator-error.active{
+        display:block;
+    }
+
+    /* Generator buttons */
+    .generator-controls{
+        display:flex;
+        justify-content:center;
+        gap:14px;
+        margin:36px auto 0;
+    }
+
+    .generator-button{
+        min-width:115px;
+        min-height:44px;
+        padding:10px 18px;
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+        background:var(--panel2);
+        color:var(--text);
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+    }
+
+    .generator-button:hover:not(:disabled),
+    .generator-button:focus-visible:not(:disabled){
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
+    }
+
+    .generator-button:disabled{
+        opacity:.35;
+        cursor:not-allowed;
+    }
+
+    /* Generator popups */
+    .generator-modal{
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:100;
+        align-items:center;
+        justify-content:center;
+        padding:24px;
+        background:rgba(0,0,0,.68);
+    }
+
+    .generator-modal.active{
+        display:flex;
+    }
+
+    .generator-modal-box{
+        width:min(500px,100%);
+        padding:28px;
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+        background:var(--panel);
+        box-shadow:0 18px 50px rgba(0,0,0,.45);
+    }
+
+    .generator-modal-box p{
+        margin:0;
+        color:var(--text);
+        line-height:1.55;
+    }
+
+    .generator-modal-actions{
+        display:flex;
+        justify-content:flex-end;
+        gap:12px;
+        margin-top:24px;
+    }
+
+    .generator-modal-button{
+        min-width:80px;
+        padding:10px 16px;
+        border:1px solid var(--border-strong);
+        border-radius:7px;
+        background:var(--panel2);
+        color:var(--text);
+        cursor:pointer;
+    }
+
+    .generator-modal-button:hover,
+    .generator-modal-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
+    }
+
+    /* =========================
+   FINISH PAGE 1
+   ========================= */
+
+    .finish-screen{
+        display:none;
+        width:100%;
+        margin:0 auto;
+    }
+
+    .finish-screen.active{
+        display:block;
+    }
+
+    /* Same visual header structure as Generator */
+    .finish-brand{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:12px;
+        margin:0 auto 34px;
+    }
+
+    .finish-logo{
+        width:150px;
+        height:150px;
+        display:block;
+    }
+
+    .finish-title{
+        color:#f2f2f2;
+        font-size:42px;
+        font-weight:500;
+        letter-spacing:1px;
+        text-align:center;
+    }
+
+    /* Instruction */
+    .finish-guide{
+        max-width:1050px;
+        margin:0 auto 34px;
+        color:var(--muted);
+        font-size:15px;
+        line-height:1.65;
+        text-align:left;
+    }
+
+    /* Information table */
+    .finish-table-wrap{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    .finish-table{
+        width:100%;
+        border-collapse:collapse;
+        table-layout:fixed;
+        background:var(--panel);
+        border:1px solid var(--border-strong);
+    }
+
+    .finish-table th,
+    .finish-table td{
+        border:1px solid var(--border);
+        padding:12px 14px;
+        vertical-align:middle;
+    }
+
+    .finish-table th{
+        width:42%;
+        background:var(--panel2);
+        color:var(--text);
+        text-align:left;
+        font-size:15px;
+        font-weight:600;
+    }
+
+    .finish-table td{
+        width:58%;
+        background:var(--panel);
+    }
+
+    /* Input boxes */
+    .finish-input{
+        width:100%;
+        min-height:42px;
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-radius:6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:15px;
+        line-height:1.4;
+    }
+
+    .finish-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+    .finish-input.invalid{
+        background:rgba(255,60,60,.08);
+        border-color:#c94b4b;
+        box-shadow:inset 0 0 0 1px #c94b4b;
+    }
+
+    /* Error message */
+    .finish-error{
+        display:none;
+        margin:16px auto 0;
+
+        color:#e36a6a;
+
+        font-size:14px;
+        font-weight:600;
+        text-align:center;
+    }
+
+    .finish-error.active{
+        display:block;
+    }
+
+    /* Next button */
+    .finish-controls{
+        display:flex;
+        justify-content:center;
+        margin:36px auto 0;
+    }
+
+    .finish-button{
+        min-width:115px;
+        min-height:44px;
+
+        padding:10px 18px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .finish-button:hover,
+    .finish-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
+    }
+    /* =========================
+   FINISH PAGE 2
+   ========================= */
+
+    .finish2-screen{
+        display:none;
+        width:100%;
+        margin:0 auto;
+    }
+
+    .finish2-screen.active{
+        display:block;
+    }
+
+    .finish2-brand{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:12px;
+        margin:0 auto 34px;
+    }
+
+    .finish2-logo{
+        width:150px;
+        height:150px;
+        display:block;
+    }
+
+    .finish2-title{
+        color:#f2f2f2;
+        font-size:42px;
+        font-weight:500;
+        letter-spacing:1px;
+        text-align:center;
+    }
+
+    .finish2-intro{
+        max-width:1050px;
+        margin:0 auto 30px;
+        color:var(--muted);
+        font-size:15px;
+        line-height:1.65;
+        text-align:center;
+    }
+
+    .finish2-section{
+        width:100%;
+        margin:0 auto 28px;
+        border:1px solid var(--border-strong);
+        background:var(--panel);
+    }
+
+    .finish2-section-title{
+        padding:13px 16px;
+        border-bottom:1px solid var(--border);
+        background:var(--panel2);
+        color:var(--text);
+        font-size:18px;
+        font-weight:600;
+    }
+
+    .finish2-subsection{
+        border-top:1px solid var(--border);
+    }
+
+    .finish2-subsection:first-child{
+        border-top:0;
+    }
+
+    .finish2-subtitle{
+        padding:11px 14px;
+        border-bottom:1px solid var(--border);
+        background:rgba(255,255,255,.018);
+        color:var(--text);
+        font-size:15px;
+        font-weight:600;
+    }
+
+    .finish2-file{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:18px;
+        min-height:62px;
+        padding:10px 14px;
+        border-bottom:1px solid var(--border);
+    }
+
+    .finish2-file:last-child{
+        border-bottom:0;
+    }
+
+    .finish2-file-name{
+        min-width:0;
+        color:var(--text);
+        font-size:14px;
+        line-height:1.4;
+        overflow-wrap:anywhere;
+    }
+
+    .finish2-download{
+        flex:0 0 auto;
+        min-width:105px;
+        min-height:40px;
+        padding:9px 14px;
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+        background:var(--panel2);
+        color:var(--text);
+        font-size:13px;
+        font-weight:600;
+        cursor:pointer;
+    }
+
+    .finish2-download:hover,
+    .finish2-download:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
+    }
+
+    .finish2-scroll{
+        max-height:530px;
+        overflow-y:auto;
+        overscroll-behavior:contain;
+        scrollbar-width:thin;
+    }
+
+    .finish2-bottom{
+        display:flex;
+        justify-content:center;
+        margin:42px auto 10px;
+    }
+
+    .finish2-back{
+        min-width:120px;
+        min-height:44px;
+        padding:10px 18px;
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+        background:var(--panel2);
+        color:var(--text);
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+    }
+
+    .finish2-back:hover,
+    .finish2-back:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
+    }
+    @media(max-width:700px){
+        body{
+            padding:0 12px 24px;
+        }
+
+        .site{
+            padding:0 18px 28px;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+    <main class="site">
+        <section class="generator-screen active" id="generator-screen" aria-label="Question Paper Generator">
+
+        <div class="generator-brand">
+
+            <img class="generator-logo"
+                 src="{{ url_for('static', filename='Group 8.svg') }}"
+                 alt="ExamForge logo">
+
+            <div class="generator-title">
+                Question Paper Generator
+            </div>
+
+        </div>
+
+
+        <p class="generator-guide">
+            To add a question to the question paper please write the full question under the question column and write all of its subsequent options in the columns Option 1, 2, 3 and 4 where 1, 2, 3 and 4 represent options A, B, C and D respectively. None of the columns can be empty and the Answer column only accepts 1, 2, 3 and 4 as inputs. To add it click the Next button and to finish the paper click the Finish button.
+        </p>
+
+
+        <div class="generator-table-wrap">
+
+            <table class="generator-table">
+
+                <thead>
+                    <tr>
+                        <th class="serial-cell">Serial number</th>
+                        <th class="question-cell">Questions</th>
+                        <th class="option-cell">Option 1</th>
+                        <th class="option-cell">Option 2</th>
+                        <th class="option-cell">Option 3</th>
+                        <th class="option-cell">Option 4</th>
+                        <th class="answer-cell">Answer</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td class="serial-cell" id="generator-serial">
+                            1
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input"
+                                data-field="question"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input"
+                                data-field="option1"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input"
+                                data-field="option2"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input"
+                                data-field="option3"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input"
+                                data-field="option4"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                        <td>
+                            <textarea
+                                class="generator-input answer-input"
+                                data-field="answer"
+                                inputmode="numeric"
+                                spellcheck="false"></textarea>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="generator-error" id="generator-error">
+            None of the Colums can be empty. Answer only accepts calues 1,2,3 and 4
+        </div>
+
+
+        <div class="generator-controls">
+
+            <button
+                class="generator-button"
+                id="generator-back"
+                type="button">
+                Back
+            </button>
+
+            <button
+                class="generator-button"
+                id="generator-previous"
+                type="button"
+                disabled>
+                Previous
+            </button>
+
+            <button
+                class="generator-button"
+                id="generator-next"
+                type="button">
+                Next
+            </button>
+
+            <button
+                class="generator-button"
+                id="generator-finish"
+                type="button">
+                Finish
+            </button>
+
+        </div>
+
+        </section>
+
+        <!-- =========================
+             FINISH PAGE 1
+             ========================= -->
+
+        <section
+            class="finish-screen"
+            id="finish-screen"
+            aria-label="Question Paper Details">
+
+            <div class="finish-brand">
+
+                <img
+                    class="finish-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="finish-title">
+                    Question Paper Generator
+                </div>
+
+            </div>
+
+
+            <p class="finish-guide">
+                Please fill the following fields for the question paper.
+            </p>
+
+
+            <div class="finish-table-wrap">
+
+                <table class="finish-table">
+
+                    <tbody>
+
+                        <tr>
+                            <th>Test Series Name</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="testSeriesName"
+                                    type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Set Code</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="setCode"
+                                    type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Time</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="time"
+                                    type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Total marks</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="totalMarks"
+                                    type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Name of Institution</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="institution"
+                                    type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Number of student that will give this test</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="studentCount"
+                                    type="text"
+                                    inputmode="numeric">
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div
+                class="finish-error"
+                id="finish-error">
+
+                All feilds are mandatory to be filled and Number of students should only be a positive Integer.
+
+            </div>
+
+
+            <div class="finish-controls">
+
+            <button
+                class="finish-button"
+                id="finish-back"
+                type="button">
+
+                Back
+
+            </button>
+
+            <button
+                class="finish-button"
+                id="finish-next"
+                type="button">
+
+                Next-&gt;
+
+            </button>
+
+        </div>
+
+        </section>
+
+        <!-- =========================
+             FINISH PAGE 2
+             ========================= -->
+
+        <section
+            class="finish2-screen"
+            id="finish2-screen"
+            aria-label="Generated Files">
+
+            <div class="finish2-brand">
+
+                <img
+                    class="finish2-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="finish2-title">
+                    Question Paper Generator
+                </div>
+
+            </div>
+
+
+            <p class="finish2-intro">
+                Your question paper files have been generated successfully.
+            </p>
+
+
+            <!-- ORIGINAL DATA -->
+
+            <section class="finish2-section">
+
+                <div class="finish2-section-title">
+                    Original Data
+                </div>
+
+                <div id="finish2-original-files"></div>
+
+            </section>
+
+
+            <!-- INDIVIDUAL FILES -->
+
+            <section class="finish2-section">
+
+                <div class="finish2-section-title">
+                    Individual files
+                </div>
+
+                <div
+                    class="finish2-scroll"
+                    id="finish2-individual-files">
+                </div>
+
+            </section>
+
+
+            <!-- DUPLEX -->
+
+            <section class="finish2-section">
+
+                <div class="finish2-section-title">
+                    Files for Duplex printer
+                </div>
+
+
+                <div class="finish2-subsection">
+
+                    <div class="finish2-subtitle">
+                        Compiled Questions
+                    </div>
+
+                    <div id="finish2-duplex-questions"></div>
+
+                </div>
+
+
+                <div class="finish2-subsection">
+
+                    <div class="finish2-subtitle">
+                        Compiled Questions+OMR
+                    </div>
+
+                    <div id="finish2-duplex-omr"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SIMPLEX -->
+
+            <section class="finish2-section">
+
+                <div class="finish2-section-title">
+                    Files for Simplex Printer
+                </div>
+
+
+                <div class="finish2-subsection">
+
+                    <div class="finish2-subtitle">
+                        Compiled Questions
+                    </div>
+
+                    <div id="finish2-simplex-questions"></div>
+
+                </div>
+
+
+                <div class="finish2-subsection">
+
+                    <div class="finish2-subtitle">
+                        Compiled Questions+OMR
+                    </div>
+
+                    <div id="finish2-simplex-omr"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- BACK -->
+
+            <div class="finish2-bottom">
+
+                <button
+                    class="finish2-back"
+                    id="finish2-back"
+                    type="button">
+
+                    Back
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <div
+            class="generator-modal"
+            id="generator-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="generator-modal-box">
+
+                <p id="generator-modal-message"></p>
+
+                <div class="generator-modal-actions">
+
+                    <button
+                        class="generator-modal-button"
+                        id="generator-modal-no"
+                        type="button">
+                        No
+                    </button>
+
+                    <button
+                        class="generator-modal-button"
+                        id="generator-modal-yes"
+                        type="button">
+                        Yes
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
+    <script src="{{ url_for('static', filename='QPG.js') }}"></script>
+</body>
+</html>
