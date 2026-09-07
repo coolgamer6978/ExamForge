@@ -46,16 +46,12 @@ def PDF_Generator(Questions_for_pdf,Title_data):
                 wrapped_lines.append(line)
                 continue
 
-            # How many chunks are required
-            breaks = math.ceil(total_width / avail_width)
-
-            # Target width of each chunk
-            target_width = total_width / breaks
+            target_width = avail_width
 
             start = 0
             line_length = len(line)
 
-            while start < line_length:
+            while True:
 
                 current_width = 0
                 end = start
@@ -81,13 +77,27 @@ def PDF_Generator(Questions_for_pdf,Title_data):
                     wrapped_lines.append(line[start:end])
                     break
 
-                # Remove one character from the end of this chunk
-                # and let that character start the next chunk.
-                split_point = end - 1
-
+                # Dynamic line adjuster
+                reverse_walker = 1
+                no_space = False
+                for iterate in line[start:end]:
+                    space_finder = line[end - reverse_walker]
+                    if space_finder == " " and reverse_walker < 22:
+                        split_point = end - reverse_walker
+                        break
+                    elif reverse_walker >= 22:
+                        split_point = end - 1
+                        no_space = True
+                        break
+                    reverse_walker += 1
                 wrapped_lines.append(
                     line[start:split_point]
                 )
+                # Removes Unnecessary space when needed
+                if no_space:
+                    pass
+                else:
+                    split_point += 1
 
                 start = split_point
 
@@ -499,11 +509,6 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             optionB = XPreformatted(optionB_text, option_style)
             optionC = XPreformatted(optionC_text, option_style)
             optionD = XPreformatted(optionD_text, option_style)
-            #Question = XPreformatted("Q"+str(question["serial"])+". "+str(question["question"]),question_style)
-            #optionA = XPreformatted(("A"+")"+str(question["option1"]),option_style)
-            #optionB = XPreformatted(("B"+")"+str(question["option2"]),option_style)
-            #optionC = XPreformatted(("C"+")"+str(question["option3"]),option_style)
-            #optionD = XPreformatted(("D"+")"+str(question["option4"]),option_style)
             story.append(Question)
             story.append(optionA)
             story.append(optionB)

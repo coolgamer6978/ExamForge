@@ -3,6 +3,11 @@ def QPG(PROCESSED_DATA_FROM_MDC,RANDOMISER_KEY):
     print("Pre_Processed_Data and Randomiser_key Received from Main_Directory_Controller.py BY Question_Paper_Generator.py")
     Processed_data = []
     Title_data = PROCESSED_DATA_FROM_MDC["Paper_details"]
+    O_SET = []
+    for question in PROCESSED_DATA_FROM_MDC["Question_paper"]:
+        editable_question_original = copy.deepcopy(question)
+        O_SET.append(editable_question_original)
+    Processed_data.append(O_SET)
     for current_set in RANDOMISER_KEY:
         N_set = []
         for Question in current_set:
