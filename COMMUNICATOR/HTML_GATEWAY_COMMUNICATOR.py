@@ -3,6 +3,7 @@ import flask
 from flask import render_template
 from werkzeug.serving import make_server
 from MAIN_CONTROLLER import Main_Controller
+import os
 #endregion
 #region Flask object,server e.t.c creation
 web = flask.Flask(__name__)
@@ -25,8 +26,15 @@ def QPG_page():
 def Raw_data():
     print("Raw_data received by HTML_GATEWAY_COMMUNICATOR")
     question_paper_raw_data = request.json
-    Main_Controller(question_paper_raw_data,"QPG")#QPG = question paper generator
-    return ""
+    list_of_paths = Main_Controller(question_paper_raw_data,"QPG")#QPG = question paper generator
+    return flask.jsonify(list_of_paths)
+@web.route('/Dowload/<path>',methods=['GET'])
+def Dowload(path):
+    print("Dowload request received from HTML_GATEWAY_COMMUNICATOR for "+path)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    archive_dir = os.path.join(BASE_DIR, "Archive", "storage")
+    requested_pdf_path = os.path.join(archive_dir, path)
+    return flask.send_file(requested_pdf_path)
 #Verifies that server is active to Website
 @web.route('/validation',methods=['GET'])
 def validation():

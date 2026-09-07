@@ -1,4 +1,5 @@
 def Data_Pre_processor(DATA_FROM_MDC):
+    print("raw_Data Received from Main_Directory_Controller.py BY Data_Pre_processor.py")
     def clean_data(raw_data):
         error = []
         DEBUG_DATA = []
@@ -17,7 +18,7 @@ def Data_Pre_processor(DATA_FROM_MDC):
         return
     def seperate_data_for_Randomiser(Processed_data):
         total_number_of_questions = len(Processed_data["Question_paper"])
-        total_number_of_copies_needed = Processed_data["Paper_details"]["studentCount"]
+        total_number_of_copies_needed = int(Processed_data["Paper_details"]["studentCount"])
         data_pack_for_randomiser = (total_number_of_copies_needed,total_number_of_questions)
         return data_pack_for_randomiser
     def Final_processed_data(Processed_data):

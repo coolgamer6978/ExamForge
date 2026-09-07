@@ -1,5 +1,4 @@
 # Short Forms
-
 | Short Form | Full Form |
 |---|---|
 | **QPG** | Question Paper Generator |

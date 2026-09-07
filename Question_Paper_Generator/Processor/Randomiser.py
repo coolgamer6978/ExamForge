@@ -2,6 +2,7 @@ def Randomiser(RAW_DATA_FROM_MDC):
     import random
     import time
     import threading
+    print("filtered_Data Received from Main_Directory_Controller.py BY Randomiser.py")
     def timer():
         t = 0
         while True:
@@ -32,7 +33,7 @@ def Randomiser(RAW_DATA_FROM_MDC):
                 break
         if Passed:
             Randomsied_Question.append(rand_instance)
-        if len(Randomsied_Question)==Number_of_Copies:
+        if len(Randomsied_Question)>=Number_of_Copies:
             break
     rand_sequence = random.sample(range(Number_of_Copies),Number_of_Copies)
     for instance in rand_sequence:
@@ -43,4 +44,5 @@ def Randomiser(RAW_DATA_FROM_MDC):
             c+=1
             rand_option = random.sample(range(1,5),4)
             q_set[c] = (question,rand_option)
-    return Final_Key
+    set_code = random.sample(range(1000,10000),Number_of_Copies)
+    return Final_Key,set_code
