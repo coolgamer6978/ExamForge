@@ -36,9 +36,9 @@ def PDF_Generator(Questions_for_pdf,Title_data):
                 c += 2
                 if c >= page_num:
                     break
-
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        save_path = os.path.join(BASE_DIR,"Archive","storage","Simplex",test_series_name+"_simplex_Front")
+        save_path = os.path.join(BASE_DIR,"Archive","storage",test_series_name,"Simplex",test_series_name+"_simplex_Front.pdf")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
         with open(save_path,"wb") as file:
             writer.write(file)
 
@@ -46,21 +46,23 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         writer = PdfWriter()
 
         for specific_file in path:
-            c = 0
             reader = PdfReader(specific_file)
             page_num = len(reader.pages)
             if page_num % 2 == 0:
-                pass
+                c = 0
             else:
-                writer.add_blank_page()
+                writer.add_blank_page( width=reader.pages[0].mediabox.width,height=reader.pages[0].mediabox.height)
+                c = 1
             while True:
-                writer.add_page(reader.pages[::-1][c])
-                c += 2
                 if c >= page_num:
                     break
+                writer.add_page(reader.pages[::-1][c])
+                c += 2
+
 
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        save_path = os.path.join(BASE_DIR, "Archive", "storage", "Simplex", test_series_name + "_simplex_Back")
+        save_path = os.path.join(BASE_DIR, "Archive", "storage",test_series_name, "Simplex", test_series_name + "_simplex_Back.pdf")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
         with open(save_path, "wb") as file:
             writer.write(file)
 
@@ -74,9 +76,10 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             if page_num % 2 == 0:
                 pass
             else:
-                writer.add_blank_page()
+                writer.add_blank_page( width=reader.pages[0].mediabox.width,height=reader.pages[0].mediabox.height)
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        save_path = os.path.join(BASE_DIR, "Archive", "storage", "Duplex", test_series_name + "_Duplex")
+        save_path = os.path.join(BASE_DIR, "Archive", "storage",test_series_name, "Duplex", test_series_name + "_Duplex.pdf")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
         with open(save_path, "wb") as file:
             writer.write(file)
 
@@ -520,6 +523,8 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         INSTITUTION = Title_data["institution"]
         Name_of_pdf = str(title.replace(" ","_")) + "_"+str(SET) + "_" + str(SET_code) + ".pdf"
         for question in q_set["question_set"]:
+            print(q_set)
+            print(question)
             question_text = (
                     "Q"
                     + str(question["serial"])
@@ -572,6 +577,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             story.append(optionC)
             story.append(optionD)
         PDF_Creator()
-    simplex_front_creator(path_for_simplex_duplex,str(title.replace(" ","_")))
-    simplex_back_creator(path_for_simplex_duplex, str(title.replace(" ", "_")))
+    simplex_front_creator(path_for_simplex_duplex[1:],str(title.replace(" ","_")))
+    simplex_back_creator(path_for_simplex_duplex[1:], str(title.replace(" ", "_")))
+    Duplex_creator(path_for_simplex_duplex[1:], str(title.replace(" ", "_")))
     return return_path

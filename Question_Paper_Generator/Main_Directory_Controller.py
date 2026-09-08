@@ -5,6 +5,7 @@ def Main_Directory_Controller(DATA_FROM_MAIN_CONTROLLER):
     from Question_Paper_Generator.Processor.Question_Paper_Generator import QPG
     from Question_Paper_Generator.Processor.Output_Post_processor import Output_Post_processor
     from Question_Paper_Generator.PDF_Generator import PDF_Generator
+    #import json(temp import for certain test)
     print("raw_Data Received from MAIN_CONTROLLER.py")
     DATA_FOR_USE = copy.deepcopy(DATA_FROM_MAIN_CONTROLLER)
     Pre_processed_Data,Data_only_for_Randomiser = Data_Pre_processor(DATA_FOR_USE)
@@ -17,4 +18,6 @@ def Main_Directory_Controller(DATA_FROM_MAIN_CONTROLLER):
     print("Questions_for_pdf_generator and Answer_key Received from Output_Post_processor.py BY Main_Directory_Controller.py")
     Final_PDF_path = PDF_Generator(Questions_for_pdf_generator,Title_data)
     print("Final_PDF_path Received from PDF_Generator.py BY Main_Directory_Controller.py")
+    """with open("Temp_ans_key.json","w") as file:
+        json.dump(Answer_key,file)"""#(temp usage for certain test)
     return Final_PDF_path
