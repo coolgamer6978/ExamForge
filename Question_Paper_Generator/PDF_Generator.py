@@ -8,11 +8,12 @@ def PDF_Generator(Questions_for_pdf,Title_data):
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib.enums import TA_RIGHT,TA_CENTER,TA_LEFT
     from reportlab.pdfbase.pdfmetrics import stringWidth
-    import math
+    from pypdf import PdfReader,PdfWriter
     import os
 
 
     return_path = []
+    path_for_simplex_duplex = []
     def make_black(element):
         if hasattr(element, "fillColor"):
             element.fillColor = colors.black
@@ -23,6 +24,61 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         if hasattr(element, "contents"):
             for child in element.contents:
                 make_black(child)
+
+    def simplex_front_creator(path,test_series_name):
+        writer = PdfWriter()
+        for specific_file in path:
+            c=0
+            reader = PdfReader(specific_file)
+            page_num = len(reader.pages)
+            while True:
+                writer.add_page(reader.pages[c])
+                c += 2
+                if c >= page_num:
+                    break
+
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        save_path = os.path.join(BASE_DIR,"Archive","storage","Simplex",test_series_name+"_simplex_Front")
+        with open(save_path,"wb") as file:
+            writer.write(file)
+
+    def simplex_back_creator(path, test_series_name):
+        writer = PdfWriter()
+
+        for specific_file in path:
+            c = 0
+            reader = PdfReader(specific_file)
+            page_num = len(reader.pages)
+            if page_num % 2 == 0:
+                pass
+            else:
+                writer.add_blank_page()
+            while True:
+                writer.add_page(reader.pages[::-1][c])
+                c += 2
+                if c >= page_num:
+                    break
+
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        save_path = os.path.join(BASE_DIR, "Archive", "storage", "Simplex", test_series_name + "_simplex_Back")
+        with open(save_path, "wb") as file:
+            writer.write(file)
+
+    def Duplex_creator(path, test_series_name):
+        writer = PdfWriter()
+        for specific_file in path:
+            reader = PdfReader(specific_file)
+            page_num = len(reader.pages)
+            for page in reader.pages:
+                writer.add_page(page)
+            if page_num % 2 == 0:
+                pass
+            else:
+                writer.add_blank_page()
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        save_path = os.path.join(BASE_DIR, "Archive", "storage", "Duplex", test_series_name + "_Duplex")
+        with open(save_path, "wb") as file:
+            writer.write(file)
 
     def wrap_text_for_xpreformatted(text, style, avail_width):
         wrapped_lines = []
@@ -385,6 +441,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         os.makedirs(archive_dir, exist_ok=True)
 
         pdf_path = os.path.join(archive_dir,Name_of_pdf)
+        path_for_simplex_duplex.append(pdf_path)
         path_for_sending = os.path.join("/Dowload",str(title.replace(" ","_")),str(SET_code),str(Name_of_pdf))
         return_path.append(path_for_sending)
         splitter_x = LEFT_EDGE + (RIGHT_EDGE - LEFT_EDGE) / 2
@@ -515,4 +572,6 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             story.append(optionC)
             story.append(optionD)
         PDF_Creator()
+    simplex_front_creator(path_for_simplex_duplex,str(title.replace(" ","_")))
+    simplex_back_creator(path_for_simplex_duplex, str(title.replace(" ", "_")))
     return return_path
