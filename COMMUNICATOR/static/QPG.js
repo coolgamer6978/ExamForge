@@ -594,6 +594,8 @@ finishNext.addEventListener(
 let generatedFiles = null;
 
 function receiveGeneratedFiles(filePackage){
+    //temp debug
+    console.log("FILE PACKAGE RECEIVED:", filePackage);
 
     generatedFiles = filePackage;
 
@@ -652,7 +654,13 @@ async function sendQuestionPaperDataToPython(){
     }
 
 
-    return await response.json();
+    //return await response.json();
+    //temp debug
+    const result = await response.json();
+
+    console.log("PYTHON QPG RESPONSE:", result);
+
+    return result;
 
 }
 
