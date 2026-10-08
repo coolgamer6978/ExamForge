@@ -5,5 +5,10 @@
 | **ASC** | Answer Sheet Checker |
 | **AKU** | Answer Key Uploader |
 
-Use this command **"python -m pip install -r requirements.txt"**
-before first run.
+Before Server bootup for the 1st time Please run the SETUP.py
+to properly set up the server dependency. The SETUP file will delete
+itself upon being complete.
+
+Python Requirement:
+ExamForge currently requires Python 3.13.
+Python 3.15 is not supported.

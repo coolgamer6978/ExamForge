@@ -2,7 +2,6 @@ def data_pre_processor(raw_data):
     print("raw_data from MDC received by data_pre_processor.py")
     final_data = []
     for set_code,q_set in raw_data:
-        print("rawdata:",raw_data)#debug
         answer_key = []
         for question in q_set:
             serial = question["serial"]

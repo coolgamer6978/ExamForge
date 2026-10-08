@@ -47,8 +47,9 @@
         padding:0 42px 42px;
     }
     /* =========================
-   QUESTION PAPER GENERATOR
-   ========================= */
+       QUESTION PAPER GENERATOR
+       ========================= */
+
     .generator-screen{
         display:none;
         width:100%;
@@ -58,7 +59,9 @@
     .generator-screen.active{
         display:block;
     }
+
     /* Generator-specific logo and heading */
+
     .generator-brand{
         display:flex;
         flex-direction:column;
@@ -80,7 +83,9 @@
         letter-spacing:1px;
         text-align:center;
     }
+
     /* Instruction text */
+
     .generator-guide{
         max-width:1050px;
         margin:0 auto 34px;
@@ -89,10 +94,25 @@
         line-height:1.65;
         text-align:left;
     }
-    /* Table */
+
+    /* =========================
+       MAIN QUESTION TABLE
+       ========================= */
+
     .generator-table-wrap{
         width:100%;
         overflow-x:auto;
+        overflow-y:auto;
+
+        /*
+           Each question contains six existing text fields.
+           The viewport is sized for approximately three
+           complete question rows.
+        */
+        max-height:650px;
+
+        border:1px solid var(--border-strong);
+        background:var(--panel);
     }
 
     .generator-table{
@@ -100,48 +120,125 @@
         border-collapse:collapse;
         table-layout:fixed;
         background:var(--panel);
-        border:1px solid var(--border-strong);
     }
 
-    .generator-table th,
-    .generator-table td{
+    .generator-table > thead > tr > th,
+    .generator-table > tbody > tr > td{
         border:1px solid var(--border);
-        padding:9px;
-        vertical-align:top;
     }
 
-    .generator-table th{
+    .generator-table > thead > tr > th{
         background:var(--panel2);
         color:var(--text);
         font-size:14px;
         font-weight:600;
         text-align:center;
+        padding:12px;
     }
 
-    .generator-table td{
-        height:180px;
+    .generator-table > thead > tr > th:first-child{
+        width:15%;
     }
 
-    .generator-table .serial-cell{
-        width:8%;
+    .generator-table > thead > tr > th:last-child{
+        width:85%;
+    }
+
+    /* =========================
+       MAIN TABLE SERIAL COLUMN
+       ========================= */
+
+    .generator-serial-cell{
+        width:15%;
+        padding:12px;
+        vertical-align:top;
         text-align:center;
-        vertical-align:middle;
+    }
+
+    .generator-serial-number{
         color:var(--text);
         font-weight:600;
+        font-size:15px;
+        margin-bottom:14px;
     }
 
-    .generator-table .question-cell{
-        width:24%;
+    /* Remove button */
+
+    .generator-remove-button{
+        width:100%;
+        min-height:40px;
+        padding:8px 10px;
+
+        border:1px solid var(--border-strong);
+        border-radius:7px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:13px;
+        font-weight:600;
+
+        cursor:pointer;
     }
 
-    .generator-table .option-cell{
-        width:14%;
+    .generator-remove-button:hover,
+    .generator-remove-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+        outline:none;
     }
 
-    .generator-table .answer-cell{
-        width:10%;
+    /* =========================
+       QUESTION SUB-TABLE
+       ========================= */
+
+    .generator-question-cell{
+        padding:0;
+        vertical-align:top;
     }
-    /* Question / option input boxes */
+
+    .generator-subtable{
+        width:100%;
+        border-collapse:collapse;
+        table-layout:fixed;
+    }
+
+    .generator-subtable td{
+        border:1px solid var(--border);
+        padding:9px;
+        vertical-align:top;
+    }
+
+    .generator-subtable tr:first-child td{
+        border-top:0;
+    }
+
+    .generator-subtable tr:last-child td{
+        border-bottom:0;
+    }
+
+    .generator-subtable td:first-child{
+        width:18%;
+        background:var(--panel2);
+        color:var(--text);
+        font-size:14px;
+        font-weight:600;
+        vertical-align:middle;
+    }
+
+    .generator-subtable td:last-child{
+        width:82%;
+    }
+
+    /* =========================
+       QUESTION / OPTION INPUT BOXES
+       ========================= */
+
+    /*
+       These input properties are intentionally kept
+       the same as the previous generator fields.
+    */
+
     .generator-input{
         width:100%;
         height:100%;
@@ -155,10 +252,16 @@
         font-size:14px;
         line-height:1.45;
 
-        /* IMPORTANT:
-           preserves spaces, tabs and new lines */
         white-space:pre;
         overflow:auto;
+    }
+
+    .generator-input[data-field="option1"],
+    .generator-input[data-field="option2"],
+    .generator-input[data-field="option3"],
+    .generator-input[data-field="option4"],
+    .generator-input[data-field="answer"] {
+        min-height: 60px;
     }
 
     .generator-input:focus{
@@ -166,14 +269,16 @@
     }
 
     /* Answer box */
+
     .generator-input.answer-input{
-        min-height:155px;
+        min-height:60px;
         text-align:center;
         font-weight:600;
         white-space:normal;
     }
 
     /* Error highlighting */
+
     .generator-input.invalid{
         background:rgba(255,60,60,.08);
         box-shadow:inset 0 0 0 2px #c94b4b;
@@ -192,7 +297,10 @@
         display:block;
     }
 
-    /* Generator buttons */
+    /* =========================
+       GENERATOR BUTTONS
+       ========================= */
+
     .generator-controls{
         display:flex;
         justify-content:center;
@@ -204,10 +312,13 @@
         min-width:115px;
         min-height:44px;
         padding:10px 18px;
+
         border:1px solid var(--border-strong);
         border-radius:8px;
+
         background:var(--panel2);
         color:var(--text);
+
         font-size:14px;
         font-weight:600;
         cursor:pointer;
@@ -226,6 +337,7 @@
     }
 
     /* Generator popups */
+
     .generator-modal{
         display:none;
         position:fixed;
@@ -433,6 +545,63 @@
         cursor:pointer;
     }
 
+    /* =========================
+       SAVE QUESTION PAPER
+       ========================= */
+
+    .finish-save-controls{
+        display:flex;
+        justify-content:center;
+
+        margin:24px auto 0;
+    }
+
+
+    .finish-save-button{
+        min-width:220px;
+        min-height:44px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        gap:9px;
+
+        padding:10px 18px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+
+    .finish-save-button:hover,
+    .finish-save-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    .finish-save-indicator{
+        width:10px;
+        height:10px;
+
+        flex:0 0 10px;
+
+        border-radius:50%;
+
+        background:#c94b4b;
+    }
+
     .finish-button:hover,
     .finish-button:focus-visible{
         background:var(--hover);
@@ -592,6 +761,861 @@
         border-color:var(--hover-border);
         outline:none;
     }
+    /* =========================
+       QPG IMPORT
+       ========================= */
+
+    .qpg-import-modal{
+        display:none;
+
+        position:fixed;
+        inset:0;
+
+        z-index:200;
+
+        align-items:center;
+        justify-content:center;
+
+        padding:20px;
+
+        background:rgba(0,0,0,.68);
+    }
+
+    .qpg-import-modal.active{
+        display:flex;
+    }
+
+    .qpg-import-modal-box{
+        width:min(900px,100%);
+        max-height:90vh;
+
+        padding:24px;
+
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+
+        background:var(--panel);
+
+        box-shadow:
+            0 18px 50px rgba(0,0,0,.45);
+
+        overflow-y:auto;
+        overflow-x:hidden;
+    }
+
+    .qpg-import-modal-title{
+        margin-bottom:18px;
+
+        color:var(--text);
+
+        font-size:20px;
+        font-weight:700;
+
+        text-align:center;
+
+        text-decoration:underline;
+    }
+
+    .qpg-import-preview-series-name{
+        margin-top:6px;
+        color:var(--muted);
+        font-size:14px;
+        font-weight:700;
+        text-decoration:none;
+    }
+
+    /* =========================
+       IMPORT SEARCH BAR
+       ========================= */
+
+    .qpg-import-search-bar{
+        width:100%;
+
+        display:grid;
+        grid-template-columns:90px minmax(0,1fr);
+
+        align-items:center;
+
+        border:1px solid var(--border);
+        border-radius:7px;
+
+        background:var(--panel);
+
+        margin:0 auto 12px;
+
+        overflow:hidden;
+    }
+
+    .qpg-import-search-label{
+        height:100%;
+
+        display:flex;
+        align-items:center;
+
+        padding:10px 12px;
+
+        border-right:1px solid var(--border);
+
+        color:var(--muted);
+
+        font-size:13px;
+        font-weight:600;
+    }
+
+    .qpg-import-search-controls{
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(4,minmax(0,1fr));
+
+        gap:8px;
+
+        padding:7px;
+    }
+
+    .qpg-import-search-button{
+        width:100%;
+        min-height:40px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-search-button:hover,
+    .qpg-import-search-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       IMPORT RESULT TABLE
+       ========================= */
+
+    .qpg-import-table-wrap{
+        width:100%;
+
+        height:390px;
+
+        overflow-y:auto;
+        overflow-x:hidden;
+
+        scroll-snap-type:y mandatory;
+        scroll-behavior:smooth;
+
+        padding:0;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+
+        overscroll-behavior-y:contain;
+    }
+
+    #qpg-import-visual{
+        width:100%;
+    }
+
+    .qpg-import-row{
+        width:100%;
+        min-height:58px;
+
+        display:grid;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            auto;
+
+        align-items:center;
+
+        gap:16px;
+
+        padding:9px 12px;
+
+        border-bottom:1px solid var(--border);
+
+        background:var(--panel);
+
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+    }
+
+    .qpg-import-row:last-child{
+        border-bottom:none;
+    }
+
+    .qpg-import-item-name{
+        min-width:0;
+
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:500;
+
+        word-break:break-word;
+        overflow-wrap:anywhere;
+    }
+
+    .qpg-import-item-information{
+        min-width:0;
+    }
+
+    .qpg-import-item-details{
+        margin-top:3px;
+        color:var(--muted);
+        font-size:13px;
+        line-height:1.4;
+    }
+
+    .qpg-import-item-buttons{
+        display:flex;
+
+        align-items:center;
+        justify-content:flex-end;
+
+        gap:8px;
+
+        flex:none;
+    }
+
+    .qpg-import-preview-button,
+    .qpg-import-add-button{
+        min-width:105px;
+        min-height:40px;
+
+        padding:8px 14px;
+
+        border:1px solid var(--border-strong);
+        border-radius:7px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:13px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-preview-button:hover,
+    .qpg-import-preview-button:focus-visible,
+    .qpg-import-add-button:hover,
+    .qpg-import-add-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       IMPORT NAVIGATION
+       ========================= */
+
+    .qpg-import-navigation{
+        display:flex;
+
+        justify-content:center;
+
+        gap:14px;
+
+        margin:24px auto 0;
+    }
+
+    .qpg-import-button{
+        min-width:115px;
+        min-height:44px;
+
+        padding:10px 18px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-button:hover,
+    .qpg-import-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       IMPORT DATE SEARCH
+       ========================= */
+
+    .qpg-import-date-field{
+        width:100%;
+
+        margin-bottom:12px;
+
+        position:relative;
+    }
+
+    .qpg-import-date-input-area{
+        width:100%;
+
+        display:flex;
+
+        gap:0;
+    }
+
+    .qpg-import-date-input{
+        width:100%;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-right:none;
+        border-radius:6px 0 0 6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+    }
+
+    .qpg-import-date-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+    .qpg-import-dropdown-arrow{
+        width:44px;
+
+        min-height:42px;
+
+        padding:0;
+
+        border:1px solid var(--border);
+        border-radius:0 6px 6px 0;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:16px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-dropdown-arrow:hover,
+    .qpg-import-dropdown-arrow:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    .qpg-import-dropdown{
+        width:100%;
+        max-height:180px;
+
+        overflow-y:auto;
+
+        margin-top:5px;
+
+        padding:4px;
+
+        border:1px solid var(--border-strong);
+        border-radius:6px;
+
+        background:var(--panel2);
+    }
+
+    .qpg-import-dropdown[hidden]{
+        display:none;
+    }
+
+    .qpg-import-dropdown.active{
+        display:block;
+    }
+
+    .qpg-import-dropdown-option{
+        width:100%;
+
+        padding:8px 10px;
+
+        border:1px solid transparent;
+        border-radius:5px;
+
+        background:transparent;
+        color:var(--text);
+
+        text-align:left;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:13px;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-dropdown-option:hover,
+    .qpg-import-dropdown-option:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    /* =========================
+       IMPORT PREVIEW CONTENT
+       ========================= */
+
+    .qpg-import-preview-row{
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:
+            55px
+            minmax(0,1fr);
+
+        gap:12px;
+
+        padding:12px;
+
+        border-bottom:1px solid var(--border);
+
+        background:var(--panel);
+    }
+
+    .qpg-import-preview-row:last-child{
+        border-bottom:none;
+    }
+
+    .qpg-import-preview-serial{
+        display:flex;
+
+        align-items:flex-start;
+        justify-content:center;
+
+        padding-top:10px;
+
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .qpg-import-preview-table{
+        width:100%;
+
+        border-collapse:collapse;
+
+        table-layout:fixed;
+
+        background:var(--panel);
+    }
+
+    .qpg-import-preview-table td{
+        border:1px solid var(--border);
+
+        padding:10px;
+
+        vertical-align:top;
+
+        color:var(--text);
+
+        font-size:14px;
+
+        line-height:1.45;
+
+        white-space:pre-wrap;
+
+        overflow-wrap:anywhere;
+    }
+
+    .qpg-import-preview-table td:first-child{
+        width:18%;
+
+        background:var(--panel2);
+
+        font-weight:600;
+    }
+
+    .qpg-import-preview-table td:last-child{
+        width:82%;
+    }
+
+    /* =========================
+       IMPORT TEXT SEARCH
+       ========================= */
+
+    .qpg-import-text-search-input{
+        width:100%;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-radius:6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+    }
+
+    .qpg-import-text-search-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+
+    /* =========================
+       IMPORT MODAL CONTROLS
+       ========================= */
+
+    .qpg-import-modal-controls{
+        display:flex;
+
+        justify-content:center;
+
+        gap:12px;
+
+        margin-top:22px;
+    }
+
+
+    /* =========================
+       IMPORT PREVIEW
+       ========================= */
+
+    .qpg-import-preview-box{
+        width:min(1050px,100%);
+        max-height:92vh;
+    }
+
+    .qpg-import-preview-visual{
+        width:100%;
+
+        max-height:70vh;
+
+        overflow-y:auto;
+        overflow-x:auto;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+    }
+
+
+    /* =========================
+       IMPORT ADD MENU
+       ========================= */
+
+    .qpg-import-add-options{
+        display:flex;
+
+        flex-direction:column;
+
+        gap:10px;
+    }
+
+    .qpg-import-add-option{
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 14px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-add-option:hover,
+    .qpg-import-add-option:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       IMPORT RANGE
+       ========================= */
+
+    .qpg-import-range-body{
+        width:100%;
+
+        max-height:420px;
+
+        overflow-y:auto;
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:10px;
+    }
+
+    .qpg-import-range-row{
+        display:grid;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            auto
+            minmax(0,1fr)
+            auto;
+
+        align-items:center;
+
+        gap:8px;
+    }
+
+    .qpg-import-range-input{
+        width:100%;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-radius:6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-size:14px;
+    }
+
+    .qpg-import-range-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+    .qpg-import-range-separator{
+        color:var(--muted);
+
+        font-size:16px;
+        font-weight:600;
+
+        text-align:center;
+    }
+
+    .qpg-import-range-remove{
+        min-width:70px;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border-strong);
+        border-radius:7px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:13px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-range-remove:hover,
+    .qpg-import-range-remove:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    .qpg-import-range-add{
+        margin-top:12px;
+    }
+
+
+    /* =========================
+       IMPORT INDEX
+       ========================= */
+
+    .qpg-import-index-body{
+        width:100%;
+
+        max-height:500px;
+
+        overflow-y:auto;
+
+        border:1px solid var(--border);
+        border-radius:7px;
+
+        background:var(--panel2);
+    }
+
+    .qpg-import-index-row{
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+        min-height:42px;
+
+        padding:8px 12px;
+
+        border-bottom:1px solid var(--border);
+    }
+
+    .qpg-import-index-row:last-child{
+        border-bottom:none;
+    }
+
+    .qpg-import-index-checkbox{
+        width:17px;
+        height:17px;
+
+        cursor:pointer;
+    }
+
+    .qpg-import-index-number{
+        color:var(--text);
+
+        font-size:14px;
+    }
+
+
+    /* =========================
+       IMPORT EMPTY MESSAGE
+       ========================= */
+
+    .qpg-import-empty{
+        width:100%;
+
+        padding:20px;
+
+        color:var(--muted);
+
+        font-size:16px;
+        font-weight:500;
+
+        text-align:center;
+    }
+
+
+    /* =========================
+       IMPORT MOBILE
+       ========================= */
+
+    @media(max-width:700px){
+
+        .qpg-import-search-bar{
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+        }
+
+        .qpg-import-search-label{
+            grid-column:1 / -1;
+
+            border-right:0;
+            border-bottom:1px solid var(--border);
+        }
+
+        .qpg-import-search-controls{
+            grid-column:1 / -1;
+        }
+
+        .qpg-import-row{
+            grid-template-columns:
+                minmax(0,1fr)
+                auto;
+
+            gap:10px;
+
+            padding:9px 10px;
+        }
+
+        .qpg-import-preview-button,
+        .qpg-import-add-button{
+            min-width:88px;
+
+            padding:8px 10px;
+        }
+
+        .qpg-import-modal-box{
+            max-height:94vh;
+
+            padding:18px;
+        }
+
+        .qpg-import-range-row{
+            grid-template-columns:
+                1fr
+                auto
+                1fr;
+        }
+
+        .qpg-import-range-remove{
+            grid-column:1 / -1;
+        }
+    }
+
+
+    @media(max-width:480px){
+
+        .qpg-import-search-bar{
+            grid-template-columns:1fr;
+        }
+
+        .qpg-import-search-label{
+            grid-column:auto;
+        }
+
+        .qpg-import-search-controls{
+            grid-template-columns:1fr;
+        }
+
+        .qpg-import-row{
+            grid-template-columns:1fr;
+
+            align-items:stretch;
+        }
+
+        .qpg-import-item-buttons{
+            justify-content:flex-end;
+        }
+    }
     @media(max-width:700px){
         body{
             padding:0 12px 24px;
@@ -608,140 +1632,909 @@
 <body>
     <main class="site">
         <section class="generator-screen active" id="generator-screen" aria-label="Question Paper Generator">
+            <div class="generator-brand">
 
-        <div class="generator-brand">
+                <img
+                    class="generator-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
 
-            <img class="generator-logo"
-                 src="{{ url_for('static', filename='Group 8.svg') }}"
-                 alt="ExamForge logo">
+                <div class="generator-title">
+                    Question Paper Generator
+                </div>
 
-            <div class="generator-title">
-                Question Paper Generator
+            </div>
+
+
+            <p class="generator-guide">
+                To add a question to the question paper please write the full question under the question column and write all of its subsequent options in the columns Option 1, 2, 3 and 4 where 1, 2, 3 and 4 represent options A, B, C and D respectively. None of the fields can be empty and the Answer field only accepts 1, 2, 3 and 4. Use the Add button to add another question and the Finish button to finish the paper.
+            </p>
+
+
+            <div class="generator-table-wrap">
+
+                <table class="generator-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                Serial number
+                            </th>
+
+                            <th>
+                                Questions
+                            </th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="generator-question-body">
+
+                        <tr class="generator-question-row">
+
+                            <td class="generator-serial-cell">
+
+                                <div class="generator-serial-number">
+                                    1
+                                </div>
+
+                                <button
+                                    class="generator-remove-button"
+                                    type="button"
+                                    data-remove-question>
+                                    Remove
+                                </button>
+
+                            </td>
+
+
+                            <td class="generator-question-cell">
+
+                                <table class="generator-subtable">
+
+                                    <tbody>
+
+                                        <tr>
+
+                                            <td>
+                                                Question
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input"
+                                                    data-field="question"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+                                                Option 1
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input"
+                                                    data-field="option1"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+                                                Option 2
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input"
+                                                    data-field="option2"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+                                                Option 3
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input"
+                                                    data-field="option3"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+                                                Option 4
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input"
+                                                    data-field="option4"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+                                                Answer
+                                            </td>
+
+                                            <td>
+                                                <textarea
+                                                    class="generator-input answer-input"
+                                                    data-field="answer"
+                                                    inputmode="numeric"
+                                                    spellcheck="false"></textarea>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div
+                class="generator-error"
+                id="generator-error">
+
+                None of the fields can be empty. Answer only accepts values 1, 2, 3 and 4.
+
+            </div>
+
+
+            <div class="generator-controls">
+
+                <button
+                    class="generator-button"
+                    id="generator-back"
+                    type="button">
+                    Home
+                </button>
+
+                <button
+                    class="generator-button"
+                    id="generator-add"
+                    type="button">
+                    Add
+                </button>
+
+                <button
+                    class="generator-button"
+                    id="generator-import"
+                    type="button">
+                    Import
+                </button>
+
+                <button
+                    class="generator-button"
+                    id="generator-finish"
+                    type="button">
+                    Next
+                </button>
+
+            </div>
+
+        </section>
+
+        <template id="generator-question-template">
+
+            <tr class="generator-question-row">
+
+                <td class="generator-serial-cell">
+
+                    <div class="generator-serial-number">
+                        0
+                    </div>
+
+                    <button
+                        class="generator-remove-button"
+                        type="button"
+                        data-remove-question>
+                        Remove
+                    </button>
+
+                </td>
+
+
+                <td class="generator-question-cell">
+
+                    <table class="generator-subtable">
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    Question
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input"
+                                        data-field="question"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Option 1
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input"
+                                        data-field="option1"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Option 2
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input"
+                                        data-field="option2"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Option 3
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input"
+                                        data-field="option3"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Option 4
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input"
+                                        data-field="option4"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Answer
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="generator-input answer-input"
+                                        data-field="answer"
+                                        inputmode="numeric"
+                                        spellcheck="false"></textarea>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </td>
+
+            </tr>
+
+        </template>
+
+        <!-- =========================
+             QPG IMPORT
+             ========================= -->
+
+
+        <!-- =========================
+             IMPORT MAIN POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div class="qpg-import-modal-title">
+                    Import Saved Questions
+                </div>
+
+
+                <!-- SEARCH BAR -->
+
+                <div class="qpg-import-search-bar">
+
+                    <div class="qpg-import-search-label">
+                        Search
+                    </div>
+
+                    <div class="qpg-import-search-controls">
+
+                        <button
+                            class="qpg-import-search-button"
+                            id="qpg-import-date-button"
+                            type="button">
+
+                            Date
+
+                        </button>
+
+
+                        <button
+                            class="qpg-import-search-button"
+                            id="qpg-import-test-series-button"
+                            type="button">
+
+                            Test Series
+
+                        </button>
+
+
+                        <button
+                            class="qpg-import-search-button"
+                            id="qpg-import-file-name-button"
+                            type="button">
+
+                            File Name
+
+                        </button>
+
+
+                        <button
+                            class="qpg-import-search-button"
+                            id="qpg-import-search-button"
+                            type="button">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESULTS -->
+
+                <div
+                    class="qpg-import-table-wrap"
+                    aria-label="Saved questions">
+
+                    <div
+                        id="qpg-import-visual">
+                    </div>
+
+                </div>
+
+
+                <!-- NAVIGATION -->
+
+                <div class="qpg-import-navigation">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+                </div>
+
             </div>
 
         </div>
 
 
-        <p class="generator-guide">
-            To add a question to the question paper please write the full question under the question column and write all of its subsequent options in the columns Option 1, 2, 3 and 4 where 1, 2, 3 and 4 represent options A, B, C and D respectively. None of the columns can be empty and the Answer column only accepts 1, 2, 3 and 4 as inputs. To add it click the Next button and to finish the paper click the Finish button.
-        </p>
+        <!-- =========================
+             IMPORT DATE POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-date-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div class="qpg-import-modal-title">
+                    Date
+                </div>
 
 
-        <div class="generator-table-wrap">
+                <!-- YEAR -->
 
-            <table class="generator-table">
+                <div class="qpg-import-date-field">
 
-                <thead>
-                    <tr>
-                        <th class="serial-cell">Serial number</th>
-                        <th class="question-cell">Questions</th>
-                        <th class="option-cell">Option 1</th>
-                        <th class="option-cell">Option 2</th>
-                        <th class="option-cell">Option 3</th>
-                        <th class="option-cell">Option 4</th>
-                        <th class="answer-cell">Answer</th>
-                    </tr>
-                </thead>
+                    <div class="qpg-import-date-input-area">
 
-                <tbody>
+                        <input
+                            id="qpg-import-date-year"
+                            class="qpg-import-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Year">
 
-                    <tr>
+                        <button
+                            id="qpg-import-date-year-arrow"
+                            class="qpg-import-dropdown-arrow"
+                            type="button">
 
-                        <td class="serial-cell" id="generator-serial">
-                            1
-                        </td>
+                            &gt;
 
-                        <td>
-                            <textarea
-                                class="generator-input"
-                                data-field="question"
-                                spellcheck="false"></textarea>
-                        </td>
+                        </button>
 
-                        <td>
-                            <textarea
-                                class="generator-input"
-                                data-field="option1"
-                                spellcheck="false"></textarea>
-                        </td>
+                    </div>
 
-                        <td>
-                            <textarea
-                                class="generator-input"
-                                data-field="option2"
-                                spellcheck="false"></textarea>
-                        </td>
+                    <div
+                        id="qpg-import-date-year-dropdown"
+                        class="qpg-import-dropdown"
+                        hidden>
+                    </div>
 
-                        <td>
-                            <textarea
-                                class="generator-input"
-                                data-field="option3"
-                                spellcheck="false"></textarea>
-                        </td>
+                </div>
 
-                        <td>
-                            <textarea
-                                class="generator-input"
-                                data-field="option4"
-                                spellcheck="false"></textarea>
-                        </td>
 
-                        <td>
-                            <textarea
-                                class="generator-input answer-input"
-                                data-field="answer"
-                                inputmode="numeric"
-                                spellcheck="false"></textarea>
-                        </td>
+                <!-- MONTH -->
 
-                    </tr>
+                <div class="qpg-import-date-field">
 
-                </tbody>
+                    <div class="qpg-import-date-input-area">
 
-            </table>
+                        <input
+                            id="qpg-import-date-month"
+                            class="qpg-import-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Month">
+
+                        <button
+                            id="qpg-import-date-month-arrow"
+                            class="qpg-import-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="qpg-import-date-month-dropdown"
+                        class="qpg-import-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- DAY -->
+
+                <div class="qpg-import-date-field">
+
+                    <div class="qpg-import-date-input-area">
+
+                        <input
+                            id="qpg-import-date-day"
+                            class="qpg-import-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Day">
+
+                        <button
+                            id="qpg-import-date-day-arrow"
+                            class="qpg-import-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="qpg-import-date-day-dropdown"
+                        class="qpg-import-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- CONTROLS -->
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-date-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-date-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="generator-error" id="generator-error">
-            None of the Colums can be empty. Answer only accepts calues 1,2,3 and 4
+        <!-- =========================
+             IMPORT TEXT SEARCH POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-text-search-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div
+                    class="qpg-import-modal-title"
+                    id="qpg-import-text-search-title">
+
+                    Search
+
+                </div>
+
+
+                <input
+                    id="qpg-import-text-search-input"
+                    class="qpg-import-text-search-input"
+                    type="text"
+                    autocomplete="off">
+
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-text-search-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-text-search-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
 
 
-        <div class="generator-controls">
+        <!-- =========================
+             IMPORT PREVIEW POPUP
+             ========================= -->
 
-            <button
-                class="generator-button"
-                id="generator-back"
-                type="button">
-                Back
-            </button>
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-preview-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
 
-            <button
-                class="generator-button"
-                id="generator-previous"
-                type="button"
-                disabled>
-                Previous
-            </button>
+            <div
+                class="qpg-import-modal-box qpg-import-preview-box">
 
-            <button
-                class="generator-button"
-                id="generator-next"
-                type="button">
-                Next
-            </button>
+                <div class="qpg-import-modal-title">
+                    Preview
+                    <div
+                        class="qpg-import-preview-series-name"
+                        id="qpg-import-preview-series-name">
+                    </div>
+                </div>
 
-            <button
-                class="generator-button"
-                id="generator-finish"
-                type="button">
-                Finish
-            </button>
+
+                <div
+                    class="qpg-import-preview-visual"
+                    id="qpg-import-preview-visual">
+                </div>
+
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-preview-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
-        </section>
+
+        <!-- =========================
+             IMPORT ADD POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-add-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div class="qpg-import-modal-title">
+                    Add Questions
+                </div>
+
+
+                <div class="qpg-import-add-options">
+
+                    <button
+                        class="qpg-import-add-option"
+                        id="qpg-import-add-all"
+                        type="button">
+
+                        Add All
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-add-option"
+                        id="qpg-import-add-range"
+                        type="button">
+
+                        Add Range
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-add-option"
+                        id="qpg-import-add-index"
+                        type="button">
+
+                        Add Certain Index
+
+                    </button>
+
+                </div>
+
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-add-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-add-final"
+                        type="button">
+
+                        Add
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             IMPORT RANGE POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-range-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div class="qpg-import-modal-title">
+                    Add Range
+                </div>
+
+
+                <div
+                    class="qpg-import-range-body"
+                    id="qpg-import-range-body">
+                </div>
+
+
+                <button
+                    class="qpg-import-add-option qpg-import-range-add"
+                    id="qpg-import-range-add"
+                    type="button">
+
+                    Add Range
+
+                </button>
+
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-range-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-range-next"
+                        type="button">
+
+                        Next
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             IMPORT INDEX POPUP
+             ========================= -->
+
+        <div
+            class="qpg-import-modal"
+            id="qpg-import-index-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="qpg-import-modal-box">
+
+                <div class="qpg-import-modal-title">
+                    Add Certain Index
+                </div>
+
+
+                <div
+                    class="qpg-import-index-body"
+                    id="qpg-import-index-body">
+                </div>
+
+
+                <div class="qpg-import-modal-controls">
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-index-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="qpg-import-button"
+                        id="qpg-import-index-next"
+                        type="button">
+
+                        Next
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <!-- =========================
              FINISH PAGE 1
@@ -784,7 +2577,8 @@
                                     class="finish-input"
                                     data-finish-field="testSeriesName"
                                     maxlength="60"
-                                    type="text">
+                                    type="text"
+                                    oninput="this.value = this.value.replace(/[\/\\|]/g, '')">
                             </td>
                         </tr>
 
@@ -846,6 +2640,23 @@
 
             </div>
 
+            <div class="finish-save-controls">
+
+                <button
+                    class="finish-save-button"
+                    id="finish-save"
+                    type="button">
+
+                    <span
+                        class="finish-save-indicator"
+                        id="finish-save-indicator">
+                    </span>
+
+                    Save Question Paper
+
+                </button>
+
+            </div>
 
             <div
                 class="finish-error"
@@ -854,6 +2665,7 @@
                 All feilds are mandatory to be filled and Number of students should only be a positive Integer.
 
             </div>
+
 
 
             <div class="finish-controls">
@@ -1012,7 +2824,7 @@
                     id="finish2-back"
                     type="button">
 
-                    Back
+                    Home
 
                 </button>
 
@@ -1053,6 +2865,7 @@
 
         </div>
     </main>
+    <script src="{{ url_for('static', filename='Loading_screen.js') }}"></script>
     <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
     <script src="{{ url_for('static', filename='QPG.js') }}"></script>
 </body>

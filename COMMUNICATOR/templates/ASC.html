@@ -1,10 +1,2452 @@
+<!-- NAME OF FILE IS ASC.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamForge</title>
+
+<style>
+
+    :root{
+        --bg:#111214;
+        --panel:#191b1f;
+        --panel2:#202329;
+        --border:#34383f;
+        --border-strong:#4a4f57;
+        --text:#f2f2f2;
+        --muted:#a7abb2;
+        --hover:#2a2e34;
+        --hover-border:#777e88;
+    }
+
+    *{
+        box-sizing:border-box;
+    }
+
+    html,body{
+        margin:0;
+        min-height:100%;
+        width:100%;
+    }
+
+    body{
+        min-height:100vh;
+        padding:0 24px 40px;
+
+        background:linear-gradient(
+            145deg,
+            rgba(255,255,255,.025),
+            transparent 35%
+        ),var(--bg);
+
+        color:var(--text);
+        font-family:Arial,Helvetica,sans-serif;
+    }
+
+    .site{
+        width:min(1100px,100%);
+        min-height:100vh;
+        margin:0 auto;
+
+        border-left:1px solid var(--border);
+        border-right:1px solid var(--border);
+
+        padding:0 42px 42px;
+    }
+
+
+    /* =========================
+       ASC PAGE 1
+       ========================= */
+
+    .asc-screen{
+        width:100%;
+        margin:0 auto;
+    }
+
+
+    /* =========================
+       BRAND
+       ========================= */
+
+    .asc-brand{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:12px;
+
+        margin:0 auto 34px;
+    }
+
+    .asc-logo{
+        width:150px;
+        height:150px;
+        display:block;
+    }
+
+    .asc-title{
+        color:#f2f2f2;
+
+        font-size:42px;
+        font-weight:500;
+
+        letter-spacing:1px;
+
+        text-align:center;
+    }
+
+
+    /* =========================
+       INFORMATION TABLE
+       ========================= */
+
+    .asc-table-wrap{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    .asc-table{
+        width:100%;
+
+        border-collapse:collapse;
+        table-layout:fixed;
+
+        background:var(--panel);
+
+        border:1px solid var(--border-strong);
+    }
+
+    .asc-table th,
+    .asc-table td{
+        border:1px solid var(--border);
+
+        padding:12px 14px;
+
+        vertical-align:middle;
+    }
+
+    .asc-table th{
+        width:42%;
+
+        background:var(--panel2);
+
+        color:var(--text);
+
+        text-align:left;
+
+        font-size:15px;
+        font-weight:600;
+    }
+
+    .asc-table td{
+        width:58%;
+
+        background:var(--panel);
+    }
+
+
+    /* =========================
+       INPUTS
+       ========================= */
+
+    .asc-input{
+        width:100%;
+
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-radius:6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:15px;
+        line-height:1.4;
+    }
+
+    .asc-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+    /* =========================
+       TEST SERIES SELECTOR
+       ========================= */
+
+    .asc-test-series-selector{
+        width:100%;
+
+        display:flex;
+
+        gap:8px;
+    }
+
+    .asc-test-series-selector .asc-input{
+        flex:1;
+    }
+
+    #tss-open-button{
+        flex:none;
+    }
+    /* =========================
+       TSS design
+       ========================= */
+    .asc-tss-modal{
+        display:none;
+
+        position:fixed;
+        inset:0;
+
+        z-index:200;
+
+        align-items:center;
+        justify-content:center;
+
+        padding:20px;
+
+        background:rgba(0,0,0,.68);
+    }
+
+    .asc-tss-modal.active{
+        display:flex;
+    }
+
+    .asc-tss-modal-box{
+        width:min(900px,100%);
+        max-height:90vh;
+
+        padding:24px;
+
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+
+        background:var(--panel);
+
+        box-shadow:
+            0 18px 50px rgba(0,0,0,.45);
+
+        overflow-y:auto;
+        overflow-x:hidden;
+    }
+
+    .asc-tss-modal-title{
+        margin-bottom:18px;
+
+        color:var(--text);
+
+        font-size:20px;
+        font-weight:700;
+
+        text-align:center;
+
+        text-decoration:underline;
+    }
+
+    /* =========================
+       TSS SEARCH BAR
+       ========================= */
+
+    .asc-tss-search-bar{
+        width:100%;
+
+        display:grid;
+        grid-template-columns:90px minmax(0,1fr);
+
+        align-items:center;
+
+        border:1px solid var(--border);
+        border-radius:7px;
+
+        background:var(--panel);
+
+        margin:0 auto 12px;
+
+        overflow:hidden;
+    }
+
+    .asc-tss-search-label{
+        height:100%;
+
+        display:flex;
+        align-items:center;
+
+        padding:10px 12px;
+
+        border-right:1px solid var(--border);
+
+        color:var(--muted);
+
+        font-size:13px;
+        font-weight:600;
+    }
+
+    .asc-tss-search-controls{
+        width:100%;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+
+        gap:8px;
+
+        padding:7px;
+    }
+
+    .asc-tss-search-button{
+        width:100%;
+        min-height:40px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .asc-tss-search-button:hover,
+    .asc-tss-search-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       TSS RESULT TABLE
+       ========================= */
+
+    .asc-tss-table-wrap{
+        width:100%;
+
+        height:390px;
+
+        overflow-y:auto;
+        overflow-x:hidden;
+
+        scroll-snap-type:y mandatory;
+        scroll-behavior:smooth;
+
+        padding:0;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+
+        overscroll-behavior-y:contain;
+    }
+
+    #tss-visual{
+        width:100%;
+    }
+
+    .asc-tss-row{
+        width:100%;
+        min-height:58px;
+
+        display:grid;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            auto;
+
+        align-items:center;
+
+        gap:16px;
+
+        padding:9px 12px;
+
+        border-bottom:1px solid var(--border);
+
+        background:var(--panel);
+
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+    }
+
+    .asc-tss-row:last-child{
+        border-bottom:none;
+    }
+
+    .asc-tss-item-name{
+        min-width:0;
+
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:500;
+
+        word-break:break-word;
+        overflow-wrap:anywhere;
+    }
+
+    .asc-tss-item-information{
+        min-width:0;
+    }
+
+    .asc-tss-item-details{
+        margin-top:3px;
+        color:var(--muted);
+        font-size:13px;
+        line-height:1.4;
+    }
+
+    .asc-tss-item-buttons{
+        display:flex;
+
+        align-items:center;
+        justify-content:flex-end;
+
+        gap:8px;
+
+        flex:none;
+    }
+
+    .asc-tss-select-button{
+        min-width:105px;
+        min-height:40px;
+
+        padding:8px 14px;
+
+        border:1px solid var(--border-strong);
+        border-radius:7px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:13px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .asc-tss-select-button:hover,
+    .asc-tss-select-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       TSS NAVIGATION
+       ========================= */
+
+    .asc-tss-navigation{
+        display:flex;
+
+        justify-content:center;
+
+        gap:14px;
+
+        margin:24px auto 0;
+    }
+
+    .asc-tss-button{
+        min-width:115px;
+        min-height:44px;
+
+        padding:10px 18px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .asc-tss-button:hover,
+    .asc-tss-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    /* =========================
+       TSS DATE SEARCH
+       ========================= */
+
+    .asc-tss-date-field{
+        width:100%;
+
+        margin-bottom:12px;
+
+        position:relative;
+    }
+
+    .asc-tss-date-input-area{
+        width:100%;
+
+        display:flex;
+
+        gap:0;
+    }
+
+    .asc-tss-date-input{
+        width:100%;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-right:none;
+        border-radius:6px 0 0 6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+    }
+
+    .asc-tss-date-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+    .asc-tss-dropdown-arrow{
+        width:44px;
+
+        min-height:42px;
+
+        padding:0;
+
+        border:1px solid var(--border);
+        border-radius:0 6px 6px 0;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:16px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .asc-tss-dropdown-arrow:hover,
+    .asc-tss-dropdown-arrow:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    .asc-tss-dropdown{
+        width:100%;
+        max-height:180px;
+
+        overflow-y:auto;
+
+        margin-top:5px;
+
+        padding:4px;
+
+        border:1px solid var(--border-strong);
+        border-radius:6px;
+
+        background:var(--panel2);
+    }
+
+    .asc-tss-dropdown[hidden]{
+        display:none;
+    }
+
+    .asc-tss-dropdown.active{
+        display:block;
+    }
+
+    .asc-tss-dropdown-option{
+        width:100%;
+
+        padding:8px 10px;
+
+        border:1px solid transparent;
+        border-radius:5px;
+
+        background:transparent;
+        color:var(--text);
+
+        text-align:left;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:13px;
+
+        cursor:pointer;
+    }
+
+    .asc-tss-dropdown-option:hover,
+    .asc-tss-dropdown-option:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    /* =========================
+       TSS TEXT SEARCH
+       ========================= */
+
+    .asc-tss-text-search-input{
+        width:100%;
+        min-height:42px;
+
+        padding:8px 10px;
+
+        border:1px solid var(--border);
+        border-radius:6px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+    }
+
+    .asc-tss-text-search-input:focus{
+        background:var(--hover);
+        border-color:var(--hover-border);
+    }
+
+
+    /* =========================
+       TSS MODAL CONTROLS
+       ========================= */
+
+    .asc-tss-modal-controls{
+        display:flex;
+
+        justify-content:center;
+
+        gap:12px;
+
+        margin-top:22px;
+    }
+    /* =========================
+       ERROR HANDLING
+       ========================= */
+
+    .asc-input.invalid{
+        background:rgba(255,60,60,.08);
+        border-color:#c94b4b;
+        box-shadow:inset 0 0 0 1px #c94b4b;
+    }
+
+    .asc-error{
+        display:none;
+
+        margin:16px auto 0;
+
+        color:#e36a6a;
+
+        font-size:14px;
+        font-weight:600;
+
+        text-align:center;
+    }
+
+    .asc-error.active{
+        display:block;
+    }
+
+    /* =========================
+       BUTTONS
+       ========================= */
+
+    .asc-controls{
+        display:flex;
+
+        justify-content:center;
+
+        gap:14px;
+
+        margin:36px auto 0;
+    }
+
+    .asc-button{
+        min-width:115px;
+        min-height:44px;
+
+        padding:10px 18px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-size:14px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+    .asc-button:hover,
+    .asc-button:focus-visible{
+        background:var(--hover);
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+    /* =========================
+       ASC PAGE 2
+       ========================= */
+
+    #asc-page-2,
+    #asc-result-page{
+        display:none;
+    }
+
+    .asc-page2{
+        width:100%;
+        margin:0 auto;
+    }
+
+
+    /* =========================
+       PAGE 2 BRAND / HEADER
+       ========================= */
+
+    .asc-page2-brand{
+        position:relative;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+
+        gap:12px;
+
+        margin:0 auto 34px;
+
+        min-height:250px;
+    }
+
+
+    .asc-page2-logo{
+        width:150px;
+        height:150px;
+        display:block;
+    }
+
+
+    .asc-page2-title{
+        color:#f2f2f2;
+
+        font-size:42px;
+        font-weight:500;
+
+        letter-spacing:1px;
+
+        text-align:center;
+    }
+
+
+    /* =========================
+       PAGE 2 SIDE CONTROLS
+       ========================= */
+
+    .asc-page2-side{
+        position:absolute;
+
+        top:172px;
+
+        z-index:2;
+    }
+
+
+    .asc-page2-left{
+        left:0;
+        top:84px;
+    }
+
+
+    .asc-page2-right{
+        right:0;
+
+        top:232px;
+        display:flex;
+        gap:10px;
+
+        align-items:center;
+    }
+
+
+    /* =========================
+       ALWAYS RIGHT PANEL
+       ========================= */
+
+    .asc-always-right-panel{
+        width:176px;
+
+        padding:9px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+    }
+
+
+    .asc-panel-title{
+        margin-bottom:7px;
+
+        color:var(--text);
+
+        font-size:13px;
+        font-weight:600;
+
+        text-align:center;
+    }
+
+
+    .asc-always-right-grid{
+        width:100%;
+
+        height:108px;
+
+        padding:2px;
+
+        overflow-y:auto;
+        overflow-x:hidden;
+
+        border:1px solid var(--border);
+
+        border-radius:6px;
+
+        background:var(--panel2);
+    }
+
+
+    .asc-always-right-row{
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:5px;
+
+        margin-bottom:5px;
+    }
+
+
+    .asc-always-right-row:last-child{
+        margin-bottom:0;
+    }
+
+
+    .asc-always-right-number{
+        min-width:0;
+        height:30px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border:1px solid var(--border);
+
+        border-radius:5px;
+
+        background:var(--panel);
+
+        color:var(--text);
+
+        font-size:12px;
+        font-weight:600;
+    }
+
+
+    .asc-always-right-number.empty{
+        background:transparent;
+
+        border-color:transparent;
+    }
+
+
+    .asc-always-right-input-row{
+        display:flex;
+
+        justify-content:center;
+
+        gap:5px;
+
+        margin-top:7px;
+    }
+
+
+    .asc-always-right-input,
+    .asc-small-button{
+        width:50px;
+        height:32px;
+
+        padding:4px;
+
+        border:1px solid var(--border);
+        border-radius:5px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:12px;
+
+        text-align:center;
+
+        outline:none;
+    }
+
+
+    .asc-always-right-input:focus{
+        background:var(--hover);
+
+        border-color:var(--hover-border);
+    }
+
+
+    .asc-small-button{
+        border-color:var(--border-strong);
+
+        cursor:pointer;
+
+        font-weight:600;
+    }
+
+
+    .asc-small-button:hover,
+    .asc-small-button:focus-visible{
+        background:var(--hover);
+
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    .asc-always-right-input.invalid{
+        background:rgba(255,60,60,.08);
+
+        border-color:#c94b4b;
+
+        box-shadow:
+            inset 0 0 0 1px #c94b4b;
+    }
+
+
+    /* =========================
+       AUTO DOWNLOAD / AUTO NEXT
+       ========================= */
+
+    .asc-page2-toggle{
+        min-width:138px;
+        height:42px;
+
+        padding:8px 12px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        gap:8px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel2);
+        color:var(--text);
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:13px;
+        font-weight:600;
+
+        cursor:pointer;
+    }
+
+
+    .asc-page2-toggle:hover,
+    .asc-page2-toggle:focus-visible{
+        background:var(--hover);
+
+        border-color:var(--hover-border);
+
+        outline:none;
+    }
+
+
+    .asc-page2-toggle.on{
+        border-color:#4f6354;
+    }
+
+
+    .asc-page2-toggle:disabled{
+        opacity:.45;
+
+        cursor:not-allowed;
+
+        background:var(--panel);
+
+        border-color:var(--border);
+
+        color:var(--muted);
+    }
+
+
+    .asc-toggle-indicator{
+        width:10px;
+        height:10px;
+
+        flex:none;
+
+        border-radius:50%;
+
+        background:#666b72;
+    }
+
+
+    .asc-toggle-indicator.on{
+        background:#4caf62;
+    }
+
+
+    .asc-toggle-indicator.off{
+        background:#666b72;
+    }
+
+
+    /* =========================
+       PAGE 2 ANSWER AREA
+       ========================= */
+
+    .asc-answer-sheet-wrap{
+        width:100%;
+
+        max-height:420px;
+
+        overflow:auto;
+
+        padding:14px;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+    }
+
+
+    .asc-answer-sheet-grid{
+        width:100%;
+
+        min-width:760px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:8px;
+    }
+
+
+    .asc-answer-row{
+        display:grid;
+
+        grid-template-columns:
+            repeat(10,minmax(0,1fr));
+
+        gap:8px;
+
+        width:100%;
+    }
+
+
+    .asc-answer-cell{
+        min-width:0;
+
+        display:grid;
+
+        grid-template-columns:
+            28px 1fr;
+
+        align-items:center;
+
+        gap:6px;
+
+        min-height:42px;
+
+        padding:5px 6px;
+
+        border:1px solid var(--border);
+
+        border-radius:6px;
+
+        background:var(--panel2);
+    }
+
+
+    .asc-question-number{
+        min-width:28px;
+
+        color:var(--muted);
+
+        font-size:13px;
+        font-weight:600;
+
+        text-align:right;
+    }
+
+
+    .asc-answer-input{
+        width:100%;
+        height:30px;
+
+        padding:3px 4px;
+
+        border:1px solid var(--border);
+
+        border-radius:5px;
+
+        background:var(--panel);
+        color:var(--text);
+
+        outline:none;
+
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+        font-weight:600;
+
+        text-align:center;
+    }
+
+
+    .asc-answer-input:focus{
+        background:var(--hover);
+
+        border-color:var(--hover-border);
+    }
+
+
+    .asc-answer-input:disabled{
+        opacity:.65;
+
+        cursor:not-allowed;
+    }
+
+    /* =========================
+       PAGE 2 HELP
+       ========================= */
+
+    .asc-help-area{
+        display:flex;
+        justify-content:center;
+        margin:0;
+        height:0;
+        position:relative;
+        z-index:10;
+    }
+
+    #page-2-help-button{
+        position:relative;
+        top:-52px;
+    }
+
+
+    .asc-help-modal{
+        display:none;
+
+        position:fixed;
+
+        inset:0;
+
+        z-index:1000;
+
+        align-items:center;
+        justify-content:center;
+
+        padding:20px;
+
+        background:rgba(0,0,0,.68);
+    }
+
+
+    .asc-help-modal.active{
+        display:flex;
+    }
+
+
+    .asc-help-box{
+        width:min(440px,100%);
+
+        padding:24px;
+
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+
+        background:var(--panel);
+
+        box-shadow:
+            0 18px 50px rgba(0,0,0,.45);
+    }
+
+
+    .asc-help-title{
+        margin-bottom:18px;
+
+        color:var(--text);
+
+        font-size:20px;
+        font-weight:700;
+
+        text-align:center;
+
+        text-decoration:underline;
+    }
+
+
+    .asc-help-text{
+        color:var(--text);
+
+        font-size:14px;
+
+        line-height:1.5;
+
+        text-align:left;
+    }
+
+
+    .asc-help-text strong{
+        font-weight:700;
+    }
+
+
+    .asc-help-controls{
+        display:flex;
+
+        justify-content:center;
+
+        margin-top:22px;
+    }
+    /* =========================
+       PAGE 2 ERROR
+       ========================= */
+
+    #page-2-error{
+        margin-top:16px;
+    }
+
+
+    /* =========================
+       PAGE 2 NAVIGATION
+       ========================= */
+
+    .asc-page2-controls{
+        display:flex;
+
+        justify-content:center;
+
+        gap:14px;
+
+        margin:24px auto 0;
+    }
+
+
+    /* =========================
+       CONFIRMATION MODAL
+       ========================= */
+
+    #confirmation-modal{
+        display:none;
+
+        position:fixed;
+
+        inset:0;
+
+        z-index:1000;
+
+        align-items:center;
+        justify-content:center;
+
+        padding:20px;
+
+        background:rgba(0,0,0,.68);
+    }
+
+
+    .asc-confirmation-box{
+        width:min(440px,100%);
+
+        padding:24px;
+
+        border:1px solid var(--border-strong);
+        border-radius:10px;
+
+        background:var(--panel);
+
+        box-shadow:
+            0 18px 50px rgba(0,0,0,.45);
+    }
+
+
+    .asc-confirmation-message{
+        margin-bottom:22px;
+
+        color:var(--text);
+
+        font-size:15px;
+        line-height:1.5;
+
+        text-align:center;
+    }
+
+
+    .asc-confirmation-controls{
+        display:flex;
+
+        justify-content:center;
+
+        gap:12px;
+    }
+
+
+    /* =========================
+       RESULT PAGE
+       ========================= */
+
+    .asc-result-content{
+        width:100%;
+
+        margin:0 auto;
+    }
+
+
+    /* =========================
+       RESULT CARD
+       ========================= */
+
+    .asc-result-card{
+        width:100%;
+
+        border:1px solid var(--border-strong);
+        border-radius:8px;
+
+        background:var(--panel);
+
+        overflow:hidden;
+    }
+
+
+    .asc-result-card-title{
+        padding:18px;
+
+        border-bottom:1px solid var(--border);
+
+        color:var(--text);
+
+        font-size:22px;
+        font-weight:700;
+
+        text-align:center;
+
+        text-decoration:underline;
+    }
+
+
+    .asc-result-row{
+        display:grid;
+
+        grid-template-columns:42% 58%;
+
+        border-bottom:1px solid var(--border);
+    }
+
+
+    .asc-result-row:last-child{
+        border-bottom:none;
+    }
+
+
+    .asc-result-label{
+        padding:14px;
+
+        background:var(--panel2);
+
+        color:var(--text);
+
+        font-size:15px;
+        font-weight:600;
+    }
+
+
+    .asc-result-value{
+        padding:14px;
+
+        background:var(--panel);
+
+        color:var(--text);
+
+        font-size:15px;
+
+        word-break:break-word;
+    }
+
+
+    /* =========================
+       RESULT DOWNLOAD
+       ========================= */
+
+    .asc-result-download{
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        gap:14px;
+
+        margin:24px auto 0;
+
+        flex-wrap:wrap;
+    }
+
+
+    .asc-result-pdf-name{
+        color:var(--muted);
+
+        font-size:14px;
+
+        word-break:break-all;
+    }
+
+
+    #result-download-status{
+        margin-top:14px;
+
+        color:var(--muted);
+
+        font-size:14px;
+
+        text-align:center;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media(max-width:700px){
+
+        body{
+            padding:0 12px 24px;
+        }
+
+        .site{
+            padding:0 18px 28px;
+        }
+
+        .asc-title{
+            font-size:32px;
+        }
+
+        .asc-logo{
+            width:120px;
+            height:120px;
+        }
+
+        .asc-table th{
+            width:40%;
+        }
+
+        .asc-table td{
+            width:60%;
+        }
+
+    }
+
+</style>
 </head>
+
 <body>
+
+    <main class="site">
+
+        <section
+            class="asc-screen"
+            id="asc-page-1"
+            aria-label="Answer Sheet Checker">
+
+
+            <!-- =========================
+                 BRAND
+                 ========================= -->
+
+            <div class="asc-brand">
+
+                <img
+                    class="asc-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="asc-title">
+                    Answer Sheet Checker
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 INFORMATION TABLE
+                 ========================= -->
+
+            <div class="asc-table-wrap">
+
+                <table class="asc-table">
+
+                    <tbody>
+
+                        <!-- TEST SERIES -->
+
+                        <tr>
+
+                            <th>
+                                Test Series Name
+                            </th>
+
+                            <td>
+
+                                <div class="asc-test-series-selector">
+
+                                    <input
+                                        class="asc-input"
+                                        id="test-series"
+                                        type="text"
+                                        autocomplete="off"
+                                        readonly>
+
+                                    <button
+                                        class="asc-button"
+                                        id="tss-open-button"
+                                        type="button">
+
+                                        Select
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+
+                        <!-- SET IDENTIFICATION -->
+
+                        <tr>
+
+                            <th>
+                                Set Identification
+                            </th>
+
+                            <td>
+
+                                <input
+                                    class="asc-input"
+                                    id="set-identification"
+                                    type="text"
+                                    autocomplete="off">
+                            </td>
+
+                        </tr>
+
+                        <!-- NAME OF INSTITUTION -->
+
+                        <tr>
+
+                            <th>
+                                Name of Institution
+                            </th>
+
+                            <td>
+
+                                <input
+                                    class="asc-input"
+                                    id="institution"
+                                    type="text"
+                                    autocomplete="off">
+                            </td>
+
+                        </tr>
+
+                        <!-- STUDENT NAME -->
+
+                        <tr>
+
+                            <th>
+                                Student Name
+                            </th>
+
+                            <td>
+
+                                <input
+                                    class="asc-input"
+                                    id="student-name"
+                                    type="text"
+                                    autocomplete="off">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =========================
+                 BACKEND ERROR
+                 ========================= -->
+
+            <div
+                class="asc-error"
+                id="backend-error">
+            </div>
+
+
+            <!-- =========================
+                 NAVIGATION
+                 ========================= -->
+
+            <div class="asc-controls">
+
+                <button
+                    class="asc-button"
+                    id="back-button"
+                    type="button">
+
+                     Home
+
+                </button>
+
+
+                <button
+                    class="asc-button"
+                    id="next-button"
+                    type="button">
+
+                    Next
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+    <!--=========================
+        TEST SERIES SELECTOR
+        ========================= -->
+        <div
+            class="asc-tss-modal"
+            id="tss-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="asc-tss-modal-box">
+
+                <div class="asc-tss-modal-title">
+                    Test Series Selector
+                </div>
+
+
+                <!-- SEARCH BAR -->
+
+                <div class="asc-tss-search-bar">
+
+                    <div class="asc-tss-search-label">
+                        Search
+                    </div>
+
+                    <div class="asc-tss-search-controls">
+
+                        <button
+                            class="asc-tss-search-button"
+                            id="tss-date-button"
+                            type="button">
+
+                            Date
+
+                        </button>
+
+
+                        <button
+                            class="asc-tss-search-button"
+                            id="tss-test-series-button"
+                            type="button">
+
+                            Test Series
+
+                        </button>
+
+
+                        <button
+                            class="asc-tss-search-button"
+                            id="tss-search-button"
+                            type="button">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESULTS -->
+
+                <div
+                    class="asc-tss-table-wrap"
+                    aria-label="Test Series">
+
+                    <div
+                        id="tss-visual">
+                    </div>
+
+                </div>
+
+
+                <!-- NAVIGATION -->
+
+                <div class="asc-tss-navigation">
+
+                    <button
+                        class="asc-tss-button"
+                        id="tss-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <!-- =========================
+         TSS DATE POPUP
+         ========================= -->
+
+        <div
+            class="asc-tss-modal"
+            id="tss-date-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="asc-tss-modal-box">
+
+                <div class="asc-tss-modal-title">
+                    Date
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="asc-tss-date-field">
+
+                    <div class="asc-tss-date-input-area">
+
+                        <input
+                            id="tss-date-year"
+                            class="asc-tss-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Year">
+
+                        <button
+                            id="tss-date-year-arrow"
+                            class="asc-tss-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="tss-date-year-dropdown"
+                        class="asc-tss-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="asc-tss-date-field">
+
+                    <div class="asc-tss-date-input-area">
+
+                        <input
+                            id="tss-date-month"
+                            class="asc-tss-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Month">
+
+                        <button
+                            id="tss-date-month-arrow"
+                            class="asc-tss-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="tss-date-month-dropdown"
+                        class="asc-tss-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- DAY -->
+
+                <div class="asc-tss-date-field">
+
+                    <div class="asc-tss-date-input-area">
+
+                        <input
+                            id="tss-date-day"
+                            class="asc-tss-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Day">
+
+                        <button
+                            id="tss-date-day-arrow"
+                            class="asc-tss-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="tss-date-day-dropdown"
+                        class="asc-tss-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <div class="asc-tss-modal-controls">
+
+                    <button
+                        class="asc-tss-button"
+                        id="tss-date-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="asc-tss-button"
+                        id="tss-date-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <!-- =========================
+         TSS TEXT SEARCH POPUP
+         ========================= -->
+
+        <div
+            class="asc-tss-modal"
+            id="tss-text-search-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true">
+
+            <div class="asc-tss-modal-box">
+
+                <div
+                    class="asc-tss-modal-title"
+                    id="tss-text-search-title">
+
+                    Search
+
+                </div>
+
+
+                <input
+                    id="tss-text-search-input"
+                    class="asc-tss-text-search-input"
+                    type="text"
+                    autocomplete="off">
+
+
+                <div class="asc-tss-modal-controls">
+
+                    <button
+                        class="asc-tss-button"
+                        id="tss-text-search-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+
+                    <button
+                        class="asc-tss-button"
+                        id="tss-text-search-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <!-- =========================
+         ASC PAGE 2
+         ========================= -->
+
+        <section
+            class="asc-page2"
+            id="asc-page-2"
+            aria-label="Answer Sheet Entry">
+
+
+            <!-- =========================
+                 PAGE 2 BRAND / HEADER
+                 ========================= -->
+
+            <div class="asc-page2-brand">
+
+
+                <!-- LOGO -->
+
+                <img
+                    class="asc-page2-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+
+                <!-- TITLE -->
+
+                <div class="asc-page2-title">
+                    Answer Sheet Checker
+                </div>
+
+
+                <!-- =========================
+                     ALWAYS RIGHT
+                     ========================= -->
+
+                <div
+                    class="asc-page2-side asc-page2-left">
+
+                    <div class="asc-always-right-panel">
+
+
+                        <div class="asc-panel-title">
+                            Always Right
+                        </div>
+
+
+                        <div
+                            class="asc-always-right-grid"
+                            id="always-right-grid">
+                        </div>
+
+
+                        <div class="asc-always-right-input-row">
+
+
+                            <input
+                                class="asc-always-right-input"
+                                id="always-right-input"
+                                type="text"
+                                inputmode="numeric"
+                                autocomplete="off">
+
+
+                            <button
+                                class="asc-small-button"
+                                id="always-right-add"
+                                type="button">
+
+                                ADD
+
+                            </button>
+
+
+                            <button
+                                class="asc-small-button"
+                                id="always-right-clear"
+                                type="button">
+
+                                Clear
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     AUTO DOWNLOAD / AUTO NEXT
+                     ========================= -->
+
+                <div
+                    class="asc-page2-side asc-page2-right">
+
+
+                    <button
+                        class="asc-page2-toggle"
+                        id="auto-download-button"
+                        type="button">
+
+
+                        <span
+                            class="asc-toggle-indicator off"
+                            id="auto-download-indicator">
+                        </span>
+
+
+                        Auto Download
+
+
+                    </button>
+
+
+                    <button
+                        class="asc-page2-toggle"
+                        id="auto-next-button"
+                        type="button"
+                        disabled>
+
+
+                        <span
+                            class="asc-toggle-indicator off"
+                            id="auto-next-indicator">
+                        </span>
+
+
+                        Auto Next
+
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 PAGE 2 ERROR
+                 ========================= -->
+
+            <div
+                class="asc-error"
+                id="page-2-error">
+            </div>
+
+
+            <!-- =========================
+                 ANSWER SHEET
+                 ========================= -->
+            <!-- =========================
+                 PAGE 2 HELP
+                 ========================= -->
+
+            <div class="asc-help-area">
+
+                <button
+                    class="asc-small-button"
+                    id="page-2-help-button"
+                    type="button">
+
+                    Help
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="asc-help-modal"
+                id="page-2-help-modal">
+
+                <div class="asc-help-box">
+
+                    <div class="asc-help-title">
+                        How to Use
+                    </div>
+
+
+                    <div class="asc-help-text">
+
+                        <strong>Always Right</strong>
+                        <br>
+                        Add question numbers whose answers should always be treated as correct.
+                        WARNING: The question numbers are processed in terms of the original set (set code 0000).
+                        The question numbers must correspond to the Original Set, NOT its randomized subsets.
+                        <br><br>
+
+                        <strong>Auto Download</strong>
+                        <br>
+                        Select a folder to automatically save each generated PDF there.
+                        <br><br>
+
+                        <strong>Auto Next</strong>
+                        <br>
+                        Automatically returns to Page 1 after checking, ready for another set.
+                        <br><br>
+
+                        <strong>Answer Area</strong>
+                        <br>
+                        Enter 1–4 for each question. After typing, focus moves to the next empty answer.
+
+                    </div>
+
+
+                    <div class="asc-help-controls">
+
+                        <button
+                            class="asc-button"
+                            id="page-2-help-ok"
+                            type="button">
+
+                            OK
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="asc-answer-sheet-wrap">
+
+                <div
+                    id="answer-sheet-grid"
+                    class="asc-answer-sheet-grid">
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 PAGE 2 NAVIGATION
+                 ========================= -->
+
+            <div class="asc-page2-controls">
+
+
+                <button
+                    class="asc-button"
+                    id="page-2-back-button"
+                    type="button">
+
+                     Home
+
+                </button>
+
+
+                <button
+                    class="asc-button"
+                    id="page-2-finish-button"
+                    type="button">
+
+                    Finish
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+   <!-- =========================
+        ASC RESULT PAGE
+        ========================= -->
+
+        <section
+            class="asc-screen"
+            id="asc-result-page"
+            aria-label="Answer Sheet Result">
+
+
+            <div class="asc-brand">
+
+                <img
+                    class="asc-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="asc-title">
+                    Answer Sheet Checker
+                </div>
+
+            </div>
+
+
+            <div class="asc-result-content">
+
+
+                <!-- =========================
+                     REPORT CARD
+                     ========================= -->
+
+                <div class="asc-result-card">
+
+                    <div class="asc-result-card-title">
+                        Report Card
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Student Name
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-student-name">
+                        </div>
+
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Achieved Marks
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-achieved-marks">
+                        </div>
+
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Percentage
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-percentage">
+                        </div>
+
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Grade
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-grade">
+                        </div>
+
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Wrong Questions
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-wrong-question">
+                        </div>
+
+                    </div>
+
+
+                    <div class="asc-result-row">
+
+                        <div class="asc-result-label">
+                            Unattempted Questions
+                        </div>
+
+                        <div
+                            class="asc-result-value"
+                            id="result-unattempted-question">
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div
+                    id="result-download-status">
+                </div>
+
+
+                <!-- =========================
+                     NAVIGATION
+                     ========================= -->
+
+                <div class="asc-page2-controls">
+
+
+                    <button
+                        class="asc-button"
+                        id="result-back-button"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+                    <button
+                        class="asc-button"
+                        id="result-download-button"
+                        type="button">
+
+                        Download Report Card
+
+                    </button>
+
+                    <button
+                        class="asc-button"
+                        id="result-next-button"
+                        type="button">
+
+                        Next
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+                <!-- =========================
+             CONFIRMATION MODAL
+             ========================= -->
+
+        <div
+            id="confirmation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirmation-message">
+
+
+            <div class="asc-confirmation-box">
+
+
+                <div
+                    class="asc-confirmation-message"
+                    id="confirmation-message">
+                </div>
+
+
+                <div class="asc-confirmation-controls">
+
+
+                    <button
+                        class="asc-button"
+                        id="confirmation-no"
+                        type="button">
+
+                        No
+
+                    </button>
+
+
+                    <button
+                        class="asc-button"
+                        id="confirmation-yes"
+                        type="button">
+
+                        Yes
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='Loading_screen.js') }}"></script>
+    <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
+    <script src="{{ url_for('static', filename='ASC.js') }}"></script>
 
 </body>
 </html>

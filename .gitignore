@@ -179,3 +179,15 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# mkcert generated certificates
+mkcert/*.pem
+#testing dir
+testing
+#archive storage
+Archive/storage/
+#start up data
+start_up.json
+#fixed data
+Answer_Sheet_Checker/counter.json
+#locking file
+FILE_lock

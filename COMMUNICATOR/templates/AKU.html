@@ -1,10 +1,1143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>ExamForge</title>
+
+
+    <style>
+
+        :root{
+
+            --bg:#111214;
+            --panel:#191b1f;
+            --panel2:#202329;
+            --border:#34383f;
+            --border-strong:#4a4f57;
+
+            --text:#f2f2f2;
+            --muted:#a7abb2;
+
+            --hover:#2a2e34;
+            --hover-border:#777e88;
+
+        }
+
+
+        *{
+            box-sizing:border-box;
+        }
+
+
+        html,
+        body{
+
+            margin:0;
+
+            min-height:100%;
+            width:100%;
+
+        }
+
+
+        body{
+
+            min-height:100vh;
+
+            padding:0 24px 40px;
+
+            background:linear-gradient(
+                145deg,
+                rgba(255,255,255,.025),
+                transparent 35%
+            ),var(--bg);
+
+            color:var(--text);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+        }
+
+
+        .site{
+
+            width:min(1100px,100%);
+
+            min-height:100vh;
+
+            margin:0 auto;
+
+            border-left:1px solid var(--border);
+            border-right:1px solid var(--border);
+
+            padding:0 42px 42px;
+
+        }
+
+
+        /* =========================
+           AKU SCREEN
+           ========================= */
+
+        .aku-screen{
+
+            width:100%;
+
+            margin:0 auto;
+
+        }
+
+
+        #aku-page-2{
+
+            display:none;
+
+        }
+
+
+        /* =========================
+           BRAND
+           ========================= */
+
+        .aku-brand{
+
+            display:flex;
+
+            flex-direction:column;
+
+            align-items:center;
+
+            gap:12px;
+
+            margin:0 auto 34px;
+
+        }
+
+
+        .aku-logo{
+
+            width:150px;
+            height:150px;
+
+            display:block;
+
+        }
+
+
+        .aku-title{
+
+            color:#f2f2f2;
+
+            font-size:42px;
+
+            font-weight:500;
+
+            letter-spacing:1px;
+
+            text-align:center;
+
+        }
+
+
+        /* =========================
+           PAGE 1 TABLE
+           ========================= */
+
+        .aku-table-wrap{
+
+            width:100%;
+
+            overflow-x:auto;
+
+        }
+
+
+        .aku-table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            table-layout:fixed;
+
+            background:var(--panel);
+
+            border:1px solid var(--border-strong);
+
+        }
+
+
+        .aku-table th,
+        .aku-table td{
+
+            border:1px solid var(--border);
+
+            padding:12px 14px;
+
+            vertical-align:middle;
+
+        }
+
+
+        .aku-table th{
+
+            width:42%;
+
+            background:var(--panel2);
+
+            color:var(--text);
+
+            text-align:left;
+
+            font-size:15px;
+
+            font-weight:600;
+
+        }
+
+
+        .aku-table td{
+
+            width:58%;
+
+            background:var(--panel);
+
+        }
+
+
+        /* =========================
+           INPUTS
+           ========================= */
+
+        .aku-input{
+
+            width:100%;
+
+            min-height:42px;
+
+            padding:8px 10px;
+
+            border:1px solid var(--border);
+
+            border-radius:6px;
+
+            background:var(--panel2);
+
+            color:var(--text);
+
+            outline:none;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size:15px;
+
+            line-height:1.4;
+
+        }
+
+
+        .aku-input:focus{
+
+            background:var(--hover);
+
+            border-color:var(--hover-border);
+
+        }
+
+
+        .aku-input.invalid{
+
+            background:rgba(255,60,60,.08);
+
+            border-color:#c94b4b;
+
+            box-shadow:
+                inset 0 0 0 1px #c94b4b;
+
+        }
+
+
+        /* =========================
+           ERROR
+           ========================= */
+
+        .aku-error{
+
+            display:none;
+
+            margin:16px auto 0;
+
+            color:#e36a6a;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            text-align:center;
+
+        }
+
+
+        .aku-error.active{
+
+            display:block;
+
+        }
+
+        /* =========================
+           EXISTING ANSWER KEY WARNING
+           ========================= */
+
+        .aku-warning{
+            display:none;
+
+            margin:16px auto 0;
+
+            padding:10px 14px;
+
+            border:1px solid #c9a84b;
+
+            border-radius:6px;
+
+            background:rgba(201,168,75,.08);
+
+            color:#d8bd68;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            line-height:1.5;
+
+            text-align:center;
+        }
+
+
+        .aku-warning.active{
+            display:block;
+        }
+
+        /* =========================
+           BUTTONS
+           ========================= */
+
+        .aku-controls{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:14px;
+
+            margin:36px auto 0;
+
+        }
+
+
+        .aku-button{
+
+            min-width:115px;
+
+            min-height:44px;
+
+            padding:10px 18px;
+
+            border:1px solid var(--border-strong);
+
+            border-radius:8px;
+
+            background:var(--panel2);
+
+            color:var(--text);
+
+            font-size:14px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+        }
+
+
+        .aku-button:hover,
+        .aku-button:focus-visible{
+
+            background:var(--hover);
+
+            border-color:var(--hover-border);
+
+            outline:none;
+
+        }
+
+
+        .aku-button:disabled{
+
+            opacity:.45;
+
+            cursor:not-allowed;
+
+            background:var(--panel);
+
+            border-color:var(--border);
+
+            color:var(--muted);
+
+        }
+
+
+        /* =========================
+           PAGE 2
+           ========================= */
+
+        .aku-page2{
+
+            width:100%;
+
+            margin:0 auto;
+
+        }
+
+
+        .aku-page2-brand{
+
+            display:flex;
+
+            flex-direction:column;
+
+            align-items:center;
+
+            gap:12px;
+
+            margin:0 auto 34px;
+
+        }
+
+
+        .aku-page2-logo{
+
+            width:150px;
+            height:150px;
+
+            display:block;
+
+        }
+
+
+        .aku-page2-title{
+
+            color:#f2f2f2;
+
+            font-size:42px;
+
+            font-weight:500;
+
+            letter-spacing:1px;
+
+            text-align:center;
+
+        }
+
+
+        /* =========================
+           PAGE 2 ANSWER AREA
+           ========================= */
+
+        .aku-answer-sheet-wrap{
+
+            width:100%;
+
+            max-height:420px;
+
+            overflow:auto;
+
+            padding:14px;
+
+            border:1px solid var(--border-strong);
+
+            border-radius:8px;
+
+            background:var(--panel);
+
+        }
+
+
+        .aku-answer-sheet-grid{
+
+            width:100%;
+
+            min-width:760px;
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:8px;
+
+        }
+
+
+        .aku-answer-row{
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(10,minmax(0,1fr));
+
+            gap:8px;
+
+            width:100%;
+
+        }
+
+
+        .aku-answer-cell{
+
+            min-width:0;
+
+            display:grid;
+
+            grid-template-columns:
+                28px 1fr;
+
+            align-items:center;
+
+            gap:6px;
+
+            min-height:42px;
+
+            padding:5px 6px;
+
+            border:1px solid var(--border);
+
+            border-radius:6px;
+
+            background:var(--panel2);
+
+        }
+
+
+        .aku-question-number{
+
+            min-width:28px;
+
+            color:var(--muted);
+
+            font-size:13px;
+
+            font-weight:600;
+
+            text-align:right;
+
+        }
+
+
+        .aku-answer-input{
+
+            width:100%;
+
+            height:30px;
+
+            padding:3px 4px;
+
+            border:1px solid var(--border);
+
+            border-radius:5px;
+
+            background:var(--panel);
+
+            color:var(--text);
+
+            outline:none;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            text-align:center;
+
+        }
+
+
+        .aku-answer-input:focus{
+
+            background:var(--hover);
+
+            border-color:var(--hover-border);
+
+        }
+
+
+        .aku-answer-input:disabled{
+
+            opacity:.65;
+
+            cursor:not-allowed;
+
+        }
+
+
+        /* =========================
+           PAGE 2 ERROR
+           ========================= */
+
+        #aku-page-2-error{
+
+            margin-top:12px;
+
+        }
+
+
+        /* =========================
+           PAGE 2 CONTROLS
+           ========================= */
+
+        .aku-page2-controls{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:14px;
+
+            margin:24px auto 0;
+
+        }
+
+
+        /* =========================
+           CONFIRMATION MODAL
+           ========================= */
+
+        #aku-confirmation-modal{
+
+            display:none;
+
+            position:fixed;
+
+            inset:0;
+
+            z-index:1000;
+
+            align-items:center;
+
+            justify-content:center;
+
+            padding:20px;
+
+            background:rgba(0,0,0,.68);
+
+        }
+
+
+        .aku-confirmation-box{
+
+            width:min(440px,100%);
+
+            padding:24px;
+
+            border:1px solid var(--border-strong);
+
+            border-radius:10px;
+
+            background:var(--panel);
+
+            box-shadow:
+                0 18px 50px rgba(0,0,0,.45);
+
+        }
+
+
+        .aku-confirmation-message{
+
+            margin-bottom:22px;
+
+            color:var(--text);
+
+            font-size:15px;
+
+            line-height:1.5;
+
+            text-align:center;
+
+        }
+
+
+        .aku-confirmation-controls{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:12px;
+
+        }
+
+
+        /* =========================
+           RESULT MODAL
+           ========================= */
+
+        #aku-result-modal{
+
+            display:none;
+
+            position:fixed;
+
+            inset:0;
+
+            z-index:1001;
+
+            align-items:center;
+
+            justify-content:center;
+
+            padding:20px;
+
+            background:rgba(0,0,0,.68);
+
+        }
+
+
+        .aku-result-box{
+
+            width:min(440px,100%);
+
+            padding:24px;
+
+            border:1px solid var(--border-strong);
+
+            border-radius:10px;
+
+            background:var(--panel);
+
+            box-shadow:
+                0 18px 50px rgba(0,0,0,.45);
+
+        }
+
+
+        .aku-result-message{
+
+            margin-bottom:22px;
+
+            color:var(--text);
+
+            font-size:15px;
+
+            line-height:1.5;
+
+            text-align:center;
+
+        }
+
+
+        .aku-result-controls{
+
+            display:flex;
+
+            justify-content:center;
+
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media(max-width:700px){
+
+            body{
+
+                padding:0 12px 24px;
+
+            }
+
+
+            .site{
+
+                padding:0 18px 28px;
+
+            }
+
+
+            .aku-title,
+            .aku-page2-title{
+
+                font-size:32px;
+
+            }
+
+
+            .aku-logo,
+            .aku-page2-logo{
+
+                width:120px;
+                height:120px;
+
+            }
+
+
+            .aku-table th{
+
+                width:40%;
+
+            }
+
+
+            .aku-table td{
+
+                width:60%;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
 
+    <main class="site">
+
+
+        <!-- =========================
+             AKU PAGE 1
+             ========================= -->
+
+        <section
+            class="aku-screen"
+            id="aku-page-1"
+            aria-label="Answer Key Uploader">
+
+
+            <!-- =========================
+                 BRAND
+                 ========================= -->
+
+            <div class="aku-brand">
+
+                <img
+                    class="aku-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="aku-title">
+                    Answer Key Uploader
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 INFORMATION TABLE
+                 ========================= -->
+
+            <div class="aku-table-wrap">
+
+                <table class="aku-table">
+
+                    <tbody>
+
+
+                        <!-- NAME OF ANSWER KEY -->
+
+                        <tr>
+
+                            <th>
+                                Name of Answer Key
+                            </th>
+
+                            <td>
+
+                                <input
+                                    class="aku-input"
+                                    id="answer-key-name"
+                                    type="text"
+                                    autocomplete="off">
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- NUMBER OF QUESTIONS -->
+
+                        <tr>
+
+                            <th>
+                                Number of Questions
+                            </th>
+
+                            <td>
+
+                                <input
+                                    class="aku-input"
+                                    id="number-of-questions"
+                                    type="text"
+                                    inputmode="numeric"
+                                    autocomplete="off">
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =========================
+                 PAGE 1 ERROR
+                 ========================= -->
+
+            <div
+                class="aku-error"
+                id="aku-page-1-error">
+            </div>
+
+
+            <!-- =========================
+                 NAVIGATION
+                 ========================= -->
+
+            <div class="aku-controls">
+
+                <button
+                    class="aku-button"
+                    id="aku-page-1-back-button"
+                    type="button">
+
+                    Home
+
+                </button>
+
+
+                <button
+                    class="aku-button"
+                    id="aku-page-1-next-button"
+                    type="button">
+
+                    Next
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             AKU PAGE 2
+             ========================= -->
+
+        <section
+            class="aku-screen aku-page2"
+            id="aku-page-2"
+            aria-label="Answer Key Entry">
+
+
+            <!-- =========================
+                 PAGE 2 BRAND
+                 ========================= -->
+
+            <div class="aku-page2-brand">
+
+                <img
+                    class="aku-page2-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="aku-page2-title">
+                    Answer Key Uploader
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 PAGE 2 ERROR
+                 ========================= -->
+
+            <div
+                class="aku-error"
+                id="aku-page-2-error">
+            </div>
+            <!-- =========================
+                 EXISTING ANSWER KEY WARNING
+                 ========================= -->
+
+            <div
+                class="aku-warning"
+                id="aku-existing-name-warning">
+                An answer key with the selected name already exists.
+                Creating this answer key will overwrite the existing answer key.
+            </div>
+
+            <!-- =========================
+                 ANSWER KEY
+                 ========================= -->
+
+            <div class="aku-answer-sheet-wrap">
+
+                <div
+                    id="aku-answer-sheet-grid"
+                    class="aku-answer-sheet-grid">
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 PAGE 2 NAVIGATION
+                 ========================= -->
+
+            <div class="aku-page2-controls">
+
+                <button
+                    class="aku-button"
+                    id="aku-page-2-back-button"
+                    type="button">
+
+                    Back
+
+                </button>
+
+
+                <button
+                    class="aku-button"
+                    id="aku-page-2-finish-button"
+                    type="button">
+
+                    Finish
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             CONFIRMATION MODAL
+             ========================= -->
+
+        <div
+            id="aku-confirmation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="aku-confirmation-message">
+
+
+            <div class="aku-confirmation-box">
+
+
+                <div
+                    class="aku-confirmation-message"
+                    id="aku-confirmation-message">
+                </div>
+
+
+                <div class="aku-confirmation-controls">
+
+                    <button
+                        class="aku-button"
+                        id="aku-confirmation-no"
+                        type="button">
+
+                        No
+
+                    </button>
+
+
+                    <button
+                        class="aku-button"
+                        id="aku-confirmation-yes"
+                        type="button">
+
+                        Yes
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RESULT MODAL
+             ========================= -->
+
+        <div
+            id="aku-result-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="aku-result-message">
+
+
+            <div class="aku-result-box">
+
+
+                <div
+                    class="aku-result-message"
+                    id="aku-result-message">
+                </div>
+
+
+                <div class="aku-result-controls">
+
+                    <button
+                        class="aku-button"
+                        id="aku-result-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+    <script src="{{ url_for('static', filename='Loading_screen.js') }}"></script>
+    <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
+    <script src="{{ url_for('static', filename='AKU.js') }}"></script>
+
+
 </body>
+
 </html>

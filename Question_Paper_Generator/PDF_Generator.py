@@ -2,13 +2,15 @@ from reportlab.lib.pagesizes import A4
 from svglib.svglib import svg2rlg
 from reportlab.lib import colors
 from reportlab.graphics import renderPDF
-from reportlab.platypus import Paragraph,BaseDocTemplate,PageTemplate,Frame,XPreformatted
+from reportlab.platypus import Paragraph, BaseDocTemplate, PageTemplate, Frame, XPreformatted
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_RIGHT,TA_CENTER,TA_LEFT
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from pypdf import PdfReader,PdfWriter
-import os,json
+import os,json,portalocker
 from datetime import datetime
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 def PDF_Generator(Questions_for_pdf,Title_data):
     print("Question_for_pdf and Title_data Received from Main_Directory_Controller.py BY PDF_Generator.py")
@@ -17,31 +19,45 @@ def PDF_Generator(Questions_for_pdf,Title_data):
     path_for_simplex_back = []
     RUN_ID = datetime.now().strftime("%Y%m%d%H%M%S%f")
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    lock_path = os.path.join(BASE_DIR,"FILE_lock","metadata.json.lock")
+    pdfmetrics.registerFont(
+        TTFont("NotoSansBengali-Regular", os.path.join(BASE_DIR,"Question_Paper_Generator","fonts", "NotoSansBengali-Regular.ttf"))
+    )
+    pdfmetrics.registerFont(
+        TTFont("NotoSansBengali-Bold",os.path.join(BASE_DIR, "Question_Paper_Generator", "fonts", "NotoSansBengali-Bold.ttf"))
+    )
+
     def metadata(sf,sb,D):
-        with open(os.path.join(BASE_DIR,"Archive","storage","metadata.json"),"r") as f:
-            meta_data = json.load(f)
-        #Run_ID
-        RUN_ID_path = os.path.join(BASE_DIR,"Archive","storage",RUN_ID)
-        meta_data["Run_ID"].append({str(RUN_ID):RUN_ID_path})
-        # Test_series
-        test_series_path = os.path.join(BASE_DIR, "Archive", "storage", RUN_ID, str(Title_data["testSeriesName"].replace(" ", "_")))
-        meta_data["Test_series"].append({str(Title_data["testSeriesName"].replace(" ", "_")): test_series_path})
-        for q_set in Questions_for_pdf:
-            SET_code = q_set["set_code"]
-            title = Title_data["testSeriesName"]
-            SET = Title_data["setCode"]
-            Name_of_pdf = (str(title.replace(" ", "_")) + "_" + str(SET) + "_" + str(SET_code) + ".pdf")
-            #set_code
-            SET_code_path = os.path.join(test_series_path,str(SET_code))
-            meta_data["set_code"].append({str(SET_code):SET_code_path})
-            #File_name
-            file_path = os.path.join(SET_code_path,Name_of_pdf)
-            meta_data["File_name"].append({Name_of_pdf:file_path})
+        with portalocker.Lock(lock_path, timeout=None):
+            with open(os.path.join(BASE_DIR,"Archive","storage","metadata.json"),"r") as f:
+                meta_data = json.load(f)
+            #Run_ID
+            RUN_ID_path = os.path.join(BASE_DIR,"Archive","storage",RUN_ID)
+            meta_data["Run_ID"].append({str(RUN_ID):RUN_ID_path})
+            # Test_series
+            test_series_path = os.path.join(BASE_DIR, "Archive", "storage", RUN_ID, str(Title_data["testSeriesName"].replace(" ", "_")))
+            meta_data["Test_series"].append({str(Title_data["testSeriesName"].replace(" ", "_")): test_series_path})
+            for q_set in Questions_for_pdf:
+                SET_code = q_set["set_code"]
+                title = Title_data["testSeriesName"]
+                SET = Title_data["setCode"]
+                Name_of_pdf = (str(title.replace(" ", "_")) + "_" + str(SET) + "_" + str(SET_code) + ".pdf")
+                #set_code
+                SET_code_path = os.path.join(test_series_path,str(SET_code))
+                meta_data["set_code"].append({str(SET_code):SET_code_path})
+                #File_name
+                file_path = os.path.join(SET_code_path,Name_of_pdf)
+                meta_data["File_name"].append({Name_of_pdf:file_path})
             meta_data["File_name"].append({sf[1]: sf[0]})
             meta_data["File_name"].append({sb[1]: sb[0]})
             meta_data["File_name"].append({D[1]: D[0]})
-        with open(os.path.join(BASE_DIR,"Archive","storage","metadata.json"),"w") as f:
-            json.dump(meta_data,f,indent=4)
+            #simplex and duplex
+            simplex_path = os.path.join(test_series_path,"Simplex")
+            duplex_path = os.path.join(test_series_path,"Duplex")
+            meta_data["set_code"].append({"Simplex":simplex_path})
+            meta_data["set_code"].append({"Duplex":duplex_path})
+            with open(os.path.join(BASE_DIR,"Archive","storage","metadata.json"),"w") as f:
+                json.dump(meta_data,f,indent=4)
     def make_black(element):
         if hasattr(element, "fillColor"):
             element.fillColor = colors.black
@@ -242,7 +258,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         #title
         title_style = ParagraphStyle(
             "TitleStyle",
-            fontName="Helvetica-Bold",
+            fontName="NotoSansBengali-Bold",
             fontSize=18,
             leading=16,
             alignment=TA_CENTER
@@ -277,7 +293,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             set_code_height
         )
 
-        pdf.setFont("Helvetica-Bold", 14)
+        pdf.setFont("NotoSansBengali-Bold", 14)
 
         pdf.drawCentredString(
             set_code_x + set_code_width / 2,
@@ -303,7 +319,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
 
         time_style = ParagraphStyle(
             "TimeStyle",
-            fontName = "Helvetica-Bold",
+            fontName = "NotoSansBengali-Bold",
             fontSize = 14,
             leading = 16,
             alignment = TA_RIGHT
@@ -375,7 +391,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         )
 
         #Institution name
-        pdf.setFont("Helvetica", 8)
+        pdf.setFont("NotoSansBengali-Regular", 8)
         pdf.setFillColorRGB(0.45, 0.45, 0.45)
 
         pdf.drawString(
@@ -435,7 +451,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
 
         #set code
         pdf.setFillColorRGB(0.45, 0.45, 0.45)
-        pdf.setFont("Helvetica", 10)
+        pdf.setFont("NotoSansBengali-Regular", 10)
         pdf.drawCentredString(
             540,
             24,
@@ -463,7 +479,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         )
 
         # Institution name
-        pdf.setFont("Helvetica", 8)
+        pdf.setFont("NotoSansBengali-Regular", 8)
         pdf.setFillColorRGB(0.45, 0.45, 0.45)
 
         pdf.drawString(
@@ -539,17 +555,19 @@ def PDF_Generator(Questions_for_pdf,Title_data):
 
     question_style = ParagraphStyle(
         "question_style",
-        fontName="Helvetica-Bold",
-        fontSize=10,
-        leading=14,
-        alignment=TA_LEFT
+        fontName="NotoSansBengali-Bold",
+        fontSize=9,
+        leading=12,
+        alignment=TA_LEFT,
+        shaping = 1
     )
     option_style = ParagraphStyle(
         "option_Style",
-        fontName="Helvetica",
-        fontSize=9,
-        leading=14,
-        alignment=TA_LEFT
+        fontName="NotoSansBengali-Regular",
+        fontSize=8,
+        leading=12,
+        alignment=TA_LEFT,
+        shaping = 1
     )
     question_available_width = (LEFT_EDGE + (RIGHT_EDGE - LEFT_EDGE) / 2 - LEFT_EDGE - 12)
     for q_set in Questions_for_pdf:
@@ -562,8 +580,6 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         INSTITUTION = Title_data["institution"]
         Name_of_pdf = (str(title.replace(" ","_")) + "_"+str(SET) + "_" + str(SET_code) + ".pdf")
         for question in q_set["question_set"]:
-            print(q_set)
-            print(question)
             question_text = (
                     "Q"
                     + str(question["serial"])

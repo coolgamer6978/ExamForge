@@ -8,26 +8,37 @@ const heroSpace = document.querySelector(".hero-space");
 
 document
     .querySelectorAll(".menu-link")
-    .forEach(link => {
+    .forEach(button => {
 
-        link.addEventListener(
+        button.addEventListener(
             "click",
             event => {
 
                 event.preventDefault();
 
-                if(
-                    link.dataset.screen ===
-                    "Question Paper Generator"
-                ){
+                if(button.id === "qpg-button"){
 
                     location.replace("/QPG");
                     return;
                 }
 
+                if(button.id === "aku-button"){
 
-                // Navigation for the other pages
-                // will be connected later.
+                    location.replace("/AKU");
+                    return;
+                }
+
+                if(button.id === "asc-button"){
+
+                    location.replace("/ASC");
+                    return;
+                }
+
+                if(button.id === "archive-button"){
+
+                    location.replace("/Archive");
+                    return;
+                }
 
             }
 

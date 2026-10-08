@@ -2,9 +2,1099 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamForge - Archive</title>
+
+    <style>
+
+        :root{
+            --bg:#111214;
+            --panel:#191b1f;
+            --panel2:#202329;
+            --border:#34383f;
+            --border-strong:#4a4f57;
+            --text:#f2f2f2;
+            --muted:#a7abb2;
+            --hover:#2a2e34;
+            --hover-border:#777e88;
+        }
+
+        *{
+            box-sizing:border-box;
+        }
+
+        html,body{
+            margin:0;
+            min-height:100%;
+            width:100%;
+        }
+
+        body{
+            min-height:100vh;
+            padding:0 24px 40px;
+
+            background:linear-gradient(
+                145deg,
+                rgba(255,255,255,.025),
+                transparent 35%
+            ),var(--bg);
+
+            color:var(--text);
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        .site{
+            width:min(1200px,100%);
+            min-height:100vh;
+            margin:0 auto;
+
+            border-left:1px solid var(--border);
+            border-right:1px solid var(--border);
+
+            padding:0 42px 42px;
+        }
+
+
+        /* =========================
+           ARCHIVE PAGE
+           ========================= */
+
+        .archive-screen{
+            width:100%;
+            margin:0 auto;
+        }
+
+
+        /* =========================
+           BRAND
+           ========================= */
+
+        .archive-brand{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+
+            gap:12px;
+
+            margin:0 auto 34px;
+        }
+
+        .archive-logo{
+            width:150px;
+            height:150px;
+            display:block;
+        }
+
+        .archive-title{
+            color:#f2f2f2;
+
+            font-size:42px;
+            font-weight:500;
+
+            letter-spacing:1px;
+
+            text-align:center;
+        }
+
+
+        /* =========================
+           SEARCH BAR
+           ========================= */
+
+        .archive-search-bar{
+            width:100%;
+
+            display:grid;
+            grid-template-columns:90px minmax(0,1fr);
+
+            align-items:center;
+
+            border:1px solid var(--border);
+            border-radius:7px;
+
+            background:var(--panel);
+
+            margin:0 auto 12px;
+
+            overflow:hidden;
+        }
+        .archive-search-label{
+            height:100%;
+
+            display:flex;
+            align-items:center;
+
+            padding:10px 12px;
+
+            border-right:1px solid var(--border);
+
+            color:var(--muted);
+
+            font-size:13px;
+            font-weight:600;
+        }
+
+
+        .archive-search-controls{
+            width:100%;
+
+            display:grid;
+            grid-template-columns:
+                repeat(5,minmax(0,1fr));
+
+            gap:8px;
+
+            padding:7px;
+        }
+
+        .archive-search-button{
+            width:100%;
+            min-height:40px;
+
+            padding:8px 10px;
+
+            border:1px solid var(--border-strong);
+            border-radius:8px;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            font-size:14px;
+            font-weight:600;
+
+            cursor:pointer;
+        }
+
+        .archive-search-button:hover,
+        .archive-search-button:focus-visible{
+            background:var(--hover);
+            border-color:var(--hover-border);
+
+            outline:none;
+        }
+
+
+        /* =========================
+           ADDRESS
+           ========================= */
+
+        .archive-address-area{
+            width:100%;
+
+            min-height:40px;
+
+            display:grid;
+            grid-template-columns:90px minmax(0,1fr);
+
+            align-items:center;
+
+            border:1px solid var(--border);
+            border-radius:7px;
+
+            background:var(--panel);
+
+            margin:0 auto 12px;
+
+            overflow:hidden;
+        }
+
+        .archive-address-label{
+            height:100%;
+
+            display:flex;
+            align-items:center;
+
+            padding:10px 12px;
+
+            border-right:1px solid var(--border);
+
+            color:var(--muted);
+
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .archive-address{
+            min-width:0;
+
+            padding:10px 12px;
+
+            color:var(--text);
+
+            font-size:13px;
+
+            word-break:break-all;
+        }
+
+
+        /* =========================
+           ARCHIVE TABLE
+           ========================= */
+
+        .archive-table-wrap{
+            width:100%;
+
+            height:520px;
+
+            overflow-y:auto;
+            overflow-x:hidden;
+
+            scroll-snap-type:y mandatory;
+            scroll-behavior:smooth;
+
+            padding:0;
+
+            border:1px solid var(--border-strong);
+            border-radius:8px;
+
+            background:var(--panel);
+
+            overscroll-behavior-y:contain;
+        }
+
+        #archive-visual{
+            width:100%;
+        }
+
+        .archive-row{
+            width:100%;
+            min-height:58px;
+
+            display:grid;
+
+            grid-template-columns:
+                minmax(0,1fr)
+                auto;
+
+            align-items:center;
+
+            gap:16px;
+
+            padding:9px 12px;
+
+            border-bottom:1px solid var(--border);
+
+            background:var(--panel);
+
+            scroll-snap-align:start;
+            scroll-snap-stop:always;
+        }
+
+        .archive-row:last-child{
+            border-bottom:none;
+        }
+
+        .archive-item-name{
+            min-width:0;
+
+            color:var(--text);
+
+            font-size:14px;
+            font-weight:500;
+
+            word-break:break-word;
+            overflow-wrap:anywhere;
+        }
+
+        .archive-item-buttons{
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+
+            gap:8px;
+
+            flex:none;
+        }
+
+        .archive-open-button,
+        .archive-download-button{
+            min-width:105px;
+            min-height:40px;
+
+            padding:8px 14px;
+
+            border:1px solid var(--border-strong);
+            border-radius:7px;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            font-size:13px;
+            font-weight:600;
+
+            cursor:pointer;
+        }
+
+        .archive-open-button:hover,
+        .archive-open-button:focus-visible,
+        .archive-download-button:hover,
+        .archive-download-button:focus-visible{
+            background:var(--hover);
+            border-color:var(--hover-border);
+
+            outline:none;
+        }
+
+
+        /* =========================
+           NAVIGATION
+           ========================= */
+
+        .archive-navigation{
+            display:flex;
+
+            justify-content:center;
+
+            gap:14px;
+
+            margin:24px auto 0;
+        }
+
+        .archive-button{
+            min-width:115px;
+            min-height:44px;
+
+            padding:10px 18px;
+
+            border:1px solid var(--border-strong);
+            border-radius:8px;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            font-size:14px;
+            font-weight:600;
+
+            cursor:pointer;
+        }
+
+        .archive-button:hover:not(:disabled),
+        .archive-button:focus-visible:not(:disabled){
+            background:var(--hover);
+            border-color:var(--hover-border);
+
+            outline:none;
+        }
+
+        .archive-button:disabled{
+            opacity:.45;
+            cursor:not-allowed;
+
+            background:var(--panel);
+            border-color:var(--border);
+            color:var(--muted);
+        }
+
+        /* =========================
+           Empty message
+           ========================= */
+        .archive-empty-message{
+            width:100%;
+            text-align:center;
+            padding-top:20px;
+            color:var(--muted);
+            font-size:16px;
+            font-weight:500;
+        }
+        /* =========================
+           MODALS
+           ========================= */
+
+        .archive-modal{
+            display:none;
+
+            position:fixed;
+
+            inset:0;
+
+            z-index:1000;
+
+            align-items:center;
+            justify-content:center;
+
+            padding:20px;
+
+            background:rgba(0,0,0,.68);
+        }
+
+        .archive-modal.active{
+            display:flex;
+        }
+
+        .archive-modal-box{
+            width:min(440px,100%);
+
+            padding:24px;
+
+            border:1px solid var(--border-strong);
+            border-radius:10px;
+
+            background:var(--panel);
+
+            box-shadow:
+                0 18px 50px rgba(0,0,0,.45);
+        }
+
+        .archive-modal-title{
+            margin-bottom:18px;
+
+            color:var(--text);
+
+            font-size:20px;
+            font-weight:700;
+
+            text-align:center;
+
+            text-decoration:underline;
+        }
+
+        .archive-modal-text{
+            color:var(--text);
+
+            font-size:14px;
+
+            line-height:1.5;
+
+            text-align:center;
+        }
+
+        .archive-modal-controls{
+            display:flex;
+
+            justify-content:center;
+
+            gap:12px;
+
+            margin-top:22px;
+        }
+
+
+        /* =========================
+           DATE SEARCH
+           ========================= */
+
+        .archive-date-field{
+            width:100%;
+
+            margin-bottom:12px;
+
+            position:relative;
+        }
+
+        .archive-date-input-area{
+            width:100%;
+
+            display:flex;
+
+            gap:0;
+        }
+
+        .archive-date-input{
+            width:100%;
+            min-height:42px;
+
+            padding:8px 10px;
+
+            border:1px solid var(--border);
+            border-right:none;
+            border-radius:6px 0 0 6px;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            outline:none;
+
+            font-family:Arial,Helvetica,sans-serif;
+            font-size:14px;
+        }
+
+        .archive-date-input:focus{
+            background:var(--hover);
+            border-color:var(--hover-border);
+        }
+
+        .archive-dropdown-arrow{
+            width:44px;
+
+            min-height:42px;
+
+            padding:0;
+
+            border:1px solid var(--border);
+            border-radius:0 6px 6px 0;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            font-size:16px;
+            font-weight:600;
+
+            cursor:pointer;
+        }
+
+        .archive-dropdown-arrow:hover,
+        .archive-dropdown-arrow:focus-visible{
+            background:var(--hover);
+            border-color:var(--hover-border);
+
+            outline:none;
+        }
+
+        .archive-dropdown{
+            width:100%;
+            max-height:180px;
+
+            overflow-y:auto;
+
+            margin-top:5px;
+
+            padding:4px;
+
+            border:1px solid var(--border-strong);
+            border-radius:6px;
+
+            background:var(--panel2);
+        }
+
+        .archive-dropdown[hidden]{
+            display:none;
+        }
+
+        .archive-dropdown-option{
+            width:100%;
+
+            padding:8px 10px;
+
+            border:1px solid transparent;
+            border-radius:5px;
+
+            background:transparent;
+            color:var(--text);
+
+            text-align:left;
+
+            font-family:Arial,Helvetica,sans-serif;
+            font-size:13px;
+
+            cursor:pointer;
+        }
+
+        .archive-dropdown-option:hover,
+        .archive-dropdown-option:focus-visible{
+            background:var(--hover);
+            border-color:var(--hover-border);
+
+            outline:none;
+        }
+
+
+        /* =========================
+           TEXT SEARCH
+           ========================= */
+
+        .archive-text-search-input{
+            width:100%;
+            min-height:42px;
+
+            padding:8px 10px;
+
+            border:1px solid var(--border);
+            border-radius:6px;
+
+            background:var(--panel2);
+            color:var(--text);
+
+            outline:none;
+
+            font-family:Arial,Helvetica,sans-serif;
+            font-size:14px;
+        }
+
+        .archive-text-search-input:focus{
+            background:var(--hover);
+            border-color:var(--hover-border);
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media(max-width:700px){
+
+            body{
+                padding:0 12px 24px;
+            }
+
+            .site{
+                padding:0 18px 28px;
+            }
+
+            .archive-title{
+                font-size:32px;
+            }
+
+            .archive-logo{
+                width:120px;
+                height:120px;
+            }
+
+            .archive-search-bar{
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
+
+            .archive-search-button:last-child{
+                grid-column:1 / -1;
+            }
+
+            .archive-table-wrap{
+                height:460px;
+            }
+
+            .archive-row{
+                grid-template-columns:
+                    minmax(0,1fr)
+                    auto;
+
+                gap:10px;
+
+                padding:9px 10px;
+            }
+
+            .archive-open-button,
+            .archive-download-button{
+                min-width:88px;
+                padding:8px 10px;
+            }
+
+        }
+
+        @media(max-width:480px){
+
+            .archive-search-bar{
+                grid-template-columns:1fr;
+            }
+
+            .archive-search-button:last-child{
+                grid-column:auto;
+            }
+
+            .archive-row{
+                grid-template-columns:1fr;
+
+                align-items:stretch;
+            }
+
+            .archive-item-buttons{
+                justify-content:flex-end;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
+
+    <main class="site">
+
+        <section
+            class="archive-screen"
+            id="archive-screen"
+            aria-label="Archive">
+
+
+            <!-- =========================
+                 BRAND
+                 ========================= -->
+
+            <div class="archive-brand">
+
+                <img
+                    class="archive-logo"
+                    src="{{ url_for('static', filename='Group 8.svg') }}"
+                    alt="ExamForge logo">
+
+                <div class="archive-title">
+                    Archive
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SEARCH BAR
+                 ========================= -->
+
+            <div class="archive-search-bar">
+                <div class="archive-search-label">
+                    Search
+                </div>
+
+                <div class="archive-search-controls">
+                    <button
+                        class="archive-search-button"
+                        id="archive-date-button"
+                        type="button">
+
+                        Date
+
+                    </button>
+
+                    <button
+                        class="archive-search-button"
+                        id="archive-test-series-button"
+                        type="button">
+
+                        Test Series
+
+                    </button>
+
+                    <button
+                        class="archive-search-button"
+                        id="archive-set-code-button"
+                        type="button">
+
+                        Set Code
+
+                    </button>
+
+                    <button
+                        class="archive-search-button"
+                        id="archive-file-name-button"
+                        type="button">
+
+                        File Name
+
+                    </button>
+
+                    <button
+                        class="archive-search-button"
+                        id="archive-search-button"
+                        type="button">
+
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <!-- =========================
+                 CURRENT ADDRESS
+                 ========================= -->
+
+            <div class="archive-address-area">
+
+                <div class="archive-address-label">
+                    Address
+                </div>
+
+                <div
+                    class="archive-address"
+                    id="archive-address">
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 ARCHIVE VISUAL TABLE
+                 ========================= -->
+
+            <div
+                class="archive-table-wrap"
+                aria-label="Archive contents">
+
+                <div
+                    class="archive-visual"
+                    id="archive-visual">
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 NAVIGATION
+                 ========================= -->
+
+            <div class="archive-navigation">
+
+                <button
+                    class="archive-button"
+                    id="archive-back-button"
+                    type="button"
+                    disabled>
+
+                    Back
+
+                </button>
+
+                <button
+                    class="archive-button"
+                    id="archive-explorer-button"
+                    type="button"
+                    disabled>
+
+                    Explorer
+                </button>
+                
+                <button
+                    class="archive-button"
+                    id="archive-home-button"
+                    type="button">
+
+                    Home
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             HOME POPUP
+             ========================= -->
+
+        <div
+            class="archive-modal"
+            id="archive-home-modal"
+            role="dialog"
+            aria-modal="true">
+
+            <div class="archive-modal-box">
+
+                <div class="archive-modal-text">
+                    Do you want to go back to the Home Page?
+                </div>
+
+                <div class="archive-modal-controls">
+
+                    <button
+                        class="archive-button"
+                        id="archive-home-no"
+                        type="button">
+
+                        No
+
+                    </button>
+
+                    <button
+                        class="archive-button"
+                        id="archive-home-yes"
+                        type="button">
+
+                        Yes
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             DATE SEARCH POPUP
+             ========================= -->
+
+        <div
+            class="archive-modal"
+            id="archive-date-modal"
+            role="dialog"
+            aria-modal="true">
+
+            <div class="archive-modal-box">
+
+                <div class="archive-modal-title">
+                    Date
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="archive-date-field">
+
+                    <div class="archive-date-input-area">
+
+                        <input
+                            id="archive-date-year"
+                            class="archive-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Year">
+
+                        <button
+                            id="archive-date-year-arrow"
+                            class="archive-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="archive-date-year-dropdown"
+                        class="archive-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="archive-date-field">
+
+                    <div class="archive-date-input-area">
+
+                        <input
+                            id="archive-date-month"
+                            class="archive-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Month">
+
+                        <button
+                            id="archive-date-month-arrow"
+                            class="archive-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="archive-date-month-dropdown"
+                        class="archive-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <!-- DAY -->
+
+                <div class="archive-date-field">
+
+                    <div class="archive-date-input-area">
+
+                        <input
+                            id="archive-date-day"
+                            class="archive-date-input"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="Day">
+
+                        <button
+                            id="archive-date-day-arrow"
+                            class="archive-dropdown-arrow"
+                            type="button">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="archive-date-day-dropdown"
+                        class="archive-dropdown"
+                        hidden>
+                    </div>
+
+                </div>
+
+
+                <div class="archive-modal-controls">
+
+                    <button
+                        class="archive-button"
+                        id="archive-date-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+                    <button
+                        class="archive-button"
+                        id="archive-date-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TEXT SEARCH POPUP
+             ========================= -->
+
+        <div
+            class="archive-modal"
+            id="archive-text-search-modal"
+            role="dialog"
+            aria-modal="true">
+
+            <div class="archive-modal-box">
+
+                <div
+                    class="archive-modal-title"
+                    id="archive-text-search-title">
+
+                    Search
+
+                </div>
+
+                <input
+                    id="archive-text-search-input"
+                    class="archive-text-search-input"
+                    type="text"
+                    autocomplete="off">
+
+                <div class="archive-modal-controls">
+
+                    <button
+                        class="archive-button"
+                        id="archive-text-search-back"
+                        type="button">
+
+                        Back
+
+                    </button>
+
+                    <button
+                        class="archive-button"
+                        id="archive-text-search-ok"
+                        type="button">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='Loading_screen.js') }}"></script>
+    <script src="{{ url_for('static', filename='server_heart_beat.js') }}"></script>
+    <script src="{{ url_for('static', filename='Archive.js') }}"></script>
 
 </body>
 </html>

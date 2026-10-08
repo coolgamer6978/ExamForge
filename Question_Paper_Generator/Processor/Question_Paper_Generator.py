@@ -21,5 +21,4 @@ def QPG(PROCESSED_DATA_FROM_MDC,RANDOMISER_KEY):
             editable_question["option4"] = canon_question_set[serial-1]["option" + str(option[3])]
             N_set.append(editable_question)
         Processed_data.append(N_set)
-        print(Processed_data)
     return Processed_data,Title_data

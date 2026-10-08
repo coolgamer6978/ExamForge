@@ -19,10 +19,11 @@
 
 const VALIDATION_URL = "/validation";
 
-const HEARTBEAT_INTERVAL = 500;
+const HEARTBEAT_INTERVAL = 1000;
 
-const VALIDATION_TIMEOUT = 400;
+const VALIDATION_TIMEOUT = 1000;
 
+const VALIDATION_FAILURE_LIMIT = 3;
 
 // ============================
 // OFFLINE OVERLAY
@@ -248,6 +249,7 @@ let serverIsOffline = false;
 
 let heartbeatRunning = false;
 
+let validationFailures = 0;
 
 // ============================
 // SHOW OFFLINE SCREEN
@@ -314,29 +316,21 @@ function hideServerOffline(){
 async function validateServer(){
 
     if(heartbeatRunning){
-
         return;
-
     }
 
-
     heartbeatRunning = true;
-
 
     const controller =
         new AbortController();
 
-
     const timeout =
         setTimeout(
             () => {
-
                 controller.abort();
-
             },
             VALIDATION_TIMEOUT
         );
-
 
     try{
 
@@ -358,9 +352,7 @@ async function validateServer(){
                 }
             );
 
-
         clearTimeout(timeout);
-
 
         if(!response.ok){
 
@@ -370,10 +362,8 @@ async function validateServer(){
 
         }
 
-
         const result =
             await response.text();
-
 
         if(
             result.trim() !== "YES"
@@ -385,26 +375,38 @@ async function validateServer(){
 
         }
 
+        // --------------------------------
+        // SERVER IS HEALTHY
+        // --------------------------------
 
-        // Server is alive.
+        validationFailures = 0;
 
         hideServerOffline();
 
     }
 
-
     catch(error){
 
         clearTimeout(timeout);
 
+        validationFailures++;
 
-        // The server is unreachable
-        // or validation failed.
+        console.warn(
+            "ExamForge heartbeat failed:",
+            error,
+            `Failure ${validationFailures}/${VALIDATION_FAILURE_LIMIT}`
+        );
 
-        showServerOffline();
+        if(
+            validationFailures >=
+            VALIDATION_FAILURE_LIMIT
+        ){
+
+            showServerOffline();
+
+        }
 
     }
-
 
     finally{
 

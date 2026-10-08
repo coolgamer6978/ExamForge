@@ -44,6 +44,6 @@ def Randomiser(RAW_DATA_FROM_MDC):
             c+=1
             rand_option = random.sample(range(1,5),4)
             q_set[c] = (question,rand_option)
-    set_code = random.sample(range(1000,10000),Number_of_Copies)
-    set_code.insert(0,0000)
+    set_code = [str(code) for code in random.sample(range(1000,10000),Number_of_Copies)]
+    set_code.insert(0,"0000")
     return Final_Key,set_code
