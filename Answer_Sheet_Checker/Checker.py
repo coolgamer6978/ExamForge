@@ -34,8 +34,12 @@ def Checker(checking_data):
             selected_options = answer_to_check[index]
             if selected_options == "":
                 selected_options = "UnAttempted"
-            diagonostic.append({"Serial": str(index + 1), "correct_option": str(options[answer[1] - 1]),
-                                "Selected_options": str(options[int(selected_options)-1])})
+            if selected_options == "UnAttempted":
+                diagonostic.append({"Serial": str(index + 1), "correct_option": str(options[answer[1] - 1]),
+                                    "Selected_options": selected_options})
+            else:
+                diagonostic.append({"Serial": str(index + 1), "correct_option": str(options[answer[1] - 1]),
+                                    "Selected_options": str(options[int(selected_options)-1])})
     for tally in Result:
         if tally[1]:
             achieved_marks += 1

@@ -41,6 +41,15 @@ const finish2SimplexQuestions =
 const finish2SimplexOmr =
     document.getElementById("finish2-simplex-omr");
 
+const finish2HelpButton =
+    document.getElementById("finish2-help-button");
+
+const finish2HelpModal =
+    document.getElementById("finish2-help-modal");
+
+const finish2HelpOK =
+    document.getElementById("finish2-help-ok");
+
 const generatorScreen =
     document.getElementById("generator-screen");
 
@@ -82,10 +91,12 @@ const fields = [
 
 const finishData = {
     testSeriesName: "",
-    setCode: "",
+    question_count: "",
     time: "",
     totalMarks: "",
     institution: "",
+    row_len: "",
+    difficulty: "",
     studentCount: "",
     save: false
 };
@@ -530,6 +541,127 @@ function getFinishInputs(){
 
 }
 
+// ==================================================
+// DIFFICULTY INPUT RESTRICTION
+// ==================================================
+
+const difficultyInput =
+    document.querySelector(
+        '[data-finish-field="difficulty"]'
+    );
+
+difficultyInput.addEventListener(
+    "input",
+    () => {
+
+        const filteredValue =
+            difficultyInput.value
+                .replace(/[^0-4]/g, "")
+                .slice(0, 1);
+
+        if(
+            difficultyInput.value !== filteredValue
+        ){
+
+            difficultyInput.value =
+                filteredValue;
+
+        }
+
+    }
+);
+
+// ==================================================
+// INTEGER INPUT RESTRICTIONS
+// ==================================================
+
+const integerFinishInputs = {
+    question_count: document.querySelector(
+        '[data-finish-field="question_count"]'
+    ),
+
+    row_len: document.querySelector(
+        '[data-finish-field="row_len"]'
+    ),
+
+    studentCount: document.querySelector(
+        '[data-finish-field="studentCount"]'
+    )
+};
+
+
+function restrictIntegerInput(input, getMaximum = null) {
+
+    // Store the last accepted value so an invalid
+    // edit can be rejected without losing valid input.
+    input.dataset.lastValidValue = input.value;
+
+    input.addEventListener("input", () => {
+
+        const attemptedValue = input.value;
+
+        // Keep only ASCII digits 0-9.
+        const digitsOnly = attemptedValue.replace(
+            /[^0-9]/g,
+            ""
+        );
+
+        if (attemptedValue !== digitsOnly) {
+            input.value = digitsOnly;
+        }
+
+        // Obtain the maximum dynamically on every input.
+        const maximum = getMaximum
+            ? getMaximum()
+            : null;
+
+        // Apply the upper limit only when one exists.
+        if (
+            maximum !== null &&
+            input.value !== "" &&
+            Number(input.value) > maximum
+        ) {
+
+            const previousValue =
+                input.dataset.lastValidValue ?? "";
+
+            // Restore the last accepted value, provided
+            // it is still within the current limit.
+            input.value = (
+                previousValue !== "" &&
+                Number(previousValue) <= maximum
+            )
+                ? previousValue
+                : "";
+
+            return;
+        }
+
+        // The current edit is valid.
+        input.dataset.lastValidValue = input.value;
+
+    });
+
+}
+
+
+// Question count cannot exceed the current question bank.
+restrictIntegerInput(
+    integerFinishInputs.question_count,
+    () => getRows().length
+);
+
+
+// These two fields allow digits only, without an
+// additional maximum imposed by this input handler.
+restrictIntegerInput(
+    integerFinishInputs.row_len
+);
+
+restrictIntegerInput(
+    integerFinishInputs.studentCount
+);
+
 function saveFinishData(){
 
     getFinishInputs().forEach(input => {
@@ -541,7 +673,7 @@ function saveFinishData(){
 
 }
 
-function loadFinishData(){
+function loadFinishData() {
 
     getFinishInputs().forEach(input => {
 
@@ -550,7 +682,37 @@ function loadFinishData(){
 
         input.classList.remove("invalid");
 
+        if (
+            [
+                "question_count",
+                "row_len",
+                "studentCount"
+            ].includes(input.dataset.finishField)
+        ) {
+            input.dataset.lastValidValue = input.value;
+        }
+
     });
+
+
+    // The question bank may have changed while the user
+    // was on the generator screen.
+    const questionCountInput =
+        integerFinishInputs.question_count;
+
+    if (
+        questionCountInput.value !== "" &&
+        Number(questionCountInput.value) > getRows().length
+    ) {
+
+        questionCountInput.value = "";
+
+        questionCountInput.dataset.lastValidValue = "";
+
+        finishData.question_count = "";
+
+    }
+
 
     finishError.classList.remove("active");
 
@@ -586,22 +748,61 @@ function validateFinishPage(){
     });
 
 
-    // Check student count
-    const studentInput =
-        document.querySelector(
-            '[data-finish-field="studentCount"]'
-        );
+    // Check fields that must be positive integers.
 
+    const positiveIntegerFields = [
+        "question_count",
+        "row_len",
+        "studentCount"
+    ];
 
-    const studentValue =
-        studentInput.value.trim();
+    positiveIntegerFields.forEach(field => {
 
+        const input =
+            document.querySelector(
+                `[data-finish-field="${field}"]`
+            );
+
+        const value =
+            input.value.trim();
+
+        if(
+            !/^[1-9]\d*$/.test(value)
+        ){
+
+            input.classList.add("invalid");
+
+            valid = false;
+
+        }
+
+    });
+
+    // Question count must not exceed the current question bank.
+    const questionCountInput =
+        integerFinishInputs.question_count;
+
+    if (
+        questionCountInput.value.trim() !== "" &&
+        Number(questionCountInput.value) > getRows().length
+    ) {
+
+        questionCountInput.classList.add("invalid");
+
+        valid = false;
+
+    }
+
+    // Check difficulty: exactly one digit from 0 to 4.
+
+    const difficultyValue =
+        difficultyInput.value.trim();
 
     if(
-        !/^[1-9]\d*$/.test(studentValue)
+        !/^[0-4]$/.test(difficultyValue)
     ){
 
-        studentInput.classList.add("invalid");
+        difficultyInput.classList.add("invalid");
 
         valid = false;
 
@@ -934,6 +1135,9 @@ const importRangeModal =
 
 const importRangeBody =
     document.getElementById("qpg-import-range-body");
+
+const importRangeError =
+    document.getElementById("qpg-import-range-error");
 
 const importRangeAddButton =
     document.getElementById("qpg-import-range-add");
@@ -1831,6 +2035,8 @@ async function openImportRangePopup(){
 
         importRangeBody.innerHTML = "";
 
+        importRangeError.classList.remove("active");
+
         addImportRangeRow();
 
         importRangeModal.classList.add("active");
@@ -1876,7 +2082,7 @@ function addImportRangeRow(){
         "numeric";
 
     start.className =
-        "qpg-import-range-input";
+        "qpg-import-range-input generator-input";
 
     start.placeholder =
         "A";
@@ -1899,7 +2105,7 @@ function addImportRangeRow(){
         "numeric";
 
     end.className =
-        "qpg-import-range-input";
+        "qpg-import-range-input generator-input";
 
     end.placeholder =
         "B";
@@ -1947,7 +2153,7 @@ function attachImportRangeValidation(
 
 
             const maximum =
-                data.length ;
+                data.length;
 
 
             /*
@@ -1971,7 +2177,7 @@ function attachImportRangeValidation(
 
 
             /*
-               Correct boundary:
+               Boundary validation:
                1 <= value <= len(json)
             */
 
@@ -1989,31 +2195,6 @@ function attachImportRangeValidation(
                 return;
             }
 
-
-            const startValue =
-                Number(start.value);
-
-            const endValue =
-                Number(end.value);
-
-
-            /*
-               A must remain strictly smaller
-               than B.
-            */
-
-            if(
-                start.value !== "" &&
-                end.value !== "" &&
-                startValue >= endValue
-            ){
-
-                changedInput.value =
-                    changedInput.value.slice(
-                        0,
-                        -1
-                    );
-            }
         };
 
 
@@ -2034,59 +2215,114 @@ function attachImportRangeValidation(
    RANGE NEXT
    ========================================================= */
 
+/* =========================================================
+   RANGE NEXT
+   ========================================================= */
+
 importRangeNextButton.addEventListener(
     "click",
     () => {
 
         const ranges = [];
 
+        let valid = true;
+
+
+        // Clear previous error highlighting.
+
+        importRangeError.classList.remove("active");
+
+
+        importRangeRows.forEach(rangeRow => {
+
+            rangeRow.start.classList.remove("invalid");
+
+            rangeRow.end.classList.remove("invalid");
+
+        });
+
+
+        const maximum =
+            selectedSavedQuestionData.length;
+
+
+        // Validate every range.
 
         for(
             const rangeRow
             of importRangeRows
         ){
 
+            const startValue =
+                rangeRow.start.value.trim();
+
+            const endValue =
+                rangeRow.end.value.trim();
+
+
             const A =
-                Number(
-                    rangeRow.start.value
-                );
+                Number(startValue);
 
             const B =
-                Number(
-                    rangeRow.end.value
-                );
+                Number(endValue);
 
 
-            if(
-                rangeRow.start.value === "" ||
-                rangeRow.end.value === ""
-            ){
+            const rangeValid =
 
-                return;
-            }
+                startValue !== "" &&
+
+                endValue !== "" &&
+
+                /^\d+$/.test(startValue) &&
+
+                /^\d+$/.test(endValue) &&
+
+                A >= 1 &&
+
+                B >= 1 &&
+
+                A <= maximum &&
+
+                B <= maximum &&
+
+                A < B;
 
 
-            if(
-                A < 1 ||
-                B < 1 ||
-                A > selectedSavedQuestionData.length  ||
-                B > selectedSavedQuestionData.length  ||
-                A >= B
-            ){
+            if(!rangeValid){
 
-                return;
+                rangeRow.start.classList.add("invalid");
+
+                rangeRow.end.classList.add("invalid");
+
+                valid = false;
+
+                continue;
             }
 
 
             ranges.push([A,B]);
+
         }
 
+
+        // Stop if any range is invalid.
+
+        if(!valid){
+
+            importRangeError.classList.add("active");
+
+            return;
+        }
+
+
+        // All ranges are valid.
 
         importAdditionParameters.range =
             ranges;
 
 
         closeImportRangePopup();
+
     }
 );
 
@@ -3205,6 +3441,48 @@ generatorQuestionBody.addEventListener(
             );
 
         }
+
+    }
+);
+
+// ============================
+// FINISH PAGE 2 HELP
+// Same open/close pattern as ASC
+// ============================
+
+finish2HelpButton.addEventListener(
+    "click",
+    () => {
+
+        finish2HelpModal.classList.add(
+            "active"
+        );
+
+        finish2HelpModal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        finish2HelpOK.focus();
+
+    }
+);
+
+
+finish2HelpOK.addEventListener(
+    "click",
+    () => {
+
+        finish2HelpModal.classList.remove(
+            "active"
+        );
+
+        finish2HelpModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        finish2HelpButton.focus();
 
     }
 );

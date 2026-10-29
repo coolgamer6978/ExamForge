@@ -1,13 +1,10 @@
-# Short Forms
-| Short Form | Full Form |
-|---|---|
-| **QPG** | Question Paper Generator |
-| **ASC** | Answer Sheet Checker |
-| **AKU** | Answer Key Uploader |
+# INSTRUCTIONS ON START UP
 
 Before Server bootup for the 1st time Please run the SETUP.py
 to properly set up the server dependency. The SETUP file will delete
-itself upon being complete.
+itself upon being complete.If you want 
+opt out of the test file please set "Test_file" in SETUP.py 
+to False.
 
 Python Requirement:
 ExamForge currently requires Python 3.13.

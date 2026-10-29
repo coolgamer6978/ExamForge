@@ -1,8 +1,8 @@
 import threading
 from Archive.Archive_logic.Search_algorithm import Search_algorithm
 from Archive.Archive_logic.Navigator import Navigator
+Archive_MDC_lock = threading.Lock()
 def Main_Directory_Controller(data_from_MC,mode):
-    Archive_MDC_lock = threading.Lock()
     with Archive_MDC_lock:
         print("search parameters received by Main Directory Controller.py")
         if mode == "Search":

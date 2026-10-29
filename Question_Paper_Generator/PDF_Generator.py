@@ -7,7 +7,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_RIGHT,TA_CENTER,TA_LEFT
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from pypdf import PdfReader,PdfWriter
-import os,json,portalocker
+import os,json,portalocker,random
 from datetime import datetime
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -26,7 +26,12 @@ def PDF_Generator(Questions_for_pdf,Title_data):
     pdfmetrics.registerFont(
         TTFont("NotoSansBengali-Bold",os.path.join(BASE_DIR, "Question_Paper_Generator", "fonts", "NotoSansBengali-Bold.ttf"))
     )
-
+    #set up SET
+    alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    N = Title_data["studentCount"]
+    SET_ID = ["A"]
+    for i in range(int(N)):
+        SET_ID.append(alphabet[random.randint(0,len(alphabet)-1)])
     def metadata(sf,sb,D):
         with portalocker.Lock(lock_path, timeout=None):
             with open(os.path.join(BASE_DIR,"Archive","storage","metadata.json"),"r") as f:
@@ -37,10 +42,10 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             # Test_series
             test_series_path = os.path.join(BASE_DIR, "Archive", "storage", RUN_ID, str(Title_data["testSeriesName"].replace(" ", "_")))
             meta_data["Test_series"].append({str(Title_data["testSeriesName"].replace(" ", "_")): test_series_path})
-            for q_set in Questions_for_pdf:
+            for index,q_set in enumerate(Questions_for_pdf):
                 SET_code = q_set["set_code"]
                 title = Title_data["testSeriesName"]
-                SET = Title_data["setCode"]
+                SET = SET_ID[index]
                 Name_of_pdf = (str(title.replace(" ", "_")) + "_" + str(SET) + "_" + str(SET_code) + ".pdf")
                 #set_code
                 SET_code_path = os.path.join(test_series_path,str(SET_code))
@@ -218,7 +223,7 @@ def PDF_Generator(Questions_for_pdf,Title_data):
 
     PAGE_WIDTH, PAGE_HEIGHT = A4
 
-    LEFT_MARGIN = 50
+    LEFT_MARGIN = 0
 
     LEFT_EDGE = 15 + LEFT_MARGIN
     RIGHT_EDGE = PAGE_WIDTH - 15
@@ -311,8 +316,8 @@ def PDF_Generator(Questions_for_pdf,Title_data):
             "Full Marks:"+Marks
         )
 
-        pdf.drawString(
-            LEFT_EDGE + 230,
+        pdf.drawCentredString(
+            LEFT_EDGE + (RIGHT_EDGE - LEFT_EDGE) / 2,
             745,
             "SET:" + SET
         )
@@ -570,12 +575,12 @@ def PDF_Generator(Questions_for_pdf,Title_data):
         shaping = 1
     )
     question_available_width = (LEFT_EDGE + (RIGHT_EDGE - LEFT_EDGE) / 2 - LEFT_EDGE - 12)
-    for q_set in Questions_for_pdf:
+    for index,q_set in enumerate(Questions_for_pdf):
         story = []
         SET_code = q_set["set_code"]
         title = Title_data["testSeriesName"]
         TIME = Title_data["time"]
-        SET = Title_data["setCode"]
+        SET = SET_ID[index]
         Marks = Title_data["totalMarks"]
         INSTITUTION = Title_data["institution"]
         Name_of_pdf = (str(title.replace(" ","_")) + "_"+str(SET) + "_" + str(SET_code) + ".pdf")

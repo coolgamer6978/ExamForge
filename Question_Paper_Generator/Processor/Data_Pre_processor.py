@@ -19,7 +19,10 @@ def Data_Pre_processor(DATA_FROM_MDC):
     def seperate_data_for_Randomiser(Processed_data):
         total_number_of_questions = len(Processed_data["Question_paper"])
         total_number_of_copies_needed = int(Processed_data["Paper_details"]["studentCount"])
-        data_pack_for_randomiser = (total_number_of_copies_needed,total_number_of_questions)
+        total_number_questions_per_set = int(Processed_data["Paper_details"]["question_count"])
+        num_of_student_per_row = int(Processed_data["Paper_details"]["row_len"])
+        difficulty = int(Processed_data["Paper_details"]["difficulty"])
+        data_pack_for_randomiser = (total_number_of_copies_needed,total_number_of_questions,total_number_questions_per_set,num_of_student_per_row,difficulty)
         return data_pack_for_randomiser
     def Final_processed_data(Processed_data):
         Questions = Processed_data["Question_paper"]

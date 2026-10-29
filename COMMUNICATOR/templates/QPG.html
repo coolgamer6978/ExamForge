@@ -644,6 +644,231 @@
         text-align:center;
     }
 
+    .finish2-brand {
+        margin-bottom: 12px;
+    }
+
+    .finish2-help-area {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 26px;
+    }
+
+    .finish2-help-button {
+        min-width: 115px;
+        min-height: 44px;
+
+        padding: 10px 18px;
+
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+
+        background: var(--panel2);
+        color: var(--text);
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .finish2-help-button:hover,
+    .finish2-help-button:focus-visible {
+        background: var(--hover);
+        border-color: var(--hover-border);
+        outline: none;
+    }
+
+
+    /* HELP OVERLAY */
+
+    .finish2-help-modal {
+        display: none;
+
+        position: fixed;
+        inset: 0;
+
+        z-index: 1000;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        background: rgba(0, 0, 0, .68);
+    }
+
+    .finish2-help-modal.active {
+        display: flex;
+    }
+
+
+    /* HELP BOX — ASC DESIGN */
+
+    .finish2-help-box {
+        display: flex;
+        flex-direction: column;
+
+        width: min(440px, 100%);
+        max-height: 90vh;
+
+        padding: 24px;
+
+        border: 1px solid var(--border-strong);
+        border-radius: 10px;
+
+        background: var(--panel);
+
+        box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+    }
+
+
+    /* HEADING — ASC DESIGN */
+
+    .finish2-help-title {
+        flex: 0 0 auto;
+
+        margin-bottom: 18px;
+
+        color: var(--text);
+
+        font-size: 20px;
+        font-weight: 700;
+
+        text-align: center;
+        text-decoration: underline;
+    }
+
+
+    /* SCROLLABLE HELP TEXT */
+
+    .finish2-help-text {
+        min-height: 0;
+        max-height: calc(90vh - 150px);
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        color: var(--text);
+
+        font-size: 14px;
+        line-height: 1.5;
+
+        text-align: left;
+
+        padding-right: 6px;
+
+        scrollbar-width: thin;
+        overscroll-behavior: contain;
+    }
+
+    .finish2-help-text strong {
+        font-weight: 700;
+    }
+
+    .finish2-help-text p {
+        margin: 0 0 14px;
+    }
+
+    .finish2-help-text ul {
+        margin: 0 0 16px;
+        padding-left: 24px;
+    }
+
+    .finish2-help-text li {
+        margin-bottom: 10px;
+    }
+
+
+    /* CENTRED ARRANGEMENT TABLE */
+
+    .finish2-help-table-wrap {
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+        margin: 26px auto;
+    }
+
+    .finish2-help-table {
+        width: 100%;
+
+        border-collapse: collapse;
+        table-layout: fixed;
+
+        text-align: center;
+    }
+
+    .finish2-help-table td {
+        width: 20%;
+        height: 38px;
+
+        padding: 5px;
+
+        border: 1px solid var(--border-strong);
+
+        background: var(--panel2);
+        color: var(--text);
+
+        text-align: center;
+        vertical-align: middle;
+
+        font-weight: 600;
+    }
+
+
+    /* OK BUTTON — ASC CONTROL LAYOUT */
+
+    .finish2-help-controls {
+        display: flex;
+        justify-content: center;
+
+        flex: 0 0 auto;
+
+        margin-top: 22px;
+    }
+
+    .finish2-help-ok {
+        min-width: 115px;
+        min-height: 44px;
+
+        padding: 10px 18px;
+
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+
+        background: var(--panel2);
+        color: var(--text);
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .finish2-help-ok:hover,
+    .finish2-help-ok:focus-visible {
+        background: var(--hover);
+        border-color: var(--hover-border);
+        outline: none;
+    }
+
+
+    @media (max-width: 480px) {
+        .finish2-help-modal {
+            padding: 10px;
+        }
+
+        .finish2-help-box {
+            padding: 18px;
+        }
+
+        .finish2-help-table td {
+            height: 34px;
+            padding: 3px;
+        }
+    }
+
     .finish2-intro{
         max-width:1050px;
         margin:0 auto 30px;
@@ -2440,6 +2665,13 @@
                     Add Range
                 </div>
 
+                <div
+                    class="generator-error"
+                    id="qpg-import-range-error">
+
+                    Please enter a proper range. B must be greater than A.
+
+                </div>
 
                 <div
                     class="qpg-import-range-body"
@@ -2583,13 +2815,13 @@
                         </tr>
 
                         <tr>
-                            <th>Set Code</th>
+                            <th>Number of questions per set</th>
                             <td>
                                 <input
                                     class="finish-input"
-                                    data-finish-field="setCode"
-                                    maxlength="5"
-                                    type="text">
+                                    data-finish-field="question_count"
+                                    type="text"
+                                    inputmode="numeric">
                             </td>
                         </tr>
 
@@ -2620,6 +2852,29 @@
                                     class="finish-input"
                                     data-finish-field="institution"
                                     type="text">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Number of students per row</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="row_len"
+                                    type="text"
+                                    inputmode="numeric">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Difficulty(0-4)</th>
+                            <td>
+                                <input
+                                    class="finish-input"
+                                    data-finish-field="difficulty"
+                                    type="text"
+                                    inputmode="numeric"
+                                    maxlength="1">
                             </td>
                         </tr>
 
@@ -2662,7 +2917,7 @@
                 class="finish-error"
                 id="finish-error">
 
-                All feilds are mandatory to be filled and Number of students should only be a positive Integer.
+                All fields are mandatory. Question count, students per row, and student count must be positive integers. Difficulty must be a single digit from 0 to 4.
 
             </div>
 
@@ -2719,6 +2974,192 @@
                 Your question paper files have been generated successfully.
             </p>
 
+            <!-- =========================
+                 DISTRIBUTION HELP
+                 ========================= -->
+
+            <div class="finish2-help-area">
+
+                <button
+                    class="finish2-help-button"
+                    id="finish2-help-button"
+                    type="button">
+
+                    Help
+
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 DISTRIBUTION HELP POPUP
+                 ========================= -->
+
+            <div
+                class="finish2-help-modal"
+                id="finish2-help-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-hidden="true"
+                aria-labelledby="finish2-help-title">
+
+                <div class="finish2-help-box">
+
+                    <div
+                        class="finish2-help-title"
+                        id="finish2-help-title">
+
+                        GUIDE FOR DISTRIBUTION
+
+                    </div>
+
+
+                    <div class="finish2-help-text" id="finish2-help-text">
+                        <ul>
+                            <li>
+                                Only use the compiled Duplex and Simplex files for
+                                printing.
+                            </li>
+
+                            <li>
+                                Distribute the question papers in the exact
+                                order shown in those PDFs.
+                            </li>
+
+                            <li>
+                                 he questions must be
+                                distributed in the proper pattern described below.
+                            </li>
+
+                            <li>
+                                Face the candidates so that they are facing
+                                towards you.
+                            </li>
+
+                            <li>
+                                Start with one of the students at either end
+                                of the first row.
+                            </li>
+
+
+                            <li>
+                                Distribute the papers one by one, in the printed
+                                order, to every student in the row without skipping
+                                anyone.
+                            </li>
+
+                            <li>
+                                Once the entire row has received its question
+                                sets, give the next question set to the candidate
+                                sitting directly behind the first candidate who
+                                received a set in that row.
+                            </li>
+                        </ul>
+                        <p>
+                            For a visual representation, the arrangement below
+                            shows how 30 question sets should be distributed,
+                            with five candidates seated in each row. Each number
+                            represents a set's serial position from start to finish.
+                        </p>
+
+
+                        <div class="finish2-help-table-wrap">
+
+                            <table
+                                class="finish2-help-table"
+                                aria-label="Question set distribution arrangement">
+
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                        <td>14</td>
+                                        <td>15</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>16</td>
+                                        <td>17</td>
+                                        <td>18</td>
+                                        <td>19</td>
+                                        <td>20</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>21</td>
+                                        <td>22</td>
+                                        <td>23</td>
+                                        <td>24</td>
+                                        <td>25</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>26</td>
+                                        <td>27</td>
+                                        <td>28</td>
+                                        <td>29</td>
+                                        <td>30</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <p>
+                            Please follow this exact order during distribution
+                            to ensure the full effectiveness of the optimisation.
+                        </p>
+
+                        <p>
+                            Individual files are not recommended for batch printing.
+                            If you use them, ensure that each set is distributed
+                            in the exact same order as shown in the compiled
+                            Duplex and Simplex files.
+                        </p>
+
+                    </div>
+
+
+                    <div class="finish2-help-controls">
+
+                        <button
+                            class="finish2-help-ok"
+                            id="finish2-help-ok"
+                            type="button">
+
+                            OK
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="finish2-intro">
+                Please read distribution guide by clicking the help button before using any generated sets.
+            </p>
 
             <!-- ORIGINAL DATA -->
 

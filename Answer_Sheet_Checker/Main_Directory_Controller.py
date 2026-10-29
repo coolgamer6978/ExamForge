@@ -4,8 +4,8 @@ from Answer_Sheet_Checker.Checker import Checker
 from Answer_Sheet_Checker.result_generator import Result_Generator
 from Answer_Sheet_Checker.Test_series_selector.Test_series_search import Test_series_search
 from Answer_Sheet_Checker.Test_series_selector.Test_series_view import Test_series_view
+ASC_MDC_lock = threading.Lock()
 def Main_Directory_Controller(check,receiver):
-    ASC_MDC_lock = threading.Lock()
     with ASC_MDC_lock:
         print("check_set Received from MAIN_CONTROLLER.py")
         if receiver == "verifier":

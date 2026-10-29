@@ -2,8 +2,8 @@ import threading
 from Answer_Key_Uploader.Answer_key_writer import Answer_key_writer
 from Answer_Key_Uploader.data_pre_processor import data_pre_processor
 from Answer_Key_Uploader.verifier import verifier
+AKU_MDC_lock = threading.Lock()
 def Main_Directory_Controller(raw_data,test_series_path_from_MC,mode):
-    AKU_MDC_lock = threading.Lock()
     with AKU_MDC_lock:
         print("raw_Data Received from MAIN_CONTROLLER.py")
         if mode == "Internal":

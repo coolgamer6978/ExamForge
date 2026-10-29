@@ -19,7 +19,7 @@
 
 const VALIDATION_URL = "/validation";
 
-const HEARTBEAT_INTERVAL = 1000;
+const HEARTBEAT_INTERVAL = 700;
 
 const VALIDATION_TIMEOUT = 1000;
 

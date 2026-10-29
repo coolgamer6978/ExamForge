@@ -191,3 +191,5 @@ start_up.json
 Answer_Sheet_Checker/counter.json
 #locking file
 FILE_lock
+Question_Paper_Generator/Processor/Randomiser_systems/Regenerator/best_candidates.json
+zip_download_temp_handler

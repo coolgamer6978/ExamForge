@@ -1,8 +1,6 @@
 import copy,threading
-
-
 from Question_Paper_Generator.Processor.Data_Pre_processor import Data_Pre_processor
-from Question_Paper_Generator.Processor.Randomiser import Randomiser
+from Question_Paper_Generator.Processor.Randomiser_systems.stage5 import Randomiser
 from Question_Paper_Generator.Processor.Question_Paper_Generator import QPG
 from Question_Paper_Generator.Processor.Output_Post_processor import Output_Post_processor
 from Question_Paper_Generator.PDF_Generator import PDF_Generator
@@ -10,8 +8,8 @@ from Question_Paper_Generator.question_saver.Saved_question_Handler import Saved
 from Question_Paper_Generator.question_saver.Saved_question_view import saved_question_view
 from Question_Paper_Generator.question_saver.Saved_question_search import Saved_question_search
 from Question_Paper_Generator.question_saver.Json_formatter import Json_Formatter
+QPG_MDC_lock = threading.Lock()
 def Main_Directory_Controller(DATA_FROM_MAIN_CONTROLLER,MODE):
-    QPG_MDC_lock = threading.Lock()
     with QPG_MDC_lock:
         if MODE == "view_saved_question":
             data = saved_question_view(None)
